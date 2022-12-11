@@ -39,15 +39,13 @@ to existing connections. Creating connections with the `ConnectionManager` is
 easy:
 
 ```d
-import uim.datasources\ConnectionManager;
-
-ConnectionManager::config("connection-one", [
+ConnectionManager.config("connection-one", [
     "className":"MyApp\Connections\CustomConnection",
     "param1":"value",
     "param2":"another value"
 ]);
 
-ConnectionManager::config("connection-two", [
+ConnectionManager.config("connection-two", [
     "className":"MyApp\Connections\CustomConnection",
     "param1":"different value",
     "param2":"another value"
@@ -63,13 +61,11 @@ This method will construct and load a connection if it has not been built
 before, or return the existing known connection:
 
 ```d
-import uim.datasources.connectionManager;
-$conn = ConnectionManager::get("master");
+conn = connectionManager.get("master");
 ```
 
 It is also possible to store connection objects by passing the instance directly to the manager:
 
 ```d
-import uim.datasources.connectionManager;
-$conn = ConnectionManager::config("other", myConnectionInstance);
+conn = connectionManager.config("other", myConnectionInstance);
 ```
