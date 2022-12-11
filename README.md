@@ -40,23 +40,23 @@ easy:
 
 ```d
 ConnectionManager.config("connection-one", [
-    "className":"MyApp\Connections\CustomConnection",
+    "className":"CustomConnection",
     "param1":"value",
     "param2":"another value"
 ]);
 
 ConnectionManager.config("connection-two", [
-    "className":"MyApp\Connections\CustomConnection",
+    "className":"CustomConnection",
     "param1":"different value",
     "param2":"another value"
 ]);
 ```
 
 When requested, the `ConnectionManager` will instantiate
-`MyApp\Connections\CustomConnection` by passing `param1` and `param2` inside an
+`CustomConnection` by passing `param1` and `param2` inside an
 array as the first argument of the constructor.
 
-Once configured connections can be fetched using `ConnectionManager::get()`.
+Once configured connections can be fetched using `ConnectionManager.get()`.
 This method will construct and load a connection if it has not been built
 before, or return the existing known connection:
 
