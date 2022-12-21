@@ -23,10 +23,10 @@ class DDTSConnectionManager {
 
     // An array mapping url schemes to fully qualified driver class names
     protected static STRINGAA $_dsnClassMap = [
-        "mysql": Mysql::class,
-        "postgres": Postgres::class,
-        "sqlite": Sqlite::class,
-        "sqlserver": Sqlserver::class,
+/*       "mysql": Mysql::class,
+      "postgres": Postgres::class,
+      "sqlite": Sqlite::class,
+      "sqlserver": Sqlserver::class, */    
     ];
 
     // The ConnectionRegistry used by the manager.
