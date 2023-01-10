@@ -196,11 +196,11 @@ trait QueryTrait {
      * If the field is already aliased, then it will not be changed.
      * If no myAlias is passed, the default table for this query will be used.
      *
-     * @param string myField The field to alias
+     * @param string fieldName The field to alias
      * @param string|null myAlias the alias used to prefix the field
      * @return array
      */
-    array aliasField(string myField, Nullable!string myAlias = null) {
+    array aliasField(string fieldName, Nullable!string myAlias = null) {
         if (indexOf(myField, ".") == false) {
             myAlias = myAlias ?: this.getRepository().getAlias();
             myAliasedField = myAlias . "." . myField;
@@ -218,12 +218,12 @@ trait QueryTrait {
      * Runs `aliasField()` for each field in the provided list and returns
      * the result under a single array.
      *
-     * @param array myFields The fields to alias
+     * @param array fieldNames The fields to alias
      * @param string|null $defaultAlias The default alias
      */
-    string[] aliasFields(array myFields, Nullable!string defaultAlias = null) {
+    string[] aliasFields(array fieldNames, Nullable!string defaultAlias = null) {
         myAliased = [];
-        foreach (myFields as myAlias: myField) {
+        foreach (fieldNames as myAlias: myField) {
             if (is_numeric(myAlias) && is_string(myField)) {
                 myAliased += this.aliasField(myField, $defaultAlias);
                 continue;

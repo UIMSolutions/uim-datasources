@@ -23,11 +23,11 @@ interface IQuery {
      * If `true` is passed in the second argument, any previous selections will
      * be overwritten with the list passed in the first argument.
      *
-     * @param \Cake\Database\IExpression|\Cake\ORM\Association|\Cake\ORM\Table|callable|array|string myFields Fields.
+     * @param \Cake\Database\IExpression|\Cake\ORM\Association|\Cake\ORM\Table|callable|array|string fieldNames Fields.
      * @param bool $overwrite whether to reset fields with passed list or not
      * @return this
      */
-    function select(myFields, bool $overwrite = false);
+    IQuery select(string[] fieldNames, bool shouldOverwrite = false);
 
     /**
      * Returns a key: value array representing a single aliased field
@@ -37,20 +37,20 @@ interface IQuery {
      * If the field is already aliased, then it will not be changed.
      * If no myAlias is passed, the default table for this query will be used.
      *
-     * @param string myField The field to alias
+     * @param string fieldName The field to alias
      * @param string|null myAlias the alias used to prefix the field
      * @return array
      */
-    function aliasField(string myField, Nullable!string myAlias = null): array;
+    function aliasField(string fieldName, Nullable!string myAlias = null): array;
 
     /**
      * Runs `aliasField()` for each field in the provided list and returns
      * the result under a single array.
      *
-     * @param array myFields The fields to alias
+     * @param array fieldNames The fields to alias
      * @param string|null $defaultAlias The default alias
      */
-    string[] aliasFields(array myFields, Nullable!string defaultAlias = null): array;
+    string[] aliasFields(string[] fieldNames, Nullable!string defaultAlias = null): array;
 
     /**
      * Fetch the results for this query.
@@ -102,7 +102,7 @@ interface IQuery {
      * @param array<string, mixed> myOptions list of query clauses to apply new parts to.
      * @return this
      */
-    function applyOptions(array myOptions);
+    IQuery applyOptions(array myOptions);
 
     /**
      * Apply custom finds to against an existing query object.
@@ -120,7 +120,7 @@ interface IQuery {
      * @param array<string, mixed> myOptions The options for the finder.
      * @return static Returns a modified query.
      */
-    function find(string myFinder, array myOptions = []);
+    // function find(string myFinder, array myOptions = []);
 
     /**
      * Returns the first result out of executing this query, if the query has not been
@@ -134,12 +134,10 @@ interface IQuery {
      *
      * @return \Cake\Datasource\IEntity|array|null the first result from the ResultSet
      */
-    function first();
+    // function first();
 
-    /**
-     * Returns the total amount of results for the query.
-     */
-    int count();
+    // Returns the total amount of results for the query.
+    size_t count();
 
     /**
      * Sets the number of records that should be retrieved from database,
@@ -155,9 +153,8 @@ interface IQuery {
      * ```
      *
      * @param \Cake\Database\IExpression|int|null $limit number of records to be returned
-     * @return this
      */
-    function limit($limit);
+    IQuery limit($limit);
 
     /**
      * Sets the number of records that should be skipped from the original result set
@@ -177,8 +174,8 @@ interface IQuery {
      * @param offsetRecords number of records to be skipped
      * @return this
      */
-    function offset(IExpression offsetRecords);
-    function offset(int offsetRecords);
+    IQuery offset(IExpression offsetRecords);
+    IQuery offset(int offsetRecords);
 
     /**
      * Adds a single or multiple fields to be used in the ORDER clause for this query.
@@ -225,11 +222,10 @@ interface IQuery {
      * If you need to set complex expressions as order conditions, you
      * should use `orderAsc()` or `orderDesc()`.
      *
-     * @param \Cake\Database\IExpression|\Closure|array|string myFields fields to be added to the list
+     * @param \Cake\Database\IExpression|\Closure|array|string fieldNames fields to be added to the list
      * @param bool $overwrite whether to reset order with field list or not
-     * @return this
      */
-    function order(myFields, $overwrite = false);
+    IQuery order(fieldNames, $overwrite = false);
 
     /**
      * Set the page of results you want.
@@ -243,10 +239,9 @@ interface IQuery {
      * @param int $num The page number you want.
      * @param int|null $limit The number of rows you want in the page. If null
      *  the current limit clause will be used.
-     * @return this
      * @throws \InvalidArgumentException If page number < 1.
      */
-    function page(int $num, Nullable!int $limit = null);
+    IQuery page(int $num, Nullable!int $limit = null);
 
     /**
      * Returns an array representation of the results after executing the query.
@@ -260,9 +255,8 @@ interface IQuery {
      * and form the `FROM` clause.
      *
      * @param \Cake\Datasource\IRepository myRepository The default repository object to use
-     * @return this
      */
-    function repository(IRepository myRepository);
+    IQuery repository(IRepository myRepository);
 
     /**
      * Returns the default repository object that will be used by this query,
@@ -270,7 +264,7 @@ interface IQuery {
      *
      * @return \Cake\Datasource\IRepository|null myRepository The default repository object to use
      */
-    auto getRepository(): ?IRepository;
+    IRepository getRepository();
 
     /**
      * Adds a condition or set of conditions to be used in the WHERE clause for this
@@ -384,5 +378,5 @@ interface IQuery {
      * @param bool $overwrite whether to reset conditions with passed list or not
      * @return this
      */
-    function where($conditions = null, array myTypes = [], bool $overwrite = false);
+    IQuery where($conditions = null, array myTypes = [], bool $overwrite = false);
 }

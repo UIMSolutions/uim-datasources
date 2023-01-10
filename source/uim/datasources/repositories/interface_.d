@@ -26,7 +26,7 @@ interface IRepository {
   // Test to see if a Repository has a specific field/column.
   // myField The field to check for.
   // True if the field exists, false if it does not.
-  bool hasField(string myField);
+  bool hasField(string fieldName);
 
   // Creates a new Query for this repository and applies some defaults based on the type of search that was selected.
   // myType the type of query to perform
@@ -61,16 +61,16 @@ interface IRepository {
   /**
     * Update all matching records.
     *
-    * Sets the myFields to the provided values based on $conditions.
+    * Sets the fieldNames to the provided values based on $conditions.
     * This method will *not* trigger beforeSave/afterSave events. If you need those
     * first load a collection of records and update them.
     *
-    * @param \Cake\Database\Expression\QueryExpression|\Closure|array|string myFields A hash of field: new value.
+    * @param \Cake\Database\Expression\QueryExpression|\Closure|array|string fieldNames A hash of field: new value.
     * @param mixed $conditions Conditions to be used, accepts anything Query::where()
     * can take.
     * @return int Count Returns the affected rows.
     */
-  int updateAll(myFields, $conditions);
+  int updateAll(fieldNames, $conditions);
 
   /**
     * Deletes all records matching the provided conditions.

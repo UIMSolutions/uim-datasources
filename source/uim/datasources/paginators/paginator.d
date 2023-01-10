@@ -561,14 +561,14 @@ class Paginator : IPaginator {
     /**
      * Remove alias if needed.
      *
-     * @param array<string, mixed> myFields Current fields
+     * @param array<string, mixed> fieldNames Current fields
      * @param string myModel Current model alias
-     * @return array<string, mixed> myFields Unaliased fields where applicable
+     * @return array<string, mixed> fieldNames Unaliased fields where applicable
      * /
-    protected auto _removeAliases(array myFields, string myModel): array
+    protected auto _removeAliases(array fieldNames, string myModel): array
     {
         myResult = [];
-        foreach (myFields as myField: $sort) {
+        foreach (fieldNames as myField: $sort) {
             if (indexOf(myField, ".") == false) {
                 myResult[myField] = $sort;
                 continue;

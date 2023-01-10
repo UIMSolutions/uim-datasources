@@ -3,7 +3,7 @@
 	License: Subject to the terms of the Apache 2.0 license, as written in the included LICENSE.txt file.  
 	Authors: Ozan Nurettin Süel (Sicherheitsschmiede)                                                      
 **********************************************************************************************************/
-module uim.datasources;
+module uim.datasources.entities.entity;
 
 @safe:
 import uim.datasources;
@@ -13,7 +13,25 @@ import uim.datasources;
  * methods for retrieving and storing properties associated in this row.
  */
 class Entity : IEntity, InvalidPropertyInterface {
-    use EntityTrait;
+    // use EntityTrait;
+
+    // Holds all fields and their values for this entity.
+    protected IValue[string] _fields;
+
+    // Holds all fields that have been changed and their original values for this entity.
+    protected IValue[string] _original;
+
+    // List of field names that should not be included in JSON or Array representations of this Entity.
+    protected string[] _hidden;
+
+    /*
+     * List of computed or virtual fields that should be included in JSON or array
+     * representations of this Entity. If a field is present in both _hidden and _virtual
+     * the field will not be in the array/JSON versions of the entity. */
+    protected string[] _virtual = null;
+
+    // Holds a list of the fields that were modified or added after this object was originally created.
+    protected bool[] _changed;
 
     /**
      * Initializes the internal properties of this entity out of the
@@ -34,7 +52,7 @@ class Entity : IEntity, InvalidPropertyInterface {
      * @param array<string, mixed> $properties hash of properties to set in this entity
      * @param array<string, mixed> $options list of options to use when creating this entity
      */
-    /* this(array $properties = [], STRINGAA someOptions = []) {
+    /* this(array $properties = null, STRINGAA someOptions = null) {
         $options += [
             "useSetters": true,
             "markClean": false,

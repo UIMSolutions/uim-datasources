@@ -11,28 +11,15 @@ import uim.datasources;
 // An entity represents a single result row from a repository. 
 // It exposes the methods for retrieving and storing fields associated in this row.
 /* trait EntityTrait {
-    // Holds all fields and their values for this entity.
-    protected DValue[string] _fields;
 
-    // Holds all fields that have been changed and their original values for this entity.
-    protected DValue[string] _original = ;
 
-    // List of field names that should **not** be included in JSON or Array representations of this Entity.
-    protected string[] _hidden;
 
-    // List of computed or virtual fields that **should** be included in JSON or array
-    // representations of this Entity. If a field is present in both _hidden and _virtual
-    // the field will **not** be in the array/JSON versions of the entity.
-    protected string[] _virtual = [];
-
-    // Holds a list of the fields that were modified or added after this object was originally created.
-    protected bool[] _dirty;
 
     /* // Holds a cached list of getters/setters per class
      *
      * @var array<string, array<string, array<string, string>>>
 
-    protected static $_accessors = [];
+    protected static $_accessors = null;
     * /
 
     // Indicates whether this entity is yet to be persisted.
@@ -42,10 +29,10 @@ import uim.datasources;
 
     // List of errors per field as stored in this object.
     // array<string, mixed>
-    protected _errors = [];
+    protected _errors = null;
 
     // List of invalid fields and their data for errors upon validation/patching.
-    protected DValue[string] _invalid = [];
+    protected DValue[string] _invalid = null;
 
     // Map of fields in this entity that can be safely assigned, each field name points to a boolean indicating its status. 
     // An empty array means no fields are accessible.
@@ -126,7 +113,7 @@ import uim.datasources;
      * $entity.set("name", "Andrew");
      * ```
      *
-     * @param array<string, mixed>|string myField the name of field to set or a list of
+     * @param array<string, mixed>|string fieldName the name of field to set or a list of
      * fields with their respective values
      * @param mixed myValue The value to set to the field or an array if the
      * first argument is also an array, in which case will be treated as myOptions
@@ -135,7 +122,7 @@ import uim.datasources;
      * @return this
      * @throws \InvalidArgumentException
      * /
-    auto set(myField, myValue = null, array myOptions = []) {
+    auto set(myField, myValue = null, array myOptions = null) {
         if (is_string(myField) && myField !== "") {
             $guard = false;
             myField = [myField: myValue];
@@ -155,7 +142,7 @@ import uim.datasources;
                 continue;
             }
 
-            this.setDirty(myName, true);
+            this.setChanged(myName, true);
 
             if (
                 !array_key_exists(myName, _original) &&
@@ -183,11 +170,11 @@ import uim.datasources;
     /**
      * Returns the value of a field by name
      *
-     * @param string myField the name of the field to retrieve
+     * @param string fieldName the name of the field to retrieve
      * @return mixed
      * @throws \InvalidArgumentException if an empty field name is passed
      * /
-    function &get(string myField) {
+    function &get(string fieldName) {
         if (myField == "") {
             throw new InvalidArgumentException("Cannot get an empty field");
         }
@@ -211,11 +198,11 @@ import uim.datasources;
     /**
      * Returns the value of an original field by name
      *
-     * @param string myField the name of the field for which original value is retrieved.
+     * @param string fieldName the name of the field for which original value is retrieved.
      * @return mixed
      * @throws \InvalidArgumentException if an empty field name is passed.
      * /
-    auto getOriginal(string myField) {
+    auto getOriginal(string fieldName) {
         if (myField == "") {
             throw new InvalidArgumentException("Cannot get an empty field");
         }
@@ -268,7 +255,7 @@ import uim.datasources;
      * When checking multiple fields. All fields must not be null
      * in order for true to be returned.
      *
-     * @param array<string>|string myField The field or fields to check.
+     * @param array<string>|string fieldName The field or fields to check.
      * /
     bool has(myField) {
         foreach ((array)myField as $prop) {
@@ -292,9 +279,9 @@ import uim.datasources;
      *
      * and false in all other cases.
      *
-     * @param string myField The field to check.
+     * @param string fieldName The field to check.
      * /
-    bool isEmpty(string myField) {
+    bool isEmpty(string fieldName) {
         myValue = this.get(myField);
         if (
             myValue == null ||
@@ -326,9 +313,9 @@ import uim.datasources;
      *
      * and false in all other cases.
      *
-     * @param string myField The field to check.
+     * @param string fieldName The field to check.
      * /
-    bool hasValue(string myField) {
+    bool hasValue(string fieldName) {
         return !this.isEmpty(myField);
     }
 
@@ -342,13 +329,13 @@ import uim.datasources;
      * $entity.unset(["name", "last_name"]);
      * ```
      *
-     * @param array<string>|string myField The field to unset.
+     * @param array<string>|string fieldName The field to unset.
      * @return this
      * /
     function unset(myField) {
         myField = (array)myField;
         foreach (myField as $p) {
-            unset(_fields[$p], _original[$p], _dirty[$p]);
+            unset(_fields[$p], _original[$p], _changed[$p]);
         }
 
         return this;
@@ -358,7 +345,7 @@ import uim.datasources;
      * Removes a field or list of fields from this entity
      *
      * @deprecated 4.0.0 Use {@link unset()} instead. Will be removed in 5.0.
-     * @param array<string>|string myField The field to unset.
+     * @param array<string>|string fieldName The field to unset.
      * @return this
      * /
     function unsetProperty(myField) {
@@ -370,19 +357,19 @@ import uim.datasources;
     /**
      * Sets hidden fields.
      *
-     * @param myFields An array of fields to hide from array exports.
+     * @param fieldNames An array of fields to hide from array exports.
      * @param bool myMerge Merge the new fields with the existing. By default false.
      * @return this
      * /
-    auto setHidden(string[] myFields, bool myMerge = false) {
+    auto setHidden(string[] fieldNames, bool myMerge = false) {
         if (myMerge == false) {
-            _hidden = myFields;
+            _hidden = fieldNames;
 
             return this;
         }
 
-        myFields = array_merge(_hidden, myFields);
-        _hidden = array_unique(myFields);
+        fieldNames = array_merge(_hidden, fieldNames);
+        _hidden = array_unique(fieldNames);
 
         return this;
     }
@@ -395,19 +382,19 @@ import uim.datasources;
     /**
      * Sets the virtual fields on this entity.
      *
-     * @param myFields An array of fields to treat as virtual.
+     * @param fieldNames An array of fields to treat as virtual.
      * @param bool myMerge Merge the new fields with the existing. By default false.
      * @return this
      * /
-    auto setVirtual(string[] myFields, bool myMerge = false) {
+    auto setVirtual(string[] fieldNames, bool myMerge = false) {
         if (myMerge == false) {
-            _virtual = myFields;
+            _virtual = fieldNames;
 
             return this;
         }
 
-        myFields = array_merge(_virtual, myFields);
-        _virtual = array_unique(myFields);
+        fieldNames = array_merge(_virtual, fieldNames);
+        _virtual = array_unique(fieldNames);
 
         return this;
     }
@@ -427,10 +414,10 @@ import uim.datasources;
      *     representations.
      * /
     string[] getVisible() {
-        myFields = array_keys(_fields);
-        myFields = array_merge(myFields, _virtual);
+        fieldNames = array_keys(_fields);
+        fieldNames = array_merge(fieldNames, _virtual);
 
-        return array_diff(myFields, _hidden);
+        return array_diff(fieldNames, _hidden);
     }
 
     /**
@@ -444,11 +431,11 @@ import uim.datasources;
      * /
     function toArray(): array
     {
-        myResult = [];
+        myResult = null;
         foreach (this.getVisible() as myField) {
             myValue = this.get(myField);
             if (is_array(myValue)) {
-                myResult[myField] = [];
+                myResult[myField] = null;
                 foreach (myValue as $k: $entity) {
                     if ($entity instanceof IEntity) {
                         myResult[myField][$k] = $entity.toArray();
@@ -563,15 +550,15 @@ import uim.datasources;
      * Returns an array with the requested fields
      * stored in this entity, indexed by field name
      *
-     * @param myFields list of fields to be returned
-     * @param bool $onlyDirty Return the requested field only if it is dirty
+     * @param fieldNames list of fields to be returned
+     * @param bool $onlyChanged Return the requested field only if it is changed
      * @return array
      * /
-    function extract(string[] myFields, bool $onlyDirty = false): array
+    function extract(string[] fieldNames, bool $onlyChanged = false): array
     {
-        myResult = [];
-        foreach (myFields as myField) {
-            if (!$onlyDirty || this.isDirty(myField)) {
+        myResult = null;
+        foreach (fieldNames as myField) {
+            if (!$onlyChanged || this.isChanged(myField)) {
                 myResult[myField] = this.get(myField);
             }
         }
@@ -586,13 +573,13 @@ import uim.datasources;
      * Fields that are unchanged from their original value will be included in the
      * return of this method.
      *
-     * @param myFields List of fields to be returned
+     * @param fieldNames List of fields to be returned
      * @return array
      * /
-    function extractOriginal(string[] myFields): array
+    function extractOriginal(string[] fieldNames): array
     {
-        myResult = [];
-        foreach (myFields as myField) {
+        myResult = null;
+        foreach (fieldNames as myField) {
             myResult[myField] = this.getOriginal(myField);
         }
 
@@ -606,13 +593,13 @@ import uim.datasources;
      * This method will only return fields that have been modified since
      * the entity was built. Unchanged fields will be omitted.
      *
-     * @param myFields List of fields to be returned
+     * @param fieldNames List of fields to be returned
      * @return array
      * /
-    function extractOriginalChanged(string[] myFields): array
+    function extractOriginalChanged(string[] fieldNames): array
     {
-        myResult = [];
-        foreach (myField; myFields) {
+        myResult = null;
+        foreach (myField; fieldNames) {
             $original = this.getOriginal(myField);
             if ($original !== this.get(myField)) {
                 myResult[myField] = $original;
@@ -623,43 +610,43 @@ import uim.datasources;
     }
 
     /**
-     * Sets the dirty status of a single field.
+     * Sets the changed status of a single field.
      *
-     * @param string myField the field to set or check status for
-     * @param bool $isDirty true means the field was changed, false means
+     * @param string fieldName the field to set or check status for
+     * @param bool $isChanged true means the field was changed, false means
      * it was not changed. Defaults to true.
      * @return this
      * /
-    auto setDirty(string myField, bool $isDirty = true) {
-        if ($isDirty == false) {
-            unset(_dirty[myField]);
+    auto setChanged(string fieldName, bool $isChanged = true) {
+        if ($isChanged == false) {
+            unset(_changed[myField]);
 
             return this;
         }
 
-        _dirty[myField] = true;
+        _changed[myField] = true;
         unset(_errors[myField], _invalid[myField]);
 
         return this;
     }
 
     /**
-     * Checks if the entity is dirty or if a single field of it is dirty.
+     * Checks if the entity is changed or if a single field of it is changed.
      *
      * @param string|null myField The field to check the status for. Null for the whole entity.
      * @return bool Whether the field was changed or not
      * /
-    bool isDirty(Nullable!string myField = null) {
-        if (myField == null) {
-            return !empty(_dirty);
+    bool isChanged(string fieldName = null) {
+        if (fieldName == null) {
+            return !empty(_changed);
         }
 
-        return isset(_dirty[myField]);
+        return isset(_changed[fieldName]);
     }
 
-    // Gets the dirty fields.
-    string[] getDirty() {
-        return array_keys(_dirty);
+    // Gets the changed fields.
+    string[] getChanged() {
+        return array_keys(_changed);
     }
 
     /**
@@ -668,10 +655,10 @@ import uim.datasources;
      * for an initial object hydration
      * /
     void clean() {
-        _dirty = [];
-        _errors = [];
-        _invalid = [];
-        _original = [];
+        _changed = null;
+        _errors = null;
+        _invalid = null;
+        _original = null;
     }
 
     /**
@@ -686,7 +673,7 @@ import uim.datasources;
     auto setNew(bool $new) {
         if ($new) {
             foreach (_fields as $k: $p) {
-                _dirty[$k] = true;
+                _changed[$k] = true;
             }
         }
 
@@ -756,10 +743,10 @@ import uim.datasources;
     /**
      * Returns validation errors of a field
      *
-     * @param string myField Field name to get the errors from
+     * @param string fieldName Field name to get the errors from
      * @return array
      * /
-    auto getError(string myField): array
+    auto getError(string fieldName): array
     {
         myErrors = _errors[myField] ?? [];
         if (myErrors) {
@@ -780,7 +767,7 @@ import uim.datasources;
      * ```
      *
      * @param array myErrors The array of errors to set.
-     * @param bool $overwrite Whether to overwrite pre-existing errors for myFields
+     * @param bool $overwrite Whether to overwrite pre-existing errors for fieldNames
      * @return this
      * /
     auto setErrors(array myErrors, bool $overwrite = false) {
@@ -820,12 +807,12 @@ import uim.datasources;
      * $entity.setError("salary", ["must be numeric", "must be a positive number"]);
      * ```
      *
-     * @param string myField The field to get errors for, or the array of errors to set.
+     * @param string fieldName The field to get errors for, or the array of errors to set.
      * @param array|string myErrors The errors to be set for myField
      * @param bool $overwrite Whether to overwrite pre-existing errors for myField
      * @return this
      * /
-    auto setError(string myField, myErrors, bool $overwrite = false) {
+    auto setError(string fieldName, myErrors, bool $overwrite = false) {
         if (is_string(myErrors)) {
             myErrors = [myErrors];
         }
@@ -836,10 +823,10 @@ import uim.datasources;
     /**
      * Auxiliary method for getting errors in nested entities
      *
-     * @param string myField the field in this entity to check for errors
+     * @param string fieldName the field in this entity to check for errors
      * @return array errors in nested entity if any
      * /
-    protected auto _nestedErrors(string myField): array
+    protected auto _nestedErrors(string fieldName): array
     {
         // Only one path element, check for nested entity with error.
         if (indexOf(myField, ".") == false) {
@@ -950,10 +937,10 @@ import uim.datasources;
     /**
      * Get a single value of an invalid field. Returns null if not set.
      *
-     * @param string myField The name of the field.
+     * @param string fieldName The name of the field.
      * @return mixed|null
      * /
-    auto getInvalidField(string myField) {
+    auto getInvalidField(string fieldName) {
         return _invalid[myField] ?? null;
     }
 
@@ -964,12 +951,12 @@ import uim.datasources;
      * This value could not be patched into the entity and is simply copied into the _invalid property for debugging
      * purposes or to be able to log it away.
      *
-     * @param array myFields The values to set.
+     * @param array fieldNames The values to set.
      * @param bool $overwrite Whether to overwrite pre-existing values for myField.
      * @return this
      * /
-    auto setInvalid(array myFields, bool $overwrite = false) {
-        foreach (myFields as myField: myValue) {
+    auto setInvalid(array fieldNames, bool $overwrite = false) {
+        foreach (fieldNames as myField: myValue) {
             if ($overwrite == true) {
                 _invalid[myField] = myValue;
                 continue;
@@ -983,11 +970,11 @@ import uim.datasources;
     /**
      * Sets a field as invalid and not patchable into the entity.
      *
-     * @param string myField The value to set.
+     * @param string fieldName The value to set.
      * @param mixed myValue The invalid value to be set for myField.
      * @return this
      * /
-    auto setInvalidField(string myField, myValue) {
+    auto setInvalidField(string fieldName, myValue) {
         _invalid[myField] = myValue;
 
         return this;
@@ -1012,7 +999,7 @@ import uim.datasources;
      * $entity.setAccess("*", false); // Mark all fields as protected
      * ```
      *
-     * @param array<string>|string myField Single or list of fields to change its accessibility
+     * @param array<string>|string fieldName Single or list of fields to change its accessibility
      * @param bool $set True marks the field as accessible, false will
      * mark it as protected.
      * @return this
@@ -1054,11 +1041,11 @@ import uim.datasources;
      * $entity.isAccessible("id"); // Returns whether it can be set or not
      * ```
      *
-     * @param string myField Field name to check
+     * @param string fieldName Field name to check
      * @return bool
      * /
          * /
-    bool isAccessible(string myField) {
+    bool isAccessible(string fieldName) {
         myValue = _accessible[myField] ?? null;
 
         return (myValue == null && !empty(_accessible["*"])) || myValue;
@@ -1098,15 +1085,15 @@ import uim.datasources;
      * /
     auto __debugInfo(): array
     {
-        myFields = _fields;
+        fieldNames = _fields;
         foreach (_virtual as myField) {
-            myFields[myField] = this.myField;
+            fieldNames[myField] = this.myField;
         }
 
-        return myFields + [
+        return fieldNames + [
             "[new]": this.isNew(),
             "[accessible]": _accessible,
-            "[dirty]": _dirty,
+            "[changed]": _changed,
             "[original]": _original,
             "[virtual]": _virtual,
             "[hasErrors]": this.hasErrors(),
