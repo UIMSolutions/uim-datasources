@@ -3,7 +3,7 @@ module uim.datasources.connections.connection;
 @safe:
 import uim.datasources;
 
-class DDTSConnection {
+class DDSConnection {
   this() {
     initialize;
   }

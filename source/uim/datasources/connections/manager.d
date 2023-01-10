@@ -16,7 +16,7 @@ import uim.datasources;
  *
  * Provides an interface for loading and enumerating connections 
  */
-class DDTSConnectionManager {
+class DDSConnectionManager {
   // #region internal fields
     // A map of connection aliases.
     protected static string[] _aliasMap;
@@ -30,7 +30,7 @@ class DDTSConnectionManager {
     ];
 
     // The ConnectionRegistry used by the manager.
-    protected static DDTSConnectionRegistry $_registry;
+    protected static DDSConnectionRegistry _registry;
   // #endregion internal fields
 
   this() {

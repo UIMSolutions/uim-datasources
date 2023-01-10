@@ -1,9 +1,9 @@
-module uim.datasources.interface_;
+module uim.datasources.repository;
 
 @safe:
 import uim.datasources;
 
-class DDTSRepository {
+class DDSRepository {
   this() {
     initialize;
   }

@@ -1,14 +1,13 @@
-module uim.cake.datasources;
+module uim.datasources.trait_;
 
 @safe:
-import uim.cake;
+import uim.datasources;
 
 /**
  * Contains the characteristics for an object that is attached to a repository and
  * can retrieve results based on any criteria.
  */
-trait QueryTrait
-{
+trait QueryTrait {
     // Instance of a table object this query is bound to
      *
      * @var \Cake\Datasource\

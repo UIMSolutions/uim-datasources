@@ -1,7 +1,7 @@
 module uim.cake.datasources;
 
 @safe:
-import uim.cake;
+import uim.datasources;
 
 /**
  * Describes the methods that any class representing a data storage should

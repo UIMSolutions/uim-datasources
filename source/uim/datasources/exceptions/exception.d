@@ -3,7 +3,7 @@ module uim.datasources.exceptions.exception;
 @safe:
 import uim.datasources;
 
-class DDTSException {
+class DDSException {
   this() {
     initialize;
   }

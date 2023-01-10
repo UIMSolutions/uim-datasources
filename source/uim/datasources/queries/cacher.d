@@ -1,11 +1,10 @@
-module uim.cake.datasources;
+module uim.datasources.queries.cacher;
 
-import uim.cake.caches\Cache;
-use Closure;
+/* use Closure;
 use Psr\SimpleCache\ICache;
 use RuntimeException;
 use Traversable;
-
+ */
 /**
  * Handles caching queries and loading results from the cache.
  *
@@ -14,20 +13,18 @@ use Traversable;
  * @internal
  * @see \Cake\Datasource\QueryTrait::cache() for the public interface.
  */
-class QueryCacher
-{
+class QueryCacher {
     /**
      * The key or function to generate a key.
-     *
      * @var \Closure|string
-     */
+     * /
     protected _key;
 
     /**
      * Config for cache engine.
      *
      * @var \Psr\SimpleCache\ICache|string
-     */
+     * /
     protected _config;
 
     /**
@@ -36,7 +33,7 @@ class QueryCacher
      * @param \Closure|string myKey The key or function to generate a key.
      * @param \Psr\SimpleCache\ICache|string myConfig The cache config name or cache engine instance.
      * @throws \RuntimeException
-     */
+     * /
     this(myKey, myConfig) {
         if (!is_string(myKey) && !(myKey instanceof Closure)) {
             throw new RuntimeException("Cache keys must be strings or callables.");
@@ -54,7 +51,7 @@ class QueryCacher
      *
      * @param object myQuery The query the cache read is for.
      * @return mixed|null Either the cached results or null.
-     */
+     * /
     function fetch(object myQuery) {
         myKey = _resolveKey(myQuery);
         $storage = _resolveCacher();
@@ -72,7 +69,7 @@ class QueryCacher
      * @param object myQuery The query the cache read is for.
      * @param \Traversable myResults The result set to store.
      * @return bool True if the data was successfully cached, false on failure
-     */
+     * /
     bool store(object myQuery, Traversable myResults) {
         myKey = _resolveKey(myQuery);
         $storage = _resolveCacher();
@@ -86,7 +83,7 @@ class QueryCacher
      * @param object myQuery The query to generate a key for.
      * @return string
      * @throws \RuntimeException
-     */
+     * /
     protected string _resolveKey(object myQuery) {
         if (is_string(_key)) {
             return _key;
@@ -105,7 +102,7 @@ class QueryCacher
      * Get the cache engine.
      *
      * @return \Psr\SimpleCache\ICache
-     */
+     * /
     protected auto _resolveCacher() {
         if (is_string(_config)) {
             return Cache::pool(_config);
@@ -113,4 +110,5 @@ class QueryCacher
 
         return _config;
     }
+    */
 }

@@ -4,15 +4,15 @@ module uim.datasources.connections.interface_;
 import uim.datasources;
 
 // This interface defines the methods you can depend on in a connection.
-interface IDTSConnection : ILoggerAware {
+interface IDSConnection : ILoggerAware {
   // Gets the current logger object.
   LoggerInterface getLogger();
 
   // Set a cacher.
-  auto setCacher(ICache newCacher);
+  // auto setCacher(ICache newCacher);
 
   // Get a cacher.
-  ICache getCacher();
+  // ICache getCacher();
 
   // Get the configuration name for this connection.
   string configName();
@@ -21,30 +21,30 @@ interface IDTSConnection : ILoggerAware {
   STRINGAA config();
 
   /**
-    * Executes a callable function inside a transaction, if any exception occurs
+    * Executes a callable IDSConnection inside a transaction, if any exception occurs
     * while executing the passed callable, the transaction will be rolled back
-    * If the result of the callable function is `false`, the transaction will
+    * If the result of the callable IDSConnection is `false`, the transaction will
     * also be rolled back. Otherwise the transaction is committed after executing
     * the callback.
     *
     * The callback will receive the connection instance as its first argument.
     */
-  function transactional(callable $callback);
+  IDSConnection transactional(callable $callback);
 
   /**
     * Run an operation with constraints disabled.
     * Constraints should be re-enabled after the callback succeeds/fails.
     */
-  function disableConstraints(callable $callback);
+  IDSConnection disableConstraints(callable $callback);
 
   /**
     * Enable/disable query logging
     * enableLogging - Enable/disable query logging
     */
-  function enableQueryLogging(bool enableLogging = true);
+  // IDSConnection enableQueryLogging(bool enableLogging = true);
 
   // Disable query logging
-  function disableQueryLogging();
+  IDSConnection disableQueryLogging();
 
   // Check if query logging is enabled.
   bool isQueryLoggingEnabled();

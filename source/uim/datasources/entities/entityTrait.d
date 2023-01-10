@@ -1,14 +1,11 @@
 module uim.cake.datasources;
 
 @safe:
-import uim.cake;
+import uim.datasources;
 
-/**
- * An entity represents a single result row from a repository. It exposes the
- * methods for retrieving and storing fields associated in this row.
- */
-trait EntityTrait
-{
+// An entity represents a single result row from a repository. 
+// It exposes the methods for retrieving and storing fields associated in this row.
+/* trait EntityTrait {
     // Holds all fields and their values for this entity.
     protected DValue[string] _fields;
 
@@ -18,11 +15,9 @@ trait EntityTrait
     // List of field names that should **not** be included in JSON or Array representations of this Entity.
     protected string[] _hidden;
 
-    /**
-     * List of computed or virtual fields that **should** be included in JSON or array
-     * representations of this Entity. If a field is present in both _hidden and _virtual
-     * the field will **not** be in the array/JSON versions of the entity.
-     */
+    // List of computed or virtual fields that **should** be included in JSON or array
+    // representations of this Entity. If a field is present in both _hidden and _virtual
+    // the field will **not** be in the array/JSON versions of the entity.
     protected string[] _virtual = [];
 
     // Holds a list of the fields that were modified or added after this object was originally created.
@@ -31,80 +26,54 @@ trait EntityTrait
     /* // Holds a cached list of getters/setters per class
      *
      * @var array<string, array<string, array<string, string>>>
-     */
-    protected static $_accessors = [];
-    */
 
-    /**
-     * Indicates whether this entity is yet to be persisted.
-     * Entities default to assuming they are new. You can use Table::persisted()
-     * to set the new flag on an entity based on records in the database.
-     */
+    protected static $_accessors = [];
+    * /
+
+    // Indicates whether this entity is yet to be persisted.
+    // Entities default to assuming they are new. You can use Table::persisted()
+    // to set the new flag on an entity based on records in the database.
     protected bool _new = true;
 
-    /**
-     * List of errors per field as stored in this object.
-     *
-     * @var array<string, mixed>
-     */
+    // List of errors per field as stored in this object.
+    // array<string, mixed>
     protected _errors = [];
 
     // List of invalid fields and their data for errors upon validation/patching.
     protected DValue[string] _invalid = [];
 
-    /**
-     * Map of fields in this entity that can be safely assigned, each
-     * field name points to a boolean indicating its status. An empty array
-     * means no fields are accessible
-     *
-     * The special field "\*" can also be mapped, meaning that any other field
-     * not defined in the map will take its value. For example, `"*": true`
-     * means that any field not defined in the map will be accessible by default
-     */
-    protected bool[] _accessible = ["*": true];
+    // Map of fields in this entity that can be safely assigned, each field name points to a boolean indicating its status. 
+    // An empty array means no fields are accessible.
+    // The special field "\*" can also be mapped, meaning that any other field not defined in the map will take its value. 
+    // For example, `"*": true` means that any field not defined in the map will be accessible by default
+    protected bool[string] _accessible = ["*": true];
 
     // The alias of the repository this entity came from
     protected string _registryAlias = "";
 
-    /**
-     * Magic getter to access fields that have been set in this entity
-     *
-     * @param string myField Name of the field to access
-     * @return mixed
-     */
-    function &__get(string myField) {
-        return this.get(myField);
+    // Getter to access fields that have been set in this entity
+    // aField - Name of the field to access
+    auto get(string aField) {
+      return _fields.get(aField, null);
     }
 
-    /**
-     * Magic setter to add or edit a field in this entity
-     *
-     * @param string myField The name of the field to set
-     * @param mixed myValue The value to set to the field
-     */
-    void __set(string myField, myValue) {
-        this.set(myField, myValue);
+    // Magic setter to add or edit a field in this entity
+    // aField - The name of the field to set
+    // newValue - The value to set to the field
+    void set(string aField, DValue newValue) {
+      _fields[aField] = myValue;
     }
 
-    /**
-     * Returns whether this entity contains a field named myField
-     * regardless of if it is empty.
-     *
-     * @param string myField The field to check.
-     * @return bool
-     * @see \Cake\ORM\Entity::has()
-     */
-    bool __isset(string myField) {
-        return this.has(myField);
+    // Returns whether this entity contains a field named myField regardless of if it is empty.
+    // aField The field to check.
+    bool isSet(string aField) {
+      return (aField in _fields);
     }
 
-    /**
-     * Removes a field from this entity
-     *
-     * @param string myField The field to unset
-     */
-    void __unset(string myField) {
-        this.unset(myField);
+    // Removes a field from this entity
+    // aField - The field to unset
+    void __unset(string aField) {
+      this.unset(aField);
     }
 
     /**
@@ -160,7 +129,7 @@ trait EntityTrait
      * keys are `setter` and `guard`
      * @return this
      * @throws \InvalidArgumentException
-     */
+     * /
     auto set(myField, myValue = null, array myOptions = []) {
         if (is_string(myField) && myField !== "") {
             $guard = false;
@@ -212,7 +181,7 @@ trait EntityTrait
      * @param string myField the name of the field to retrieve
      * @return mixed
      * @throws \InvalidArgumentException if an empty field name is passed
-     */
+     * /
     function &get(string myField) {
         if (myField == "") {
             throw new InvalidArgumentException("Cannot get an empty field");
@@ -240,7 +209,7 @@ trait EntityTrait
      * @param string myField the name of the field for which original value is retrieved.
      * @return mixed
      * @throws \InvalidArgumentException if an empty field name is passed.
-     */
+     * /
     auto getOriginal(string myField) {
         if (myField == "") {
             throw new InvalidArgumentException("Cannot get an empty field");
@@ -256,7 +225,7 @@ trait EntityTrait
      * Gets all original values of the entity.
      *
      * @return array
-     */
+     * /
     auto getOriginalValues(): array
     {
         $originals = _original;
@@ -295,7 +264,7 @@ trait EntityTrait
      * in order for true to be returned.
      *
      * @param array<string>|string myField The field or fields to check.
-     */
+     * /
     bool has(myField) {
         foreach ((array)myField as $prop) {
             if (this.get($prop) == null) {
@@ -319,7 +288,7 @@ trait EntityTrait
      * and false in all other cases.
      *
      * @param string myField The field to check.
-     */
+     * /
     bool isEmpty(string myField) {
         myValue = this.get(myField);
         if (
@@ -353,7 +322,7 @@ trait EntityTrait
      * and false in all other cases.
      *
      * @param string myField The field to check.
-     */
+     * /
     bool hasValue(string myField) {
         return !this.isEmpty(myField);
     }
@@ -370,7 +339,7 @@ trait EntityTrait
      *
      * @param array<string>|string myField The field to unset.
      * @return this
-     */
+     * /
     function unset(myField) {
         myField = (array)myField;
         foreach (myField as $p) {
@@ -386,7 +355,7 @@ trait EntityTrait
      * @deprecated 4.0.0 Use {@link unset()} instead. Will be removed in 5.0.
      * @param array<string>|string myField The field to unset.
      * @return this
-     */
+     * /
     function unsetProperty(myField) {
         deprecationWarning("EntityTrait::unsetProperty() is deprecated. Use unset() instead.");
 
@@ -399,7 +368,7 @@ trait EntityTrait
      * @param myFields An array of fields to hide from array exports.
      * @param bool myMerge Merge the new fields with the existing. By default false.
      * @return this
-     */
+     * /
     auto setHidden(string[] myFields, bool myMerge = false) {
         if (myMerge == false) {
             _hidden = myFields;
@@ -424,7 +393,7 @@ trait EntityTrait
      * @param myFields An array of fields to treat as virtual.
      * @param bool myMerge Merge the new fields with the existing. By default false.
      * @return this
-     */
+     * /
     auto setVirtual(string[] myFields, bool myMerge = false) {
         if (myMerge == false) {
             _virtual = myFields;
@@ -451,7 +420,7 @@ trait EntityTrait
      *
      * @return A list of fields that are "visible" in all
      *     representations.
-     */
+     * /
     string[] getVisible() {
         myFields = array_keys(_fields);
         myFields = array_merge(myFields, _virtual);
@@ -467,7 +436,7 @@ trait EntityTrait
      * into arrays as well.
      *
      * @return array
-     */
+     * /
     function toArray(): array
     {
         myResult = [];
@@ -496,7 +465,7 @@ trait EntityTrait
      * Returns the fields that will be serialized as JSON
      *
      * @return array
-     */
+     * /
     function jsonSerialize(): array
     {
         return this.extract(this.getVisible());
@@ -507,7 +476,7 @@ trait EntityTrait
      *
      * @param string offset The offset to check.
      * @return bool Success
-     */
+     * /
     bool offsetExists($offset) {
         return this.has($offset);
     }
@@ -517,7 +486,7 @@ trait EntityTrait
      *
      * @param string offset The offset to get.
      * @return mixed
-     */
+     * /
     #[\ReturnTypeWillChange]
     function &offsetGet($offset) {
         return this.get($offset);
@@ -528,7 +497,7 @@ trait EntityTrait
      *
      * @param string offset The offset to set.
      * @param mixed myValue The value to set.
-     */
+     * /
     void offsetSet($offset, myValue) {
         this.set($offset, myValue);
     }
@@ -537,7 +506,7 @@ trait EntityTrait
      * : unset(myResult[$offset]);
      *
      * @param string offset The offset to remove.
-     */
+     * /
     void offsetUnset($offset) {
         this.unset($offset);
     }
@@ -549,7 +518,7 @@ trait EntityTrait
      * @param string property the field name to derive getter name from
      * @param string myType the accessor type ("get" or "set")
      * return method name or empty string (no method available)
-     */
+     * /
     protected static string _accessor(string property, string myType) {
         myClass = static::class;
 
@@ -592,7 +561,7 @@ trait EntityTrait
      * @param myFields list of fields to be returned
      * @param bool $onlyDirty Return the requested field only if it is dirty
      * @return array
-     */
+     * /
     function extract(string[] myFields, bool $onlyDirty = false): array
     {
         myResult = [];
@@ -614,7 +583,7 @@ trait EntityTrait
      *
      * @param myFields List of fields to be returned
      * @return array
-     */
+     * /
     function extractOriginal(string[] myFields): array
     {
         myResult = [];
@@ -634,7 +603,7 @@ trait EntityTrait
      *
      * @param myFields List of fields to be returned
      * @return array
-     */
+     * /
     function extractOriginalChanged(string[] myFields): array
     {
         myResult = [];
@@ -655,7 +624,7 @@ trait EntityTrait
      * @param bool $isDirty true means the field was changed, false means
      * it was not changed. Defaults to true.
      * @return this
-     */
+     * /
     auto setDirty(string myField, bool $isDirty = true) {
         if ($isDirty == false) {
             unset(_dirty[myField]);
@@ -674,7 +643,7 @@ trait EntityTrait
      *
      * @param string|null myField The field to check the status for. Null for the whole entity.
      * @return bool Whether the field was changed or not
-     */
+     * /
     bool isDirty(Nullable!string myField = null) {
         if (myField == null) {
             return !empty(_dirty);
@@ -692,7 +661,7 @@ trait EntityTrait
      * Sets the entire entity as clean, which means that it will appear as
      * no fields being modified or added at all. This is an useful call
      * for an initial object hydration
-     */
+     * /
     void clean() {
         _dirty = [];
         _errors = [];
@@ -708,7 +677,7 @@ trait EntityTrait
      *
      * @param bool $new Indicate whether this entity has been persisted.
      * @return this
-     */
+     * /
     auto setNew(bool $new) {
         if ($new) {
             foreach (_fields as $k: $p) {
@@ -725,7 +694,7 @@ trait EntityTrait
      * Returns whether this entity has already been persisted.
      *
      * @return bool Whether the entity has been persisted.
-     */
+     * /
     bool isNew() {
         if (func_num_args()) {
             deprecationWarning("Using isNew() as setter is deprecated. Use setNew() instead.");
@@ -740,7 +709,7 @@ trait EntityTrait
      * Returns whether this entity has errors.
      *
      * @param bool $includeNested true will check nested entities for hasErrors()
-     */
+     * /
     bool hasErrors(bool $includeNested = true) {
         if (Hash::filter(_errors)) {
             return true;
@@ -763,7 +732,7 @@ trait EntityTrait
      * Returns all validation errors.
      *
      * @return array
-     */
+     * /
     auto getErrors(): array
     {
         $diff = array_diff_key(_fields, _errors);
@@ -784,7 +753,7 @@ trait EntityTrait
      *
      * @param string myField Field name to get the errors from
      * @return array
-     */
+     * /
     auto getError(string myField): array
     {
         myErrors = _errors[myField] ?? [];
@@ -808,7 +777,7 @@ trait EntityTrait
      * @param array myErrors The array of errors to set.
      * @param bool $overwrite Whether to overwrite pre-existing errors for myFields
      * @return this
-     */
+     * /
     auto setErrors(array myErrors, bool $overwrite = false) {
         if ($overwrite) {
             foreach (myErrors as $f: myError) {
@@ -850,7 +819,7 @@ trait EntityTrait
      * @param array|string myErrors The errors to be set for myField
      * @param bool $overwrite Whether to overwrite pre-existing errors for myField
      * @return this
-     */
+     * /
     auto setError(string myField, myErrors, bool $overwrite = false) {
         if (is_string(myErrors)) {
             myErrors = [myErrors];
@@ -864,7 +833,7 @@ trait EntityTrait
      *
      * @param string myField the field in this entity to check for errors
      * @return array errors in nested entity if any
-     */
+     * /
     protected auto _nestedErrors(string myField): array
     {
         // Only one path element, check for nested entity with error.
@@ -915,8 +884,8 @@ trait EntityTrait
      *
      * @param \Cake\Datasource\IEntity|array $object The object to read errors from.
      * @return bool
-     */
-    protected      */
+     * /
+    protected      * /
     bool _readHasErrors($object) {
         if ($object instanceof IEntity && $object.hasErrors()) {
             return true;
@@ -939,7 +908,7 @@ trait EntityTrait
      * @param \Cake\Datasource\IEntity|iterable $object The object to read errors from.
      * @param string|null myPath The field name for errors.
      * @return array
-     */
+     * /
     protected auto _readError($object, myPath = null): array
     {
         if (myPath !== null && $object instanceof IEntity) {
@@ -967,7 +936,7 @@ trait EntityTrait
      * Get a list of invalid fields and their data for errors upon validation/patching
      *
      * @return array
-     */
+     * /
     auto getInvalid(): array
     {
         return _invalid;
@@ -978,7 +947,7 @@ trait EntityTrait
      *
      * @param string myField The name of the field.
      * @return mixed|null
-     */
+     * /
     auto getInvalidField(string myField) {
         return _invalid[myField] ?? null;
     }
@@ -993,7 +962,7 @@ trait EntityTrait
      * @param array myFields The values to set.
      * @param bool $overwrite Whether to overwrite pre-existing values for myField.
      * @return this
-     */
+     * /
     auto setInvalid(array myFields, bool $overwrite = false) {
         foreach (myFields as myField: myValue) {
             if ($overwrite == true) {
@@ -1012,7 +981,7 @@ trait EntityTrait
      * @param string myField The value to set.
      * @param mixed myValue The invalid value to be set for myField.
      * @return this
-     */
+     * /
     auto setInvalidField(string myField, myValue) {
         _invalid[myField] = myValue;
 
@@ -1042,7 +1011,7 @@ trait EntityTrait
      * @param bool $set True marks the field as accessible, false will
      * mark it as protected.
      * @return this
-     */
+     * /
     auto setAccess(myField, bool $set) {
         if (myField == "*") {
             _accessible = array_map(function ($p) use ($set) {
@@ -1065,7 +1034,7 @@ trait EntityTrait
      * The `*` wildcard refers to all fields.
      *
      * @return array<bool>
-     */
+     * /
     auto getAccessible(): array
     {
         return _accessible;
@@ -1082,8 +1051,8 @@ trait EntityTrait
      *
      * @param string myField Field name to check
      * @return bool
-     */
-         */
+     * /
+         * /
     bool isAccessible(string myField) {
         myValue = _accessible[myField] ?? null;
 
@@ -1092,7 +1061,7 @@ trait EntityTrait
 
     /**
      * Returns the alias of the repository from which this entity came from.
-     */
+     * /
     string getSource() {
         return _registryAlias;
     }
@@ -1102,7 +1071,7 @@ trait EntityTrait
      *
      * @param string myAlias the alias of the repository
      * @return this
-     */
+     * /
     auto setSource(string myAlias) {
         _registryAlias = myAlias;
 
@@ -1111,7 +1080,7 @@ trait EntityTrait
 
     /**
      * Returns a string representation of this object in a human readable format.
-     */
+     * /
     string __toString() {
         return (string)json_encode(this, JSON_PRETTY_PRINT);
     }
@@ -1121,7 +1090,7 @@ trait EntityTrait
      * object.
      *
      * @return array<string, mixed>
-     */
+     * /
     auto __debugInfo(): array
     {
         myFields = _fields;
@@ -1142,3 +1111,4 @@ trait EntityTrait
         ];
     }
 }
+*/
