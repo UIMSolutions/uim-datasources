@@ -3,10 +3,10 @@
 	License: Subject to the terms of the Apache 2.0 license, as written in the included LICENSE.txt file.  
 	Authors: Ozan Nurettin Süel (Sicherheitsschmiede)                                                      
 **********************************************************************************************************/
-module uim.cake.datasources.exceptions;
+module uim.datasources..exceptions;
 
 @safe:
-import uim.cake;
+import uim.datasources;
 
 // Exception class to be thrown when a datasource configuration is not found
 class MissingDatasourceConfigException : UIMException {

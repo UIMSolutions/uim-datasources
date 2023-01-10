@@ -4,3 +4,5 @@
 	Authors: Ozan Nurettin Süel (Sicherheitsschmiede)                                                      
 **********************************************************************************************************/
 module uim.datasources.queries;
+
+public import uim.datasources.queries.cacher;

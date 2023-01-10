@@ -3,10 +3,10 @@
 	License: Subject to the terms of the Apache 2.0 license, as written in the included LICENSE.txt file.  
 	Authors: Ozan Nurettin Süel (Sicherheitsschmiede)                                                      
 **********************************************************************************************************/
-module uim.cake.datasources.exceptions.miisingmodel;
+module uim.datasources..exceptions.miisingmodel;
 
 @safe:
-import uim.cake;
+import uim.datasources;
 
 // Used when a model cannot be found.
 class MissingModelException : UIMException {
