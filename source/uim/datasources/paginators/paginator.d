@@ -35,7 +35,7 @@ class Paginator : IPaginator {
     ];
 
     // Paging params after pagination operation is done.
-    protected STRINGAA _pagingParams = [];
+    protected STRINGAA _pagingParams= null;
 
     /**
      * Handles automatic pagination of model records.
@@ -143,7 +143,7 @@ class Paginator : IPaginator {
      * @return \Cake\Datasource\IResultSet Query results
      * @throws \Cake\Datasource\Exception\PageOutOfBoundsException
      * /
-    IDSResultSet paginate(object $object, array myParams = [], array $settings = []) {
+    IDSResultSet paginate(object $object, array myParams= null, array $settings= null) {
         myQuery = null;
         if ($object instanceof IQuery) {
             myQuery = $object;
@@ -386,7 +386,7 @@ class Paginator : IPaginator {
     protected string[] getAllowedParameters() {
         $allowed = this.getConfig("allowedParameters");
         if (!$allowed) {
-            $allowed = [];
+            $allowed= null;
         }
         $whitelist = this.getConfig("whitelist");
         if ($whitelist) {
@@ -448,12 +448,12 @@ class Paginator : IPaginator {
      * Get the settings for a myModel. If there are no settings for a specific
      * repository, the general settings will be used.
      *
-     * @param string myAlias Model name to get settings for.
+     * @param string aliasName Model name to get settings for.
      * @param array<string, mixed> $settings The settings which is used for combining.
      * @return array<string, mixed> An array of pagination settings for a model,
      *   or the general settings.
      * /
-    auto getDefaults(string myAlias, array $settings): array
+    auto getDefaults(string aliasName, array $settings): array
     {
         if (isset($settings[myAlias])) {
             $settings = $settings[myAlias];
@@ -524,7 +524,7 @@ class Paginator : IPaginator {
         unset(myOptions["direction"]);
 
         if (empty(myOptions["order"])) {
-            myOptions["order"] = [];
+            myOptions["order"]= null;
         }
         if (!is_array(myOptions["order"])) {
             return myOptions;
@@ -538,7 +538,7 @@ class Paginator : IPaginator {
             myField = key(myOptions["order"]);
             $sortAllowed = in_array(myField, $allowed, true);
             if (!$sortAllowed) {
-                myOptions["order"] = [];
+                myOptions["order"]= null;
                 myOptions["sort"] = null;
 
                 return myOptions;
@@ -567,7 +567,7 @@ class Paginator : IPaginator {
      * /
     protected auto _removeAliases(array fieldNames, string myModel): array
     {
-        myResult = [];
+        myResult= null;
         foreach (fieldNames as myField: $sort) {
             if (indexOf(myField, ".") == false) {
                 myResult[myField] = $sort;
@@ -598,7 +598,7 @@ class Paginator : IPaginator {
     protected auto _prefix(IRepository $object, array $order, bool $allowed = false): array
     {
         myTableAlias = $object.getAlias();
-        myTableOrder = [];
+        myTableOrder= null;
         foreach ($order as myKey: myValue) {
             if (is_numeric(myKey)) {
                 myTableOrder[] = myValue;

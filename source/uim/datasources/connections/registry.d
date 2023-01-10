@@ -3,7 +3,7 @@
 	License: Subject to the terms of the Apache 2.0 license, as written in the included LICENSE.txt file.  
 	Authors: Ozan Nurettin Süel (Sicherheitsschmiede)                                                      
 **********************************************************************************************************/
-module uim.datasources.connection.registry;
+module uim.datasources.connections.registry;
 
 @safe:
 import uim.datasources;
@@ -22,7 +22,6 @@ class DDSConnectionRegistry : ObjectRegistry {
      *
      * @param string myClass Partial classname to resolve.
      * @return string|null Either the correct class name or null.
-     * @psalm-return class-string|null
      */
     /* protected Nullable!string _resolveClassName(string myClass) {
         return App::className(myClass, "Datasource");
@@ -37,10 +36,10 @@ class DDSConnectionRegistry : ObjectRegistry {
      * @param string|null myPlugin The plugin the datasource is missing in.
      * @throws \Cake\Datasource\Exception\MissingDatasourceException
      */
-    protected void _throwMissingClassError(string myClass, Nullable!string myPlugin) {
+    protected void _throwMissingClassError(string className, string pluginName) {
         throw new MissingDatasourceException([
-            "class": myClass,
-            "plugin": myPlugin,
+            "class": className,
+            "plugin": pluginName,
         ]);
     }
 
@@ -53,11 +52,11 @@ class DDSConnectionRegistry : ObjectRegistry {
      * function will be the result of the callable.
      *
      * @param \Cake\Datasource\IConnection|callable|string myClass The classname or object to make.
-     * @param string myAlias The alias of the object.
+     * @param string aliasName The alias of the object.
      * @param array<string, mixed> myConfig An array of settings to use for the datasource.
      * returns IConnection A connection with the correct settings.
      */
-    protected IConnection _create(myClass, string myAlias, array myConfig) {
+    protected IConnection _create(myClass, string aliasName, array myConfig) {
         if (is_callable(myClass)) {
             return myClass(myAlias);
         }

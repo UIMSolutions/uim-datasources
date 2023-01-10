@@ -32,7 +32,7 @@ import uim.datasources;
      *
      * @var array
      * /
-    protected _mapReduce = [];
+    protected _mapReduce= null;
 
     /**
      * List of formatter classes or callbacks that will post-process the
@@ -40,7 +40,7 @@ import uim.datasources;
      *
      * @var array<callable>
      * /
-    protected _formatters = [];
+    protected _formatters= null;
 
     // A query cacher instance if this query has caching enabled.
     protected QueryCacher _cache;
@@ -51,7 +51,7 @@ import uim.datasources;
      *
      * @var array
      * /
-    protected _options = [];
+    protected _options= null;
 
     /**
      * Whether the query is standalone or the product of an eager load operation.
@@ -60,18 +60,7 @@ import uim.datasources;
      */
     protected bool _eagerLoaded = false;
 
-    /**
-     * Set the default Table object that will be used by this query
-     * and form the `FROM` clause.
-     *
-     * @param \Cake\Datasource\IRepository|\Cake\ORM\Table myRepository The default table object to use
-     * @return this
-     */
-    function repository(IRepository myRepository) {
-        _repository = myRepository;
 
-        return this;
-    }
 
     /**
      * Returns the default table object that will be used by this query,
@@ -148,9 +137,8 @@ import uim.datasources;
      *   When using a function, this query instance will be supplied as an argument.
      * @param \Psr\SimpleCache\ICache|string myConfig Either the name of the cache config to use, or
      *   a cache engine instance.
-     * @return this
      */
-    function cache(myKey, myConfig = "default") {
+    IQuery cache(myKey, myConfig = "default") {
         if (myKey == false) {
             _cache = null;
 
@@ -161,12 +149,7 @@ import uim.datasources;
         return this;
     }
 
-    /**
-     * Returns the current configured query `_eagerLoaded` value
-     */
-    bool isEagerLoaded() {
-        return _eagerLoaded;
-    }
+
 
     /**
      * Sets the query instance to be an eager loaded query. If no argument is
@@ -193,7 +176,7 @@ import uim.datasources;
      * @param string|null myAlias the alias used to prefix the field
      * @return array
      */
-    array aliasField(string fieldName, Nullable!string myAlias = null) {
+    array aliasField(string fieldName, Nullable!string aliasName = null) {
         if (indexOf(myField, ".") == false) {
             myAlias = myAlias ?: this.getRepository().getAlias();
             myAliasedField = myAlias . "." . myField;
@@ -215,7 +198,7 @@ import uim.datasources;
      * @param string|null $defaultAlias The default alias
      */
     string[] aliasFields(array fieldNames, Nullable!string defaultAlias = null) {
-        myAliased = [];
+        myAliased= null;
         foreach (fieldNames as myAlias: myField) {
             if (is_numeric(myAlias) && is_string(myField)) {
                 myAliased += this.aliasField(myField, $defaultAlias);
@@ -285,7 +268,7 @@ import uim.datasources;
      */
     function mapReduce(?callable $mapper = null, ?callable $reducer = null, bool $overwrite = false) {
         if ($overwrite) {
-            _mapReduce = [];
+            _mapReduce= null;
         }
         if ($mapper == null) {
             if (!$overwrite) {
@@ -402,7 +385,7 @@ import uim.datasources;
      */
     function formatResults(?callable $formatter = null, myMode = self::APPEND) {
         if (myMode == self::OVERWRITE) {
-            _formatters = [];
+            _formatters= null;
         }
         if ($formatter == null) {
             if (myMode !== self::OVERWRITE) {

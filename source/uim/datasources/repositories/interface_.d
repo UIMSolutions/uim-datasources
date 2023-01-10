@@ -31,7 +31,7 @@ interface IRepository {
   // Creates a new Query for this repository and applies some defaults based on the type of search that was selected.
   // myType the type of query to perform
   // array<string, mixed> myOptions An array that will be passed to Query::applyOptions()
-  IQuery find(string myType = "all", array myOptions = []);
+  IQuery find(string myType = "all", STRINGAA someOptions = null);
 
   /**
     * Returns a single record after finding it by its primary key, if no record is
@@ -53,7 +53,7 @@ interface IRepository {
     * @return \Cake\Datasource\IEntity
     * @see \Cake\Datasource\IRepository::find()
     */
-  IEntity get($primaryKey, array myOptions = []);
+  IEntity get(IValue[string] primaryKeys, STRINGAA someOptions);
 
   // Creates a new Query instance for this repository
   IQuery query();
@@ -87,7 +87,7 @@ interface IRepository {
     * @return int Returns the number of affected rows.
     * @see \Cake\Datasource\IRepository::delete()
     */
-  int deleteAll($conditions);
+  // int deleteAll($conditions);
 
   /**
     * Returns true if there is any record in this repository matching the specified
@@ -95,18 +95,17 @@ interface IRepository {
     *
     * @param array $conditions list of conditions to pass to the query
     */
-  bool exists($conditions);
+  // bool exists($conditions);
 
   /**
     * Persists an entity based on the fields that are marked as dirty and
     * returns the same entity after a successful save or false in case
     * of any error.
     *
-    * @param \Cake\Datasource\IEntity $entity the entity to be saved
+    * @param \Cake\Datasource\IEntity anEntity the entity to be saved
     * @param \ArrayAccess|array myOptions The options to use when saving.
-    * @return \Cake\Datasource\IEntity|false
     */
-  function save(IEntity $entity, myOptions = []);
+  IEntity save(IEntity anEntity, myOptions= null);
 
   /**
     * Delete a single entity.
@@ -114,11 +113,11 @@ interface IRepository {
     * Deletes an entity and possibly related associations from the database
     * based on the "dependent" option used when defining the association.
     *
-    * @param \Cake\Datasource\IEntity $entity The entity to remove.
-    * @param \ArrayAccess|array myOptions The options for the delete.
+    * anEntity - The entity to remove.
+    * someOptions - The options for the delete.
     * @return bool success
     */
-  bool delete(IEntity $entity, myOptions = []);
+  bool delete(IEntity anEntity, STRINGAA someOptions= null);
 
   /**
     * This creates a new entity object.
@@ -126,8 +125,6 @@ interface IRepository {
     * Careful: This does not trigger any field validation.
     * This entity can be persisted without validation error as empty record.
     * Always patch in required fields before saving.
-    *
-    * @return \Cake\Datasource\IEntity
     */
   IEntity newEmptyEntity();
 
@@ -145,11 +142,10 @@ interface IRepository {
     * on the primary key data existing in the database when the entity
     * is saved. Until the entity is saved, it will be a detached record.
     *
-    * @param array myData The data to build an entity with.
+    * @param IValue[string] mergeData The data to build an entity with.
     * @param array<string, mixed> myOptions A list of options for the object hydration.
-    * @return \Cake\Datasource\IEntity
     */
-  IEntity newEntity(array myData, array myOptions = []);
+  IEntity newEntity(IValue[string] mergeData, STRINGAA someOptions = null);
 
   /**
     * Create a list of entities + associated entities from an array.
@@ -163,11 +159,11 @@ interface IRepository {
     *
     * The hydrated entities can then be iterated and saved.
     *
-    * @param array myData The data to build an entity with.
+    * @param IValue[string] mergeData The data to build an entity with.
     * @param array<string, mixed> myOptions A list of options for the objects hydration.
-    * @return array<\Cake\Datasource\IEntity> An array of hydrated records.
+    * returns An array of hydrated records.
     */
-  array newEntities(array myData, array myOptions = []);
+  IENtity[] newEntities(IValue[string] mergeData, STRINGAA someOptions = null);
 
   /**
     * Merges the passed `myData` into `$entity` respecting the accessible
@@ -180,13 +176,13 @@ interface IRepository {
     * $article = this.Articles.patchEntity($article, this.request.getData());
     * ```
     *
-    * @param \Cake\Datasource\IEntity $entity the entity that will get the
+    * @param \Cake\Datasource\IEntity anEntity the entity that will get the
     * data merged in
-    * @param array myData key value list of fields to be merged into the entity
+    * @param IValue[string] mergeData key value list of fields to be merged into the entity
     * @param array<string, mixed> myOptions A list of options for the object hydration.
     * @return \Cake\Datasource\IEntity
     */
-  IEntity patchEntity(IEntity $entity, array myData, array myOptions = []);
+  IEntity patchEntity(IEntity anEntity, IValue[string] mergeData, STRINGAA someOptions = null);
 
   /**
     * Merges each of the elements passed in `myData` into the entities
@@ -202,9 +198,8 @@ interface IRepository {
     *
     * @param \Traversable|array<\Cake\Datasource\IEntity> $entities the entities that will get the
     * data merged in
-    * @param array myData list of arrays to be merged into the entities
+    * @param IValue[string] mergeData list of arrays to be merged into the entities
     * @param array<string, mixed> myOptions A list of options for the objects hydration.
-    * @return array<\Cake\Datasource\IEntity>
     */
-  array patchEntities(iterable $entities, array myData, array myOptions = []);
+  IEntity[] patchEntities(IEntity someEntities, IValue[string] mergeData, STRINGAA someOptions = null);
 }

@@ -8,7 +8,7 @@ module uim.datasources.queries.interface_;
 /**
  * The basis for every query object
  *
- * @method this andWhere($conditions, array myTypes = []) Connects any previously defined set of conditions to the
+ * @method this andWhere($conditions, array myTypes= null) Connects any previously defined set of conditions to the
  *   provided list using the AND operator. {@see \Cake\Database\Query::andWhere()}
  * @method \Cake\Datasource\IEntity|array firstOrFail() Get the first result from the executing query or raise an exception.
  *   {@see \Cake\Database\Query::firstOrFail()}
@@ -41,7 +41,7 @@ interface IQuery {
      * @param string|null myAlias the alias used to prefix the field
      * @return array
      */
-    // function aliasField(string fieldName, Nullable!string myAlias = null);
+    // function aliasField(string fieldName, Nullable!string aliasName = null);
 
     /**
      * Runs `aliasField()` for each field in the provided list and returns
@@ -120,7 +120,7 @@ interface IQuery {
      * @param array<string, mixed> myOptions The options for the finder.
      * @return static Returns a modified query.
      */
-    // function find(string myFinder, array myOptions = []);
+    // function find(string myFinder, STRINGAA someOptions = null);
 
     /**
      * Returns the first result out of executing this query, if the query has not been
@@ -378,5 +378,5 @@ interface IQuery {
      * @param bool $overwrite whether to reset conditions with passed list or not
      * @return this
      */
-    IQuery where($conditions = null, array myTypes = [], bool $overwrite = false);
+    IQuery where($conditions = null, array myTypes= null, bool $overwrite = false);
 }

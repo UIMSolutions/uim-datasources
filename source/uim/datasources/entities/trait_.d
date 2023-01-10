@@ -1053,10 +1053,10 @@ import uim.datasources;
     /**
      * Sets the source alias
      *
-     * @param string myAlias the alias of the repository
+     * @param string aliasName the alias of the repository
      * @return this
      * /
-    auto setSource(string myAlias) {
+    auto setSource(string aliasName) {
         _registryAlias = myAlias;
 
         return this;
