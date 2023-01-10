@@ -12,10 +12,10 @@ import uim.datasources;
 interface IPaginator {
   // Handles pagination of datasource records.
   // aRepository / aQuery - The repository or query to paginate.
-  // myParams Request params
-  // settings The settings/configuration used for pagination.
-  IDSResultSet paginate(IDSRepositoty aRepositry, STRINGAA myParams = [], STRINGAA settings): IResultSet;
-  IDSResultSet paginate(IDSQuery aQuery, STRINGAA myParams = [], STRINGAA settings): IResultSet;
+  // myParams - Request params
+  // settings - The settings/configuration used for pagination.
+  IDSResultSet paginate(IDSRepositoty aRepositry, STRINGAA myParams = null, STRINGAA settings = null);
+  IDSResultSet paginate(IDSQuery aQuery, STRINGAA myParams = null, STRINGAA settings = null);
 
   // Get paging params after pagination operation.
   STRINGAA getPagingParams();

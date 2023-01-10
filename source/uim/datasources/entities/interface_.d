@@ -10,33 +10,28 @@ import uim.datasources;
  * @property mixed $id Alias for commonly used primary key.
  * @method bool[] getAccessible() Accessible configuration for this entity.
  */
-interface IEntity : ArrayAccess, JsonSerializable
-{
+interface IEntity : ArrayAccess, JsonSerializable {
     /**
      * Sets hidden fields.
      *
-     * @param myFields An array of fields to hide from array exports.
-     * @param bool myMerge Merge the new fields with the existing. By default false.
-     * @return this
+     * fieldNames - An array of fields to hide from array exports.
+     * shouldMerge - Should merge the new fields with the existing. By default false.
      */
-    auto setHidden(string[] myFields, bool myMerge = false);
+    IEntity hiddenFields(string[] fieldNames, bool shouldMerge = false);
 
-    /**
-     * Gets the hidden fields.
-     */
-    string[] getHidden();
+    // Gets the hidden fields.
+    string[] hiddenFields();
 
     /**
      * Sets the virtual fields on this entity.
      *
-     * @param myFields An array of fields to treat as virtual.
-     * @param bool myMerge Merge the new fields with the existing. By default false.
-     * @return this
+     * fieldNames - An array of fields to treat as virtual.
+     * houldMerge - Should merge the new fields with the existing. By default false.
      */
-    auto setVirtual(string[] myFields, bool myMerge = false);
+    IEntity virtualFields(string[] fieldNames, bool shouldMerge = false);
 
     // Gets the virtual fields on this entity.aaa
-    string[] getVirtual();
+    string[] virtualFields();
 
     /**
      * Sets the dirty status of a single field.
@@ -46,7 +41,7 @@ interface IEntity : ArrayAccess, JsonSerializable
      * it was not changed. Default true.
      * @return this
      */
-    auto setDirty(string myField, bool $isDirty = true);
+    auto setDirty(string fieldName, bool isDirty = true);
 
     /**
      * Checks if the entity is dirty or if a single field of it is dirty.

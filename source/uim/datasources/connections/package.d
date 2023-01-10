@@ -5,8 +5,9 @@
 **********************************************************************************************************/
 module uim.datasources.connections;
 
+// Main class
 public import uim.datasources.connections.connection;
 
 public import uim.datasources.connections.interface_;
 public import uim.datasources.connections.manager;
-public import uim.  datasources.connections.registry;
+public import uim.datasources.connections.registry;

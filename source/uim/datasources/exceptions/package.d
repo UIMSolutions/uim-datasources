@@ -7,3 +7,10 @@ module uim.datasources.exceptions;
 
 // Main classes
 public import uim.datasources.exceptions.exception;
+
+public import uim.datasources.exceptions.invalidprimarykey;
+public import uim.datasources.exceptions.missingdatasource;
+public import uim.datasources.exceptions.missingdatasourceconfig;
+public import uim.datasources.exceptions.missingmodel;
+public import uim.datasources.exceptions.pageoutofbounds;
+public import uim.datasources.exceptions.recordnotfound;

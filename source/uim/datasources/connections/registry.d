@@ -14,8 +14,7 @@ import uim.datasources;
  * @see \Cake\Datasource\ConnectionManager
  * @extends \Cake\Core\ObjectRegistry<\Cake\Datasource\IConnection>
  */
-class ConnectionRegistry : ObjectRegistry
-{
+class DDSConnectionRegistry : ObjectRegistry {
     /**
      * Resolve a datasource classname.
      *
@@ -25,9 +24,9 @@ class ConnectionRegistry : ObjectRegistry
      * @return string|null Either the correct class name or null.
      * @psalm-return class-string|null
      */
-    protected Nullable!string _resolveClassName(string myClass) {
+    /* protected Nullable!string _resolveClassName(string myClass) {
         return App::className(myClass, "Datasource");
-    }
+    } */
 
     /**
      * Throws an exception when a datasource is missing
@@ -56,9 +55,9 @@ class ConnectionRegistry : ObjectRegistry
      * @param \Cake\Datasource\IConnection|callable|string myClass The classname or object to make.
      * @param string myAlias The alias of the object.
      * @param array<string, mixed> myConfig An array of settings to use for the datasource.
-     * @return \Cake\Datasource\IConnection A connection with the correct settings.
+     * returns IConnection A connection with the correct settings.
      */
-    protected auto _create(myClass, string myAlias, array myConfig) {
+    protected IConnection _create(myClass, string myAlias, array myConfig) {
         if (is_callable(myClass)) {
             return myClass(myAlias);
         }
@@ -69,19 +68,16 @@ class ConnectionRegistry : ObjectRegistry
 
         unset(myConfig["className"]);
 
-        /** @var \Cake\Datasource\IConnection */
         return new myClass(myConfig);
     }
 
     /**
      * Remove a single adapter from the registry.
-     *
-     * @param string myName The adapter name.
-     * @return this
+     * aName - The adapter name.
      */
-    function unload(string myName) {
-        unset(_loaded[myName]);
+    /* DDSConnectionRegistry unload(string aName) {
+        unset(_loaded[aName]);
 
         return this;
-    }
+    } */
 }

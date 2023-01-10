@@ -60,7 +60,9 @@ public import uim.oop;
 
 // uim-datasources libs
 public import uim.datasources.connections;
+public import uim.datasources.entities;
 public import uim.datasources.exceptions;
 public import uim.datasources.locators;
-
-
+public import uim.datasources.paginators;
+public import uim.datasources.queries;
+public import uim.datasources.repositories;

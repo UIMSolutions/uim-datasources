@@ -7,3 +7,4 @@ module uim.datasources..entities;
 
 public import uim.datasources.entities.entity;
 public import uim.datasources.entities.interface_;
+public import uim.datasources.entities.trait_;

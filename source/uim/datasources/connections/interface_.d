@@ -3,7 +3,7 @@
 	License: Subject to the terms of the Apache 2.0 license, as written in the included LICENSE.txt file.  
 	Authors: Ozan Nurettin Süel (Sicherheitsschmiede)                                                      
 **********************************************************************************************************/
-module uim.datasources..connections.interface_;
+module uim.datasources.connections.interface_;
 
 @safe:
 import uim.datasources;
@@ -34,13 +34,13 @@ interface IDSConnection : ILoggerAware {
     *
     * The callback will receive the connection instance as its first argument.
     */
-  IDSConnection transactional(callable $callback);
+  // IDSConnection transactional(callable $callback);
 
   /**
     * Run an operation with constraints disabled.
     * Constraints should be re-enabled after the callback succeeds/fails.
     */
-  IDSConnection disableConstraints(callable $callback);
+  // IDSConnection disableConstraints(callable $callback);
 
   /**
     * Enable/disable query logging

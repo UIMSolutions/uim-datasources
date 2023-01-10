@@ -6,3 +6,5 @@
 module uim.datasources.queries;
 
 public import uim.datasources.queries.cacher;
+public import uim.datasources.queries.inteface_;
+public import uim.datasources.queries.trait_;

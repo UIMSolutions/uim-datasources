@@ -34,7 +34,7 @@ class Entity : IEntity, InvalidPropertyInterface {
      * @param array<string, mixed> $properties hash of properties to set in this entity
      * @param array<string, mixed> $options list of options to use when creating this entity
      */
-    this(array $properties = [], STRINGAA someOptions = []) {
+    /* this(array $properties = [], STRINGAA someOptions = []) {
         $options += [
             "useSetters": true,
             "markClean": false,
@@ -67,5 +67,5 @@ class Entity : IEntity, InvalidPropertyInterface {
         if ($options["markClean"]) {
             this.clean();
         }
-    }
+    } */
 }

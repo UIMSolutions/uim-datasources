@@ -22,7 +22,7 @@ class DDSConnectionManager {
     protected static string[] _aliasMap;
 
     // An array mapping url schemes to fully qualified driver class names
-    protected static STRINGAA $_dsnClassMap = [
+    protected static STRINGAA _dsnClassMap = [
 /*       "mysql": Mysql::class,
       "postgres": Postgres::class,
       "sqlite": Sqlite::class,
