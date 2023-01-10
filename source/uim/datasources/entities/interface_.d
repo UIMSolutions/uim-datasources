@@ -1,4 +1,4 @@
-module uim.cake.datasources;
+module uim.datasources;
 
 @safe:
 import uim.datasources;

@@ -1,7 +1,12 @@
-module uim.orm;
+/*********************************************************************************************************
+	Copyright: © 2015-2023 Ozan Nurettin Süel (Sicherheitsschmiede)                                        
+	License: Subject to the terms of the Apache 2.0 license, as written in the included LICENSE.txt file.  
+	Authors: Ozan Nurettin Süel (Sicherheitsschmiede)                                                      
+**********************************************************************************************************/
+module uim.datasources;
 
 @safe:
-import uim.orm;
+import uim.datasources;
 
 /**
  * An entity represents a single result row from a repository. It exposes the
