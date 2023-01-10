@@ -41,7 +41,7 @@ interface IQuery {
      * @param string|null myAlias the alias used to prefix the field
      * @return array
      */
-    function aliasField(string fieldName, Nullable!string myAlias = null): array;
+    // function aliasField(string fieldName, Nullable!string myAlias = null);
 
     /**
      * Runs `aliasField()` for each field in the provided list and returns
@@ -50,7 +50,7 @@ interface IQuery {
      * @param array fieldNames The fields to alias
      * @param string|null $defaultAlias The default alias
      */
-    string[] aliasFields(string[] fieldNames, Nullable!string defaultAlias = null): array;
+    string[] aliasFields(string[] fieldNames, Nullable!string defaultAlias = null);
 
     /**
      * Fetch the results for this query.
@@ -61,7 +61,7 @@ interface IQuery {
      * ResultSetDecorator is a traversable object that : the methods found
      * on Cake\Collection\Collection.
      */
-    IResultSet all(): ;
+    IResultSet all();
 
     /**
      * Populates or adds parts to current query clauses using an array.
@@ -154,7 +154,8 @@ interface IQuery {
      *
      * @param \Cake\Database\IExpression|int|null $limit number of records to be returned
      */
-    IQuery limit($limit);
+    IQuery limit(size_t limitOfRecords);
+    IQuery limit(IExpression limitOfRecords);
 
     /**
      * Sets the number of records that should be skipped from the original result set
@@ -225,7 +226,7 @@ interface IQuery {
      * @param \Cake\Database\IExpression|\Closure|array|string fieldNames fields to be added to the list
      * @param bool $overwrite whether to reset order with field list or not
      */
-    IQuery order(fieldNames, $overwrite = false);
+    IQuery order(string[] fieldNames, bool shouldOverwrite = false);
 
     /**
      * Set the page of results you want.
@@ -236,27 +237,26 @@ interface IQuery {
      *
      * Pages must start at 1.
      *
-     * @param int $num The page number you want.
+     * pageNumber - The page number you want.
      * @param int|null $limit The number of rows you want in the page. If null
      *  the current limit clause will be used.
      * @throws \InvalidArgumentException If page number < 1.
      */
-    IQuery page(int $num, Nullable!int $limit = null);
+    IQuery page(int pageNumber, size_t limitOfRows = 0);
 
     /**
      * Returns an array representation of the results after executing the query.
      *
      * @return array
      */
-    function toArray(): array;
+    // function toArray(): array;
 
     /**
-     * Set the default Table object that will be used by this query
-     * and form the `FROM` clause.
+     * Set the default Table object that will be used by this query and form the `FROM` clause.
      *
-     * @param \Cake\Datasource\IRepository myRepository The default repository object to use
+     * aRepository - The default repository object to use
      */
-    IQuery repository(IRepository myRepository);
+    IQuery repository(IRepository aRepository);
 
     /**
      * Returns the default repository object that will be used by this query,
@@ -264,7 +264,7 @@ interface IQuery {
      *
      * @return \Cake\Datasource\IRepository|null myRepository The default repository object to use
      */
-    IRepository getRepository();
+    IRepository repository();
 
     /**
      * Adds a condition or set of conditions to be used in the WHERE clause for this

@@ -3,7 +3,7 @@
 	License: Subject to the terms of the Apache 2.0 license, as written in the included LICENSE.txt file.  
 	Authors: Ozan Nurettin Süel (Sicherheitsschmiede)                                                      
 **********************************************************************************************************/
-module uim.datasources.;
+module uim.datasources.entities.trait_;
 
 @safe:
 import uim.datasources;
@@ -12,20 +12,12 @@ import uim.datasources;
 // It exposes the methods for retrieving and storing fields associated in this row.
 /* trait EntityTrait {
 
-
-
-
     /* // Holds a cached list of getters/setters per class
      *
      * @var array<string, array<string, array<string, string>>>
-
     protected static $_accessors = null;
     * /
 
-    // Indicates whether this entity is yet to be persisted.
-    // Entities default to assuming they are new. You can use Table::persisted()
-    // to set the new flag on an entity based on records in the database.
-    protected bool _new = true;
 
     // List of errors per field as stored in this object.
     // array<string, mixed>

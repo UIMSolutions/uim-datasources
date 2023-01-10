@@ -10,21 +10,21 @@ import uim.datasources;
 
 // Describes the methods that any class representing a data storage should comply with.
 interface IRepository {
-  // Sets the repository alias.
-  auto setAlias(string myAlias);
+  // Sets the repository aliasName.
+  auto aliasName(string aAliasName);
 
-  // Returns the repository alias.
-  string getAlias();
+  // Returns the repository aliasName.
+  string aliasName();
 
   //Sets the table registry key used to create this table instance.
-  // registryAlias The key used to access this object.
-  auto setRegistryAlias(string registryAlias);
+  // registryAliasName - The key used to access this object.
+  IRepository registryAlias(string registryAliasName);
 
   // Returns the table registry key used to create this table instance.
-  string getRegistryAlias();
+  string registryAlias();
 
   // Test to see if a Repository has a specific field/column.
-  // myField The field to check for.
+  // v The field to check for.
   // True if the field exists, false if it does not.
   bool hasField(string fieldName);
 

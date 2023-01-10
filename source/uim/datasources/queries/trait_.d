@@ -11,12 +11,10 @@ import uim.datasources;
 /**
  * Contains the characteristics for an object that is attached to a repository and
  * can retrieve results based on any criteria.
- */
-trait QueryTrait {
+ * /
+//trait QueryTrait {
     // Instance of a table object this query is bound to
-     *
-     * @var \Cake\Datasource\
-     */
+     * /
     protected IRepository _repository;
 
     /**
@@ -26,15 +24,14 @@ trait QueryTrait {
      *
      * @var iterable|null
      * @see \Cake\Datasource\QueryTrait::setResult()
-     */
+     * /
     protected _results;
 
     /**
-     * List of map-reduce routines that should be applied over the query
-     * result
+     * List of map-reduce routines that should be applied over the query result
      *
      * @var array
-     */
+     * /
     protected _mapReduce = [];
 
     /**
@@ -42,22 +39,18 @@ trait QueryTrait {
      * results when fetched
      *
      * @var array<callable>
-     */
+     * /
     protected _formatters = [];
 
-    /**
-     * A query cacher instance if this query has caching enabled.
-     *
-     * @var \Cake\Datasource\QueryCacher|null
-     */
-    protected _cache;
+    // A query cacher instance if this query has caching enabled.
+    protected QueryCacher _cache;
 
     /**
      * Holds any custom options passed using applyOptions that could not be processed
      * by any method in this class.
      *
      * @var array
-     */
+     * /
     protected _options = [];
 
     /**
@@ -65,7 +58,7 @@ trait QueryTrait {
      *
      * @var bool
      */
-    protected _eagerLoaded = false;
+    protected bool _eagerLoaded = false;
 
     /**
      * Set the default Table object that will be used by this query

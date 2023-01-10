@@ -24,6 +24,11 @@ class Entity : IEntity, InvalidPropertyInterface {
     // List of field names that should not be included in JSON or Array representations of this Entity.
     protected string[] _hidden;
 
+    // Indicates whether this entity is yet to be persisted.
+    // Entities default to assuming they are new. You can use Table::persisted()
+    // to set the new flag on an entity based on records in the database.
+    protected bool _new = true;
+
     /*
      * List of computed or virtual fields that should be included in JSON or array
      * representations of this Entity. If a field is present in both _hidden and _virtual
