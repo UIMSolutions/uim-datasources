@@ -11,7 +11,7 @@ import uim.datasources;
 // Describes the methods that any class representing a data storage should comply with.
 interface IRepository {
   // Sets the repository aliasName.
-  auto aliasName(string aAliasName);
+  IRepository aliasName(string aAliasName);
 
   // Returns the repository aliasName.
   string aliasName();
@@ -70,7 +70,7 @@ interface IRepository {
     * can take.
     * @return int Count Returns the affected rows.
     */
-  int updateAll(fieldNames, $conditions);
+  // int updateAll(fieldNames, $conditions);
 
   /**
     * Deletes all records matching the provided conditions.
@@ -117,7 +117,7 @@ interface IRepository {
     * someOptions - The options for the delete.
     * @return bool success
     */
-  bool delete(IEntity anEntity, STRINGAA someOptions= null);
+  bool deleteEntity(IEntity anEntity, STRINGAA someOptions= null);
 
   /**
     * This creates a new entity object.

@@ -378,5 +378,5 @@ interface IQuery {
      * @param bool $overwrite whether to reset conditions with passed list or not
      * @return this
      */
-    IQuery where($conditions = null, array myTypes= null, bool $overwrite = false);
+    //IQuery where($conditions = null, array myTypes= null, bool $overwrite = false);
 }

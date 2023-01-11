@@ -60,8 +60,6 @@ import uim.datasources;
      */
     protected bool _eagerLoaded = false;
 
-
-
     /**
      * Returns the default table object that will be used by this query,
      * that is, the table that will appear in the from clause.
@@ -157,7 +155,7 @@ import uim.datasources;
      *
      * @param bool myValue Whether to eager load.
      * @return this
-     */
+     * /
     function eagerLoaded(bool myValue) {
         _eagerLoaded = myValue;
 
@@ -175,7 +173,7 @@ import uim.datasources;
      * @param string fieldName The field to alias
      * @param string|null myAlias the alias used to prefix the field
      * @return array
-     */
+     * /
     array aliasField(string fieldName, Nullable!string aliasName = null) {
         if (indexOf(myField, ".") == false) {
             myAlias = myAlias ?: this.getRepository().getAlias();
@@ -196,7 +194,7 @@ import uim.datasources;
      *
      * @param array fieldNames The fields to alias
      * @param string|null $defaultAlias The default alias
-     */
+     * /
     string[] aliasFields(array fieldNames, Nullable!string defaultAlias = null) {
         myAliased= null;
         foreach (fieldNames as myAlias: myField) {
@@ -222,23 +220,23 @@ import uim.datasources;
      * @return \Cake\Datasource\IResultSet
      */
     IResultSet all() {
-        if (_results !== null) {
-            return _results;
-        }
+      if (_results !== null) {
+          return _results;
+      }
 
-        myResults = null;
+      myResults = null;
+      if (_cache) {
+          myResults = _cache.fetch(this);
+      }
+      if (myResults == null) {
+        myResults = _decorateResults(_execute());
         if (_cache) {
-            myResults = _cache.fetch(this);
+            _cache.store(this, myResults);
         }
-        if (myResults == null) {
-            myResults = _decorateResults(_execute());
-            if (_cache) {
-                _cache.store(this, myResults);
-            }
-        }
-        _results = myResults;
+      }
+      _results = myResults;
 
-        return _results;
+      return _results;
     }
 
     /**
