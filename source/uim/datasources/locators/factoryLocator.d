@@ -5,9 +5,10 @@
 **********************************************************************************************************/
 module uim.cake.satasources;
 
-import uim.datasources.Locator\ILocator;
-import uim.cake.orm.locators.TableLocator;
-use InvalidArgumentException;
+@safe:
+import uim.datasources;
+
+// use InvalidArgumentException;
 
 class FactoryLocator {
     /**

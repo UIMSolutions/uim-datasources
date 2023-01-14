@@ -9,5 +9,6 @@ module uim.datasources.exceptions.invalidprimarykey;
 import uim.datasources;
 
 // Exception raised when the provided primary key does not match the table primary key
-class InvalidPrimaryKeyException : UIMException {
+class DDSOInvalidPrimaryKeyException : DDSOException {
 }
+auto DSOInvalidPrimaryKeyException() { return new DDSOInvalidPrimaryKeyException(); }

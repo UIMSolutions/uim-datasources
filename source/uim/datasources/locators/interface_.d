@@ -5,7 +5,9 @@
 **********************************************************************************************************/
 module uim.datasources\Locator;
 
-import uim.datasources\IRepository;
+@safe:
+import uim.datasources;
+
 
 /**
  * Registries for repository objects should implement this interface.

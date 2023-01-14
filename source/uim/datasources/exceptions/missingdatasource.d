@@ -9,6 +9,7 @@ module uim.datasources.exceptions.missingdatasource;
 import uim.datasources;
 
 // Used when a datasource cannot be found.
-class MissingDatasourceException : UIMException {
+class DDSOMissingDatasourceException : DDSOException {
   protected string _messageTemplate = "Datasource class %s could not be found. %s";
 }
+auto DSOMissingDatasourceException() { return new DDSOMissingDatasourceException(); }

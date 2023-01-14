@@ -9,6 +9,6 @@ module uim.datasources.exceptions.recordnotfound;
 import uim.datasources;
 
 // Exception raised when a particular record was not found
-class RecordNotFoundException : UIMException {
+class DDSORecordNotFoundException : DDSOException {
 }
-
+auto DSORecordNotFoundException() { return new DDSORecordNotFoundException(); }
