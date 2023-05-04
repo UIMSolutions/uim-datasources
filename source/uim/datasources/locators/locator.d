@@ -10,11 +10,8 @@ import uim.datasources;
 
 // use RuntimeException;
 
-/**
- * Provides an abstract registry/factory for repository objects.
- */
-abstract class AbstractLocator : ILocator
-{
+// Provides an abstract registry/factory for repository objects.
+abstract class AbstractLocator : ILocator {
     /**
      * Instances that belong to the registry.
      *

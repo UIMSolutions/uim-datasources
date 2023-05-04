@@ -3,7 +3,7 @@
 	License: Subject to the terms of the Apache 2.0 license, as written in the included LICENSE.txt file.  
 	Authors: Ozan Nurettin Süel (Sicherheitsschmiede)                                                      
 **********************************************************************************************************/
-module uim.datasources.interface_;
+module uim.datasources.repositories.interface_;
 
 @safe:
 import uim.datasources;
@@ -50,8 +50,6 @@ interface IRepository {
     * @param array<string, mixed> myOptions options accepted by `Table::find()`
     * @throws \Cake\Datasource\Exception\RecordNotFoundException if the record with such id
     * could not be found
-    * @return \Cake\Datasource\IEntity
-    * @see \Cake\Datasource\IRepository::find()
     */
   IEntity get(IValue[string] primaryKeys, STRINGAA someOptions);
 
