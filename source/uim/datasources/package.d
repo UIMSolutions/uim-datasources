@@ -22,8 +22,11 @@ public { // uim-datasources libs
   import uim.datasources.connections;
   import uim.datasources.entities;
   import uim.datasources.exceptions;
+  import uim.datasources.helpers;
+  import uim.datasources.interfaces;
   import uim.datasources.locators;
   import uim.datasources.paginators;
   import uim.datasources.queries;
   import uim.datasources.repositories;
+  import uim.datasources.tests;
 }
