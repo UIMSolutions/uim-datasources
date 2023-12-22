@@ -5,12 +5,15 @@
 **********************************************************************************************************/
 module uim.datasources.exceptions;
 
-// Main classes
+// Main class
 public import uim.datasources.exceptions.exception;
 
-public import uim.datasources.exceptions.invalidprimarykey;
-public import uim.datasources.exceptions.missingdatasource;
-public import uim.datasources.exceptions.missingdatasourceconfig;
-public import uim.datasources.exceptions.missingmodel;
-public import uim.datasources.exceptions.pageoutofbounds;
-public import uim.datasources.exceptions.recordnotfound;
+// Sub class
+public {
+	import uim.datasources.exceptions.invalidprimarykey;
+	import uim.datasources.exceptions.missingdatasource;
+	import uim.datasources.exceptions.missingdatasourceconfig;
+	import uim.datasources.exceptions.missingmodel;
+	import uim.datasources.exceptions.pageoutofbounds;
+	import uim.datasources.exceptions.recordnotfound;
+}

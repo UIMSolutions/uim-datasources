@@ -5,10 +5,13 @@
 **********************************************************************************************************/
 module uim.datasources.exceptions.invalidprimarykey;
 
-@safe:
 import uim.datasources;
 
+@safe:
 // Exception raised when the provided primary key does not match the table primary key
 class DDSOInvalidPrimaryKeyException : DDSOException {
 }
-auto DSOInvalidPrimaryKeyException() { return new DDSOInvalidPrimaryKeyException(); }
+
+auto DSOInvalidPrimaryKeyException() {
+  return new DDSOInvalidPrimaryKeyException();
+}

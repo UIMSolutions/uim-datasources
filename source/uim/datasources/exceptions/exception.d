@@ -5,14 +5,20 @@
 **********************************************************************************************************/
 module uim.datasources.exceptions.exception;
 
-@safe:
 import uim.datasources;
 
+@safe:
+// General exception of uim.datasources
 class DDSOException {
   this() {
     initialize;
   }
 
-  void initialize() {}
+  // Hook for object initialization
+  void initialize() {
+  }
 }
-auto DSOException() { return DDSOException; }
+
+auto DSOException() {
+  return DDSOException;
+}

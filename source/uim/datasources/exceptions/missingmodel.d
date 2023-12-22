@@ -9,7 +9,10 @@ module uim.datasources.exceptions.missingmodel;
 import uim.datasources;
 
 // Used when a model cannot be found.
-class MissingModelException : DDSOException {
-  protected string _messageTemplate = "Model class '%s' of type '%s' could not be found.";
+class DDSOMissingModelException : DDSOException {
+	protected string _messageTemplate = "Model class '%s' of type '%s' could not be found.";
 }
-auto DSOMissingModelException() { return new DDSOMissingModelException(); }
+
+auto DSOMissingModelException() {
+	return new DDSOMissingModelException();
+}

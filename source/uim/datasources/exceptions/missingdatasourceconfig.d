@@ -5,11 +5,14 @@
 **********************************************************************************************************/
 module uim.datasources.exceptions.missingdatasourceconfig;
 
-@safe:
 import uim.datasources;
 
+@safe:
 // Exception class to be thrown when a datasource configuration is not found
 class DDSOMissingDatasourceConfigException : DDSOException {
-  protected string _messageTemplate = "The datasource configuration '%s' was not found.";
+	protected string _messageTemplate = "The datasource configuration '%s' was not found.";
 }
-auto DSOMissingDatasourceConfigException() { return new DDSOMissingDatasourceConfigException(); }
+
+auto DSOMissingDatasourceConfigException() {
+	return new DDSOMissingDatasourceConfigException();
+}

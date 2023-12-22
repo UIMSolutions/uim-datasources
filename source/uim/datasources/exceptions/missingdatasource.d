@@ -5,11 +5,14 @@
 **********************************************************************************************************/
 module uim.datasources.exceptions.missingdatasource;
 
-@safe:
 import uim.datasources;
 
+@safe:
 // Used when a datasource cannot be found.
 class DDSOMissingDatasourceException : DDSOException {
   protected string _messageTemplate = "Datasource class %s could not be found. %s";
 }
-auto DSOMissingDatasourceException() { return new DDSOMissingDatasourceException(); }
+
+auto DSOMissingDatasourceException() {
+  return new DDSOMissingDatasourceException();
+}

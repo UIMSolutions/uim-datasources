@@ -11,4 +11,7 @@ import uim.datasources;
 // Exception raised when a particular record was not found
 class DDSORecordNotFoundException : DDSOException {
 }
-auto DSORecordNotFoundException() { return new DDSORecordNotFoundException(); }
+
+auto DSORecordNotFoundException() {
+	return new DDSORecordNotFoundException();
+}
