@@ -29,19 +29,19 @@ import uim.datasources;
  *   object as result. {@see uim.cake.databases.Connnection::query()}
  */
 interface IDSOConnection : ILoggerAware {
-    // Gets the current logger object.
+    /++ Gets the current logger object +/ 
     LoggerInterface getLogger();
 
-    // Set a cacher.
+    /++ Set a cacher +/
     IDSOConnection setCacher(ICache aCacher);
 
-    // Get a cacher.
-    ICache getCacher(): ICache;
+    /++ Get a cacher +/
+    ICache getCacher();
 
-    // Get the configuration name for this connection.
+    /++ Get the configuration name for this connection +/
     string configName();
 
-    // Get the configuration data used to create the connection.
+    /++ Get the configuration data used to create the connection +/
     Json config();
 
     /**
@@ -66,7 +66,8 @@ interface IDSOConnection : ILoggerAware {
      * @throws \Exception Will re-throw any exception raised in $callback after
      *   rolling back the transaction.
      */
-    function transactional(callable $callback);
+    // TODO
+    // function transactional(callable $callback);
 
     /**
      * Run an operation with constraints disabled.
@@ -86,7 +87,8 @@ interface IDSOConnection : ILoggerAware {
      * @throws \Exception Will re-throw any exception raised in $callback after
      *   rolling back the transaction.
      */
-    function disableConstraints(callable $callback);
+    // TODO
+    // auto disableConstraints(callable $callback);
 
     // Enable/disable query logging
     IDSOConnection enableQueryLogging(bool shouldEnable = true);
