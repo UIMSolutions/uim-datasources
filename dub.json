@@ -1,15 +1,24 @@
 {
 	"name": "uim-datasources",
-	"authors": [ "Ozan Nurettin Süel" ],
+	"authors": [
+		"Ozan Nurettin Süel"
+	],
 	"copyright": "Copyright © 2015-2023, Ozan Nurettin Süel (Sicherheitsschmiede)",
 	"targetType": "library",
 	"description": "datasources",
-  "dependencies": {
-		"arsd-official": "~>10.9.2",
-		"colored": "~>0.0.28",
-		"dlib": "~>0.21.0",
-		"mir-algorithm": "~>3.14.21",
-		"vibe-d": "~>0.9.5"
+	"dependencies": {
+		"arsd-official": "10.9.10",
+		"color": "0.0.9",
+		"colored": "0.0.31",
+		"dlib": "0.21.0",
+		"memutils": "1.0.10",
+		"mir-algorithm": "3.14.21",
+		"mir-core": "1.7.0",
+		"mir-linux-kernel": "1.0.1",
+		"silly": "1.1.1",
+		"vibe-container": "1.0.1",
+		"vibe-core": "2.7.1",
+		"vibe-d": "0.9.7"
 	},
 	"configurations": [
 		{
@@ -21,15 +30,5 @@
 				"test_uim_datasources"
 			]
 		}
-	],
-	"importPaths": [
-		"../../LIBS/uim-core",
-		"../../LIBS/uim-oop",
-		"./"
-	],
-	"sourcePaths": [
-		"../../LIBS/uim-core",
-		"../../LIBS/uim-oop",
-		"./"
 	]
 }

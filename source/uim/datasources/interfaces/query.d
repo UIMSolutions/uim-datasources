@@ -1,10 +1,8 @@
-module source.uim.cake.datasources.interfaces.queryinterface;
+module source.uim.datasources.interfaces.query;
 
 import uim.cake;
 
 @safe:
-
-/**
 
 /**
  * The basis for every query object
@@ -40,7 +38,7 @@ interface IQuery {
      * string afield The field to alias
      * @param string|null $alias the alias used to prefix the field
      */
-    STRINGAA aliasField(string afield, string aalias = null);
+    STRINGAA aliasField(string fieldName, string aliasName = null);
 
     /**
      * Runs `aliasField()` for each field in the provided list and returns

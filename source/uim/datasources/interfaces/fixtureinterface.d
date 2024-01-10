@@ -6,10 +6,7 @@ import uim.cake;
 
 // Defines the interface that testing fixtures use.
 interface IFixture {
-    /**
-     * Run before each test is executed.
-     *
-     * Should insert all the records into the test database.*/
+    // Should insert all the records into the test database.*/
    bool insert(IConnection aConnection);
 
     // Truncates the current fixture.

@@ -5,13 +5,9 @@
 **********************************************************************************************************/
 module uim.datasources.connections.interface_;
 
-@safe:
 import uim.datasources;
 
-use Psr\logs.ILoggerAware;
-use Psr\logs.LoggerInterface;
-use Psr\SimpleCache\ICache;
-
+@safe:
 /**
  * This interface defines the methods you can depend on in
  * a connection.
@@ -36,16 +32,13 @@ interface IDSOConnection : ILoggerAware {
     // Gets the current logger object.
     LoggerInterface getLogger();
 
-    /**
-     * Set a cacher.
-     * aCacher - Cacher object
-     */
+    // Set a cacher.
     IDSOConnection setCacher(ICache aCacher);
 
-    /// Get a cacher.
+    // Get a cacher.
     ICache getCacher(): ICache;
 
-    /// Get the configuration name for this connection.
+    // Get the configuration name for this connection.
     string configName();
 
     // Get the configuration data used to create the connection.
@@ -95,11 +88,7 @@ interface IDSOConnection : ILoggerAware {
      */
     function disableConstraints(callable $callback);
 
-    /**
-     * Enable/disable query logging
-     *
-     * shouldEnable - Enable/disable query logging
-     */
+    // Enable/disable query logging
     IDSOConnection enableQueryLogging(bool shouldEnable = true);
 
     // Disable query logging
