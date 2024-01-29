@@ -6,7 +6,7 @@
 module uim.datasources;
 
 @safe:
-import uim.cake;
+import uim.datasources;
 
 // This class is used to handle automatic model data pagination.
 class Paginator : IPaginator {

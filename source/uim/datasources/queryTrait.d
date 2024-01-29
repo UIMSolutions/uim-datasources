@@ -6,5 +6,5 @@
 module uim.datasources;
 
 @safe:
-import uim.cake;
+import uim.datasources;
 

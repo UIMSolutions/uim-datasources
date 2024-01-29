@@ -1,7 +1,7 @@
 module uim.datasources;
 
 @safe:
-import uim.cake;
+import uim.datasources;
 
 import uim.datasources.exceptions.MissingModelException;
 import uim.datasources.Locator\ILocator;
