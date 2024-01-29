@@ -1,6 +1,6 @@
 module uim.datasources\Paging;
 
-import uim.cake;
+import uim.datasources;
 
 @safe:
 

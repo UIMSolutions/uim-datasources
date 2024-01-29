@@ -1,6 +1,6 @@
 module uim.datasources.locators.abstract_;
 
-import uim.cake;
+import uim.datasources;
 
 @safe:
 
