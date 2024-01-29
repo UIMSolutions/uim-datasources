@@ -1,5 +1,5 @@
 
-module uim.cake.datasources;
+module uim.datasources;
 
 import uim.cake;
 
