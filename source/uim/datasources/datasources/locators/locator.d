@@ -1,4 +1,4 @@
-module uim.cake.datasources.locators.locator;
+module uim.datasources.locators.locator;
 
 import uim.cake;
 

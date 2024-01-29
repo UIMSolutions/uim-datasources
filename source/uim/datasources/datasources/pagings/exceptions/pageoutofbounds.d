@@ -1,4 +1,4 @@
-module uim.cake.datasources.pagings.exceptions.pageoutofbounds;
+module uim.datasources.pagings.exceptions.pageoutofbounds;
 
 import uim.cake;
 
