@@ -6,7 +6,7 @@
 module uim.datasources;
 
 @safe:
-import uim.cake;
+import uim.datasources;
 
 import uim.cake.collections.Collection;
 use Countable;

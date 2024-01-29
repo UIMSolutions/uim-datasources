@@ -6,7 +6,7 @@
 module uim.datasources;
 
 @safe:
-import uim.cake;
+import uim.datasources;
 
 use ArrayObject;
 import uim.cake.events.IEventDispatcher;

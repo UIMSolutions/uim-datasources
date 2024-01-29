@@ -8,5 +8,4 @@ module uim.datasources;
 @safe:
 import uim.datasources;
 
-module uim.cake.satasources;
 

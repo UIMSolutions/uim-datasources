@@ -1,6 +1,6 @@
-module source.uim.datasources.mixins.rulesawaretrait;
+module source.uim.datasources.mixins.rulesaware;
 
-import uim.cake;
+import uim.datasources;
 
 @safe:
 

@@ -1,6 +1,6 @@
 module source.uim.datasources.interfaces.repository;
 
-import uim.cake;
+import uim.datasources;
 
 @safe:
 
