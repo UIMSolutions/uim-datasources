@@ -1,6 +1,6 @@
 module source.uim.datasources.interfaces.query;
 
-import uim.cake;
+import uim.datasources;
 
 @safe:
 

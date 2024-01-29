@@ -1,6 +1,6 @@
 module source.uim.datasources.mixins.entitytrait;
 
-import uim.cake;
+import uim.datasources;
 
 @safe:
 

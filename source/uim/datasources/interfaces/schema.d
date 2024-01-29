@@ -1,6 +1,6 @@
 module source.uim.cake.datasources.interfaces.schemainterface;
 
-import uim.cake;
+import uim.datasources;
 
 @safe:
 

@@ -1,6 +1,6 @@
 module uim.datasources.pagings.exceptions.pageoutofbounds;
 
-import uim.cake;
+import uim.datasources;
 
 @safe:
 

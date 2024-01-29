@@ -1,6 +1,6 @@
 module source.uim.datasources.exceptions.missingproperty;
 
-import uim.cake;
+import uim.datasources;
 
 @safe:
 // A required property does not exist for an entity.
