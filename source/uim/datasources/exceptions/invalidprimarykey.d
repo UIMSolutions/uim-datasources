@@ -10,8 +10,15 @@ import uim.datasources;
 @safe:
 // Exception raised when the provided primary key does not match the table primary key
 class DDSOInvalidPrimaryKeyException : DDSOException {
-}
+	mixin(ExceptionThis!("DSOInvalidPrimaryKeyException"));
 
-auto DSOInvalidPrimaryKeyException() {
-  return new DDSOInvalidPrimaryKeyException();
+    override bool initialize(IData[string] configData = null) {
+		if (!super.initialize(configData)) { return false; }
+		
+		this
+			.messageTemplate("Primary Key is invalid.");
+
+		return true;
+	}
 }
+mixin(ExceptionCalls!("DSOInvalidPrimaryKeyException"));

@@ -18,7 +18,7 @@ interface IConnection {
   object getDriver(string arole = self.ROLE_WRITE);
 
   // Set a cacher.
-  void setCacher(ICache$cacher);
+  void setCacher(ICache $cacher);
 
   // Get a cacher.
   ICache getCacher();

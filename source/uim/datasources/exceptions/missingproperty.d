@@ -5,9 +5,15 @@ import uim.cake;
 @safe:
 // A required property does not exist for an entity.
 class DDSOMissingPropertyException : DDSOException {
-  protected string _messageTemplate = "Property `%s` does not exist for the entity `%s`.";
-}
+	mixin(ExceptionThis!("DSOMissingPropertyException"));
 
-auto DSOMissingPropertyException() {
-  return new DDSOMissingPropertyException();
+    override bool initialize(IData[string] configData = null) {
+		if (!super.initialize(configData)) { return false; }
+		
+		this
+			.messageTemplate("Property `%s` does not exist for the entity `%s`.");
+
+		return true;
+	}
 }
+mixin(ExceptionCalls!("DSOMissingPropertyException"));

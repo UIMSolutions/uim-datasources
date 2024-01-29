@@ -10,9 +10,15 @@ import uim.datasources;
 @safe:
 // Exception raised when requested page number does not exist.
 class DDSOPageOutOfBoundsException : DDSOException {
-	protected string _messageTemplate = "Page number %s could not be found.";
-}
+	mixin(ExceptionThis!("DSOPageOutOfBoundsException"));
 
-auto DSOPageOutOfBoundsException() {
-	return new DDSOPageOutOfBoundsException();
+    override bool initialize(IData[string] configData = null) {
+		if (!super.initialize(configData)) { return false; }
+		
+		this
+			.messageTemplate("Page number %s could not be found.");
+
+		return true;
+	}
 }
+mixin(ExceptionCalls!("DDSOPageOutOfBoundsException"));

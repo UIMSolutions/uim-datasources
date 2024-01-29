@@ -10,9 +10,15 @@ import uim.datasources;
 
 // Used when a model cannot be found.
 class DDSOMissingModelException : DDSOException {
-	protected string _messageTemplate = "Model class '%s' of type '%s' could not be found.";
-}
+	mixin(ExceptionThis!("DSOMissingModelException"));
 
-auto DSOMissingModelException() {
-	return new DDSOMissingModelException();
+    override bool initialize(IData[string] configData = null) {
+		if (!super.initialize(configData)) { return false; }
+		
+		this
+			.messageTemplate("Model class '%s' of type '%s' could not be found.");
+
+		return true;
+	}
 }
+mixin(ExceptionCalls!("DSOMissingModelException"));

@@ -3,40 +3,9 @@ module source.uim.datasources.interfaces.interface_;
 @safe:
 import uim.datasources;
 
-use ArrayAccess;
-use JsonSerializable;
-
-/**
- * Describes the methods that any class representing a data storage should
- * comply with.
- *
- * @property mixed $id Alias for commonly used primary key.
- * @method bool[] getAccessible() Accessible configuration for this entity.
  */
 interface IEntity : ArrayAccess, JsonSerializable
 {
-    /**
-     * Sets hidden fields.
-     *
-     * @param array<string> $fields An array of fields to hide from array exports.
-     * @param bool $merge Merge the new fields with the existing. By default false.
-     * @return this
-     */
-    function setHidden(array $fields, bool $merge = false);
-
-    // Gets the hidden fields.
-    string[] getHidden();
-
-    /**
-     * Sets the virtual fields on this entity.
-     *
-     * fieldNames - An array of fields to treat as virtual.
-     * shouldMerge - Merge the new fields with the existing. By default false.
-     */
-    IEntity virtualFields(string[] fieldNames, bool shouldMerge = false);
-
-    // Gets the virtual fields on this entity.
-    string[] virtualFields();
 
     /**
      * Sets the dirty status of a single field.
@@ -55,21 +24,12 @@ interface IEntity : ArrayAccess, JsonSerializable
      */
     bool isFieldDirty(string fieldName);
 
-    // Gets the dirty fields.
-    string[] dirtyFields();
-
-    // Returns whether this entity has errors.
-    // includeNested - will check nested entities for hasErrors()
+ 
     bool hasErrors(bool includeNested = true);
 
     // Returns all validation errors.
     array errors();
 
-    /**
-     * Returns validation errors of a field
-     *
-     * fieldName - Field name to get the errors from
-     */
     array getError(string fieldName);
 
     /**

@@ -49,7 +49,6 @@ interface IEntity : ArrayAccess, JsonSerializable, Stringable {
     /**
      * Sets the dirty status of a single field.
      * Params:
-     * string fieldName the field to set or check status for
      * @param bool  isDirty true means the field was changed, false means
      * it was not changed. Default true.
      */
@@ -63,13 +62,10 @@ interface IEntity : ArrayAccess, JsonSerializable, Stringable {
     bool isDirty(string fieldName = null);
 
     // Gets the dirty fields.
-    string[] getDirty();
+    string[] dirtyFields();
 
-    /**
-     * Returns whether this entity has errors.
-     * Params:
-     * bool  anIncludeNested true will check nested entities for hasErrors()
-     */
+    // Returns whether this entity has errors.
+    // includeNested - will check nested entities for hasErrors()
    bool hasErrors(bool  anIncludeNested = true);
 
     /**
@@ -99,7 +95,7 @@ interface IEntity : ArrayAccess, JsonSerializable, Stringable {
      * @param string[] aerrors The errors to be set for $field
      * @param bool $overwrite Whether to overwrite pre-existing errors for $field
      */
-    auto setErrors(string fieldName, string[] aerrors, bool $overwrite = false);
+    IEntity setErrors(string fieldName, string[] aerrors, bool $overwrite = false);
 
     /**
      * Stores whether a field value can be changed or set in this entity.

@@ -10,9 +10,15 @@ import uim.datasources;
 @safe:
 // Used when a datasource cannot be found.
 class DDSOMissingDatasourceException : DDSOException {
-  protected string _messageTemplate = "Datasource class %s could not be found. %s";
-}
+	mixin(ExceptionThis!("DSOMissingDatasourceException"));
 
-auto DSOMissingDatasourceException() {
-  return new DDSOMissingDatasourceException();
+    override bool initialize(IData[string] configData = null) {
+		if (!super.initialize(configData)) { return false; }
+		
+		this
+			.messageTemplate("Datasource class %s could not be found. %s");
+
+		return true;
+	}
 }
+mixin(ExceptionCalls!("DSOMissingDatasourceException"));

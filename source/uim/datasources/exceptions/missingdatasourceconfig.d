@@ -10,9 +10,15 @@ import uim.datasources;
 @safe:
 // Exception class to be thrown when a datasource configuration is not found
 class DDSOMissingDatasourceConfigException : DDSOException {
-	protected string _messageTemplate = "The datasource configuration '%s' was not found.";
-}
+	mixin(ExceptionThis!("DSOMissingDatasourceConfigException"));
 
-auto DSOMissingDatasourceConfigException() {
-	return new DDSOMissingDatasourceConfigException();
+    override bool initialize(IData[string] configData = null) {
+		if (!super.initialize(configData)) { return false; }
+		
+		this
+			.messageTemplate("The datasource configuration '%s' was not found.");
+
+		return true;
+	}
 }
+mixin(ExceptionCalls!("DSOMissingDatasourceConfigException"));

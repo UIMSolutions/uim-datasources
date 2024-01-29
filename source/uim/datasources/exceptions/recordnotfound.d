@@ -10,8 +10,15 @@ import uim.datasources;
 
 // Exception raised when a particular record was not found
 class DDSORecordNotFoundException : DDSOException {
-}
+	mixin(ExceptionThis!("DSORecordNotFoundException"));
 
-auto DSORecordNotFoundException() {
-	return new DDSORecordNotFoundException();
+    override bool initialize(IData[string] configData = null) {
+		if (!super.initialize(configData)) { return false; }
+		
+		this
+			.messageTemplate("Record not found.");
+
+		return true;
+	}
 }
+mixin(ExceptionCalls!("DSORecordNotFoundException"));

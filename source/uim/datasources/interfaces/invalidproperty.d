@@ -9,9 +9,7 @@ import uim.cake;
  * comply with.
  */
 interface IInvalidProperty {
-    /**
-     * Get a list of invalid fields and their data for errors upon validation/patching
-     */
+    // Get a list of invalid fields and their data for errors upon validation/patching
     array getInvalid();
 
     /**
