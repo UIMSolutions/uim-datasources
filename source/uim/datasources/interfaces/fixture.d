@@ -1,4 +1,4 @@
-module uim.datasources;
+module source.uim.datasources.interfaces.fixture;
 
 import uim.cake;
 
