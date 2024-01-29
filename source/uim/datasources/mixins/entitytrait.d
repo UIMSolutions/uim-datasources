@@ -1,4 +1,4 @@
-module uim.datasources;
+module source.uim.datasources.mixins.entitytrait;
 
 import uim.cake;
 

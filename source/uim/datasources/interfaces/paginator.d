@@ -1,4 +1,4 @@
-module uim.cake.datasources\Paging;
+module uim.datasources\Paging;
 
 import uim.cake;
 

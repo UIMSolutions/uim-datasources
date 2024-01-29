@@ -53,7 +53,7 @@ class ConnectionManager {
      */
     static void setConfig(string[] aKey, IConnection|Closure|array|null configData = null) {
         if (isArray(configData)) {
-            configData("name"] = aKey;
+            configData("name", aKey);
         }
         _setConfig(aKey, configData);
     }
