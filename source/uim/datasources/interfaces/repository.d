@@ -1,4 +1,4 @@
-module source.uim.datasources.interfaces.repository;
+module uim.datasources.interfaces.repository;
 
 import uim.datasources;
 

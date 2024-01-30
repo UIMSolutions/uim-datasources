@@ -1,4 +1,4 @@
-module source.uim.datasources.exceptions.missingproperty;
+module uim.datasources.exceptions.missingproperty;
 
 import uim.datasources;
 

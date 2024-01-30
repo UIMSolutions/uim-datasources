@@ -1,4 +1,4 @@
-module source.uim.datasources.interfaces.fixture;
+module uim.datasources.interfaces.fixture;
 
 import uim.datasources;
 

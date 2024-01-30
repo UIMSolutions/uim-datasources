@@ -1,4 +1,4 @@
-module source.uim.datasources.interfaces.interface_;
+module uim.datasources.interfaces.interface_;
 
 @safe:
 import uim.datasources;

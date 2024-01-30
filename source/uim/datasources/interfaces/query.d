@@ -1,4 +1,4 @@
-module source.uim.datasources.interfaces.query;
+module uim.datasources.interfaces.query;
 
 import uim.datasources;
 

@@ -1,4 +1,4 @@
-module source.uim.datasources.mixins.entity;
+module uim.datasources.mixins.entity;
 
 import uim.datasources;
 

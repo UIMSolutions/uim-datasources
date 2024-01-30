@@ -1,4 +1,4 @@
-module source.uim.datasources.mixins.rulesaware;
+module uim.datasources.mixins.rulesaware;
 
 import uim.datasources;
 

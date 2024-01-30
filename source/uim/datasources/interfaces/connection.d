@@ -1,4 +1,4 @@
-module source.uim.cake.datasources.interfaces.connectioninterface;
+module uim.cake.datasources.interfaces.connectioninterface;
 
 import uim.datasources;
 
