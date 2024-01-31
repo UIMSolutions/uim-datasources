@@ -24,9 +24,7 @@ interface IInvalidProperty {
      */
     auto setFieldsInvalid(array $fields, bool $overwrite = false);
 
-    /**
-     * Get a single value of an invalid field. Returns null if not set.
-     */
+    // Get a single value of an invalid field. Returns null if not set.
     Json getInvalidField(string fieldName) ;
 
     /**

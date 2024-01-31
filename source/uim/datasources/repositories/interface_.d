@@ -68,7 +68,7 @@ interface IRepository {
     * can take.
     * @return int Count Returns the affected rows.
     */
-  // int updateAll(fieldNames, $conditions);
+  int updateAll(fieldNames, $conditions);
 
   /**
     * Deletes all records matching the provided conditions.
@@ -85,7 +85,7 @@ interface IRepository {
     * @return int Returns the number of affected rows.
     * @see \Cake\Datasource\IRepository::delete()
     */
-  // int deleteAll($conditions);
+  int deleteAll($conditions);
 
   /**
     * Returns true if there is any record in this repository matching the specified

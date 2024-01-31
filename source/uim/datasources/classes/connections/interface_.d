@@ -29,7 +29,7 @@ import uim.datasources;
  *   object as result. {@see uim.cake.databases.Connnection::query()}
  */
 interface IDSOConnection : ILoggerAware {
-    /++ Gets the current logger object +/ 
+    // Gets the current logger object 
     LoggerInterface getLogger();
 
     /++ Set a cacher +/

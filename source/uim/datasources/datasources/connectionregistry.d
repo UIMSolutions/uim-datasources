@@ -4,13 +4,7 @@ import uim.datasources;
 
 @safe:
 
-/*
-/**
- * A registry object for connection instances.
- *
- * @see \UIM\Datasource\ConnectionManager
- * @extends \UIM\Core\ObjectRegistry<\UIM\Datasource\IConnection>
- */
+// A registry object for connection instances.
 class ConnectionRegistry : ObjectRegistry {
     /**
      * Resolve a datasource classname.

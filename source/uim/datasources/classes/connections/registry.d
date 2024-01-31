@@ -8,12 +8,7 @@ module uim.datasources.connections.registry;
 @safe:
 import uim.datasources;
 
-/**
- * A registry object for connection instances.
- *
- * @see \Cake\Datasource\ConnectionManager
- * @extends \Cake\Core\ObjectRegistry<\Cake\Datasource\IConnection>
- */
+// A registry object for connection instances.
 class DDSConnectionRegistry : ObjectRegistry {
     /**
      * Resolve a datasource classname.
