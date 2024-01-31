@@ -6,7 +6,7 @@ Exceptions of the uim-datasource library
 
 ## Modules
 
-- DDSOException|DSOException  
+- DatasourceException|DSOException  
   Common exception within the uim.datasource library
 - DDSOInvalidPrimaryKeyException|DSOInvalidPrimaryKeyException  
   Exception raised when the provided primary key does not match the table primary key

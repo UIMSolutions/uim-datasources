@@ -12,7 +12,6 @@ class ConnectionRegistry : ObjectRegistry {
      * Part of the template method for UIM\Core\ObjectRegistry.load()
      */
     protected string _resolveClassName(string className) {
-        /** @var class-string<\UIM\Datasource\IConnection>|null */
         return App.className(className, "Datasource");
     }
     
@@ -37,21 +36,16 @@ class ConnectionRegistry : ObjectRegistry {
      *
      * If a closure is passed as first argument, The returned value of this
      * auto will be the result from calling the closure.
-     * Params:
-     * \UIM\Datasource\IConnection|\Closure|class-string<\UIM\Datasource\IConnection>  className The classname or object to make.
-     * @param string aalias The alias of the object.
-     * @param IConfigData[string] configData An array of settings to use for the datasource.
      */
-    protected IConnection _create(object|string className, string aalias, IConfigData[string] configData) {
-        if (isString(className)) {
-            unset(configData("className"]);
+    protected IConnection _create(string className, string objectAlias, IConfigData[string] configData) {
+        configData.remove("className");
 
-            return new className(configData);
-        }
-        if (cast(Closure)className) {
-            return className($alias);
-        }
-        return className;
+        return new className(configData);
+    }
+    protected IConnection _create(Object className, string objectAlias, IConfigData[string] configData) {
+        return cast(Closure)className 
+            ? className(objectAlias)
+            : className;
     }
 
     // Remove a single adapter from the registry.

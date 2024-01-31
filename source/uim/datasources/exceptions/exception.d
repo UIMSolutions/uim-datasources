@@ -9,7 +9,7 @@ import uim.datasources;
 
 @safe:
 // General exception of uim.datasources
-class DDSOException {
+class DatasourceException {
   this() {
     initialize;
   }
@@ -20,5 +20,5 @@ class DDSOException {
 }
 
 auto DSOException() {
-  return DDSOException;
+  return DatasourceException;
 }

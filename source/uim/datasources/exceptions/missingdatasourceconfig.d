@@ -9,7 +9,7 @@ import uim.datasources;
 
 @safe:
 // Exception class to be thrown when a datasource configuration is not found
-class DDSOMissingDatasourceConfigException : DDSOException {
+class DDSOMissingDatasourceConfigException : DatasourceException {
 	mixin(ExceptionThis!("DSOMissingDatasourceConfigException"));
 
     override bool initialize(IData[string] configData = null) {
