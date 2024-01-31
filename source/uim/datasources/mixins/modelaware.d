@@ -4,8 +4,6 @@ import uim.datasources;
 
 @safe:
 
-/*
-use UnexpectedValueException;
 /**
  * Provides functionality for loading table classes
  * and other repositories onto properties of the host object.
@@ -27,12 +25,8 @@ template ModelAwareTemplate {
      */
     protected string amodelClass = null;
 
-    /**
-     * A list of overridden model factory functions.
-     *
-     * @var array<callable|\UIM\Datasource\Locator\ILocator>
-     */
-    protected array _modelFactories = [];
+    // A list of overridden model factory functions.
+    protected ILocator[] _modelFactories = [];
 
     // The model type to use.
     protected string _modelType = "Table";

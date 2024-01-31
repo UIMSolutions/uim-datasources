@@ -508,8 +508,8 @@ class NumericPaginator : PaginatorInterface
      *   replaced with order if possible.
      */
     array validateSort(IRepository $object, STRINGAA someOptions) {
-        if (isset($options["sort"])) {
-            $direction = null;
+        if ($options.isSet("sort")) {
+            auto $direction = null;
             if (isset($options["direction"])) {
                 $direction = strtolower($options["direction"]);
             }
