@@ -13,9 +13,12 @@ interface IPaginator {
      * @param array $params Request params.
      * @param array $settings The settings/configuration used for pagination.
      */
-    IPaginated paginate(
-        Json $target,
-        array $params = [],
-        IData[string] settingsForPagination = null
-    );
+IResultSet paginate(object $object, array myParams = null, 
+    array $settings = null);
+
+    /**
+     * Get paging params after pagination operation.
+     * @return array
+     */
+    array getPagingParams();
 }
