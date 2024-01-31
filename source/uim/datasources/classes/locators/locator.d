@@ -9,11 +9,11 @@ interface ILocator {
   /**
      * Get a repository instance from the registry.
      * Params:
-     * @param Json[string] options The options you want to build the table with.
+     * @param IData[string] optionData The options you want to build the table with.
      * @throws \RuntimeException When trying to get alias for which instance
      *  has already been created with different options.
      */
-  IRepository get(string aliasName, Json[string] options = null);
+  IRepository get(string aliasName, IData[string] optionData = null);
 
   // Set a repository instance.
   IRepository set(string aliasName, IRepository repository);

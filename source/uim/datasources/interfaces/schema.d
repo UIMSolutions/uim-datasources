@@ -100,7 +100,7 @@ interface ISchema {
      * Table options allow you to set platform specific table level options.
      * For example the engine type in MySQL.
      */
-   auto setOptions(Json[string] options);
+   auto setOptions(IData[string] optionData);
 
    /**
      * Gets the options for a table.

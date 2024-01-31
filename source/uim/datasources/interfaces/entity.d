@@ -145,7 +145,7 @@ interface IEntity : ArrayAccess, JsonSerializable, Stringable {
      * @param Json[string] $options Options to be used for setting the field. Allowed option
      * keys are `setter` and `guard`
      */
-    auto set(string[] fieldName, Json aValue = null, Json[string] options = null);
+    auto set(string[] fieldName, Json aValue = null, IData[string] optionData = null);
 
     /**
      * Returns the value of a field by name

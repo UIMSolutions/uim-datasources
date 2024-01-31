@@ -10,14 +10,14 @@ abstract class AbstractLocator : ILocator {
     protected IRepository[string] _instances;
 
     // Contains a list of options that were passed to get() method.
-    protected Json[string] options = null;
+    protected IData[string] optionData = null;
 
     /**
  Params:
      * string aalias The alias name you want to get.
-     * @param Json[string] options The options you want to build the table with.
+     * @param IData[string] optionData The options you want to build the table with.
      */
-    IRepository get(string aliasName, Json[string] options = null) {
+    IRepository get(string aliasName, IData[string] optionData = null) {
         storeOptions = options;
         unset($storeOptions["allowFallbackClass"]);
 
@@ -39,9 +39,9 @@ abstract class AbstractLocator : ILocator {
      * Create an instance of a given classname.
      * Params:
      * string aalias Repository alias.
-     * @param Json[string] options The options you want to build the instance with.
+     * @param IData[string] optionData The options you want to build the instance with.
      */
-    abstract protected IRepository createInstance(string aalias, Json[string] options = null);
+    abstract protected IRepository createInstance(string aalias, IData[string] optionData = null);
 
  
     IRepository set(string aalias, IRepository repository) {

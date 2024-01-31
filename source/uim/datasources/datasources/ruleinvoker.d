@@ -38,7 +38,7 @@ class RuleInvoker {
      * Params:
      * callable rule The rule to be invoked.
      * @param string name The name of the rule. Used in error messages.
-     * @param Json[string] options The options for the rule. See above.
+     * @param IData[string] optionData The options for the rule. See above.
      */
     this(callable rule, string ruleName, Json[string] ruleOptions = null) {
         _rule = rule;
@@ -51,7 +51,7 @@ class RuleInvoker {
      *
      * Old options will be merged with the new ones.
      * Params:
-     * Json[string] options The options to set.
+     * IData[string] optionData The options to set.
      */
     void updateOptions(Json[string] additionalOptions = null) {
         _options = _options.update(additionalOptions);

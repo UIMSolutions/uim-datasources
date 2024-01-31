@@ -190,12 +190,12 @@ mixin EntityTemplate {
      * fields with their respective values
      * @param Json aValue The value to set to the field or an array if the
      * first argument is also an array, in which case will be treated as options
-     * @param Json[string] options Options to be used for setting the field. Allowed option
+     * @param IData[string] optionData Options to be used for setting the field. Allowed option
      * keys are `setter`, `guard` and `asOriginal`
 
      * @throws \InvalidArgumentException
      */
-  void set(string[] afield, Json aValue = null, Json[string] options = null) {
+  void set(string[] afield, Json aValue = null, IData[string] optionData = null) {
     if (isString($field) && !$field.isEmpty) {
       guard = false;
       field = [$field: aValue];

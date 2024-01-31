@@ -464,9 +464,9 @@ class NumericPaginator : IPaginator {
      * requested sorting field/direction.
      * Params:
      * \UIM\Datasource\IRepository object Repository object.
-     * @param Json[string] options The pagination options being used for this request.
+     * @param IData[string] optionData The pagination options being used for this request.
      */
-    protected Json[string] validateSort(IRepository repository, Json[string] options = null) {
+    protected Json[string] validateSort(IRepository repository, IData[string] optionData = null) {
         if (isSet($options["sort"])) {
             string direction;
             if (isSet($options["direction"])) {
@@ -585,9 +585,9 @@ class NumericPaginator : IPaginator {
     /**
      * Check the limit parameter and ensure it`s within the maxLimit bounds.
      * Params:
-     * Json[string] options An array of options with a limit key to be checked.
+     * IData[string] optionData An array of options with a limit key to be checked.
      */
-    protected Json[string] checkLimit(Json[string] options = null) {
+    protected Json[string] checkLimit(IData[string] optionData = null) {
         options["limit"] = (int)$options["limit"];
         if ($options["limit"] < 1) {
             options["limit"] = 1;

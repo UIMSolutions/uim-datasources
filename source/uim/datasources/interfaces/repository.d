@@ -115,9 +115,9 @@ interface IRepository {
      * of any error.
      * Params:
      * \UIM\Datasource\IEntity $entity the entity to be saved
-     * @param Json[string] options The options to use when saving.
+     * @param IData[string] optionData The options to use when saving.
      */
-    IEntity|false save(IEntity $entity, Json[string] options = null);
+    IEntity|false save(IEntity $entity, IData[string] optionData = null);
 
     /**
      * Delete a single entity.
@@ -126,9 +126,9 @@ interface IRepository {
      * based on the 'dependent' option used when defining the association.
      * Params:
      * \UIM\Datasource\IEntity $entity The entity to remove.
-     * @param Json[string] options The options for the delete.
+     * @param IData[string] optionData The options for the delete.
          */
-    bool delete(IEntity $entity, Json[string] options = null);
+    bool delete(IEntity $entity, IData[string] optionData = null);
 
     /**
      * This creates a new entity object.
@@ -156,7 +156,7 @@ interface IRepository {
      * array data The data to build an entity with.
      * @param Json[string] $options A list of options for the object hydration.
      */
-    IEntity newEntity(array data, Json[string] options = null);
+    IEntity newEntity(array data, IData[string] optionData = null);
 
     /**
      * Create a list of entities + associated entities from an array.
@@ -170,7 +170,7 @@ interface IRepository {
      *
      * The hydrated entities can then be iterated and saved.
      */
-    IEntity[] newEntities(array buildData, Json[string] optionsForHydration = null);
+    IEntity[] newEntities(array buildData, IData[string] optionDataForHydration = null);
 
     /**
      * Merges the passed `someData` into `$entity` respecting the accessible
@@ -188,7 +188,7 @@ interface IRepository {
      * @param array data key value list of fields to be merged into the entity
      * @param Json[string] $options A list of options for the object hydration.
      */
-    IEntity patchEntity(IEntity $entity, array data, Json[string] options = null);
+    IEntity patchEntity(IEntity $entity, array data, IData[string] optionData = null);
 
     /**
      * Merges each of the elements passed in `someData` into the entities
@@ -207,5 +207,5 @@ interface IRepository {
      * @param array data list of arrays to be merged into the entities
      * @param Json[string] $options A list of options for the objects hydration.
      */
-    IEntity[] patchEntities(iterable $entities, array data, Json[string] options = null);
+    IEntity[] patchEntities(iterable $entities, array data, IData[string] optionData = null);
 }
