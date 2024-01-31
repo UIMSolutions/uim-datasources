@@ -31,10 +31,10 @@ mixin RulesAwareTemplate {
         string aoperation = RulesChecker.CREATE,
         ArrayObject[] options = null
     ) {
-        rules = this.rulesChecker();
+        auto rules = this.rulesChecker();
         options = options ?: new ArrayObject();
         options = isArray($options) ? new ArrayObject($options): options;
-        hasEvents = (cast(IEventDispatcher)this);
+        bool hasEvents = (cast(IEventDispatcher)this);
 
         if ($hasEvents) {
             event = this.dispatchEvent(
@@ -68,16 +68,16 @@ mixin RulesAwareTemplate {
      * needs to be fetched from relevant datasources.
      */
     RulesChecker rulesChecker() {
-        if (_rulesChecker !isNull) {
+        if (!_rulesChecker.isNull) {
             return _rulesChecker;
         }
         /** @var class-string<\UIM\Datasource\RulesChecker>  className */
-         className = defined("RULES_CLASS") ? RULES_CLASS : RulesChecker.classname;
+        auto className = defined("RULES_CLASS") ? RULES_CLASS : RulesChecker.classname;
         /**
          * @psalm-suppress ArgumentTypeCoercion
          * @phpstan-ignore-next-line
          */
-       _rulesChecker = this.buildRules(new className(["repository": this]));
+        _rulesChecker = this.buildRules(new className(["repository": this]));
         this.dispatchEvent("Model.buildRules", ["rules": _rulesChecker]);
 
         return _rulesChecker;
@@ -88,10 +88,9 @@ mixin RulesAwareTemplate {
      *
      * Subclasses should override this method in order to initialize the rules to be applied to
      * entities saved by this instance.
-     * Params:
-     * \UIM\Datasource\RulesChecker rules The rules object to be modified.
      */
     RulesChecker buildRules(RulesChecker rules) {
         return rules;
     }
 }
+0

@@ -26,16 +26,13 @@ interface IInvalidProperty {
 
     /**
      * Get a single value of an invalid field. Returns null if not set.
-     * Params:
-     * string afield The name of the field.
      */
-    Json getInvalidField(string afield) ;
+    Json getInvalidField(string fieldName) ;
 
     /**
      * Sets a field as invalid and not patchable into the entity.
      * Params:
-     * string afield The value to set.
      * @param Json aValue The invalid value to be set for $field.
      */
-    auto setInvalidField(string afield, Json aValue);
+    auto setInvalidField(string fieldName, Json aValue);
 }

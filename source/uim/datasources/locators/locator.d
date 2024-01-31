@@ -15,31 +15,24 @@ abstract class AbstractLocator : ILocator {
     /**
      * Instances that belong to the registry.
      *
-     * @var array<string, uim.cake.Datasource\IRepository>
+     * @var array<string, uim.cake.Datasource\>
      */
-    protected $instances = null;
+    protected IRepository[string] instances;
 
-    /**
-     * Contains a list of options that were passed to get() method.
-     *
-     * @var array<string, array>
-     */
-    protected $options = null;
+    // Contains a list of options that were passed to get() method.
+    protected array[string] $options = null;
 
     /**
      * {@inheritDoc}
      *
      * @param string $alias The alias name you want to get.
      * @param array<string, mixed> $options The options you want to build the table with.
-     * @return uim.cake.Datasource\IRepository
-     * @throws \RuntimeException When trying to get alias for which instance
-     *   has already been created with different options.
      */
-    function get(string $alias, STRINGAA someOptions = null) {
-        $storeOptions = $options;
-        unset($storeOptions["allowFallbackClass"]);
+    IRepository get(string $alias, STRINGAA someOptions = null) {
+        auto storeOptions = $options;
+        storeOptions.remove("allowFallbackClass");
 
-        if (isset(this.instances[$alias])) {
+        if (this.instances.isSet($alias)) {
             if (!empty($storeOptions) && isset(this.options[$alias]) && this.options[$alias] != $storeOptions) {
                 throw new RuntimeException(sprintf(
                     "You cannot configure '%s', it already exists in the registry.",
@@ -50,7 +43,7 @@ abstract class AbstractLocator : ILocator {
             return this.instances[$alias];
         }
 
-        this.options[$alias] = $storeOptions;
+        this.options[$alias] = storeOptions;
 
         return this.instances[$alias] = this.createInstance($alias, $options);
     }
@@ -60,9 +53,9 @@ abstract class AbstractLocator : ILocator {
      *
      * @param string $alias Repository alias.
      * @param array<string, mixed> $options The options you want to build the instance with.
-     * @return uim.cake.Datasource\IRepository
+     * @return uim.cake.Datasource\
      */
-    abstract protected function createInstance(string $alias, STRINGAA someOptions);
+    abstract protected IRepository createInstance(string $alias, STRINGAA someOptions);
 
 
     function set(string $alias, IRepository $repository) {

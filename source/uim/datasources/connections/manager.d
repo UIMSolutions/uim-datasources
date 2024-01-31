@@ -60,14 +60,13 @@ class ConnectionManager
      * @param array<string, mixed>|null aConfig An array of name: config data for adapter.
      * @return void
      * @throws uim.cake.Core\exceptions.UIMException When trying to modify an existing config.
-     * @see uim.cake.Core\StaticConfigTrait::config()
      */
     static void setConfig($key, aConfig = null) {
         if (is_array(aConfig)) {
             aConfig["name"] = $key;
         }
 
-        static::_setConfig($key, aConfig);
+        _setConfig($key, aConfig);
     }
 
     /**
@@ -96,9 +95,9 @@ class ConnectionManager
      * @return array<string, mixed> The configuration array to be stored after parsing the DSN
      */
     static array parseDsn(string aConfig) {
-        aConfig = static::_parseDsn(aConfig);
+        aConfig = _parseDsn(aConfig);
 
-        if (isset(aConfig["path"]) && empty(aConfig["database"])) {
+        if (aConfig.isSet("path") && empty(aConfig["database"])) {
             aConfig["database"] = substr(aConfig["path"], 1);
         }
 
@@ -136,7 +135,7 @@ class ConnectionManager
      * @param string $alias The alias name that resolves to `$source`.
      */
     static void alias(string $source, string $alias) {
-        static::_aliasMap[$alias] = $source;
+        _aliasMap[$alias] = $source;
     }
 
     /**
@@ -148,7 +147,7 @@ class ConnectionManager
      * @param string $alias The connection alias to drop
      */
     static void dropAlias(string $alias) {
-        unset(static::_aliasMap[$alias]);
+        unset(_aliasMap[$alias]);
     }
 
     /**
@@ -166,18 +165,18 @@ class ConnectionManager
      * data is missing.
      */
     static function get(string aName, bool $useAliases = true) {
-        if ($useAliases && isset(static::_aliasMap[$name])) {
-            $name = static::_aliasMap[$name];
+        if ($useAliases && isset(_aliasMap[$name])) {
+            $name = _aliasMap[$name];
         }
-        if (empty(static::_config[$name])) {
+        if (empty(_config[$name])) {
             throw new MissingDatasourceConfigException(["name": $name]);
         }
         /** @psalm-suppress RedundantPropertyInitializationCheck */
-        if (!isset(static::_registry)) {
-            static::_registry = new ConnectionRegistry();
+        if (!isset(_registry)) {
+            _registry = new ConnectionRegistry();
         }
 
-        return static::_registry.{$name}
-            ?? static::_registry.load($name, static::_config[$name]);
+        return _registry.{$name}
+            ?? _registry.load($name, _config[$name]);
     }
 }

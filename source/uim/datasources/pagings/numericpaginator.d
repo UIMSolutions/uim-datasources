@@ -455,14 +455,14 @@ class NumericPaginator : PaginatorInterface
      * Get the settings for a $model. If there are no settings for a specific
      * repository, the general settings will be used.
      *
-     * @param string $alias Model name to get settings for.
+     * @param string modelAlias Model name to get settings for.
      * @param array<string, mixed> $settings The settings which is used for combining.
      * @return array<string, mixed> An array of pagination settings for a model,
      *   or the general settings.
      */
-    array getDefaults(string $alias, array $settings) {
-        if (isset($settings[$alias])) {
-            $settings = $settings[$alias];
+    array getDefaults(string modelAlias, array $settings) {
+        if ($settings.isSet(modelAlias)) {
+            $settings = $settings[modelAlias];
         }
 
         $defaults = this.getConfig();
@@ -509,8 +509,8 @@ class NumericPaginator : PaginatorInterface
      */
     array validateSort(IRepository $object, STRINGAA someOptions) {
         if (isset($options["sort"])) {
-            $direction = null;
-            if (isset($options["direction"])) {
+            auto $direction = null;
+            if ($options.isSet("direction")) {
                 $direction = strtolower($options["direction"]);
             }
             if (!hasAllValues($direction, ["asc", "desc"], true)) {

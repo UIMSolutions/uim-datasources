@@ -1,6 +1,6 @@
 module uim.datasources\Paging;
 
-import uim.datasources;
+import uim.cake;
 
 @safe:
 
@@ -16,6 +16,6 @@ interface IPaginator {
     IPaginated paginate(
         Json $target,
         array $params = [],
-        array $settings = []
+        IData[string] settingsForPagination = null
     );
 }

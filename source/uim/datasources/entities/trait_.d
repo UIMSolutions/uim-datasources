@@ -232,7 +232,7 @@ trait EntityTrait
                 continue;
             }
 
-            $setter = static::_accessor($name, "set");
+            $setter = _accessor($name, "set");
             if ($setter) {
                 $value = this.{$setter}($value);
             }
@@ -256,11 +256,11 @@ trait EntityTrait
 
         $value = null;
 
-        if (isset(_fields[$field])) {
+        if (_fields.isSet($field)) {
             $value = &_fields[$field];
         }
 
-        $method = static::_accessor($field, "get");
+        $method = _accessor($field, "get");
         if ($method) {
             $result = this.{$method}($value);
 
@@ -586,17 +586,17 @@ trait EntityTrait
      * @return string method name or empty string (no method available)
      */
     protected static string _accessor(string $property, string $type) {
-        $class = static::class;
+        $class = class;
 
-        if (isset(static::_accessors[$class][$type][$property])) {
-            return static::_accessors[$class][$type][$property];
+        if (isset(_accessors[$class][$type][$property])) {
+            return _accessors[$class][$type][$property];
         }
 
-        if (!empty(static::_accessors[$class])) {
-            return static::_accessors[$class][$type][$property] = "";
+        if (!empty(_accessors[$class])) {
+            return _accessors[$class][$type][$property] = "";
         }
 
-        if (static::class == Entity::class) {
+        if (class == Entity::class) {
             return "";
         }
 
@@ -608,16 +608,16 @@ trait EntityTrait
             $field = lcfirst(substr($method, 4));
             $snakeField = Inflector::underscore($field);
             $titleField = ucfirst($field);
-            static::_accessors[$class][$prefix][$snakeField] = $method;
-            static::_accessors[$class][$prefix][$field] = $method;
-            static::_accessors[$class][$prefix][$titleField] = $method;
+            _accessors[$class][$prefix][$snakeField] = $method;
+            _accessors[$class][$prefix][$field] = $method;
+            _accessors[$class][$prefix][$titleField] = $method;
         }
 
-        if (!isset(static::_accessors[$class][$type][$property])) {
-            static::_accessors[$class][$type][$property] = "";
+        if (!isset(_accessors[$class][$type][$property])) {
+            _accessors[$class][$type][$property] = "";
         }
 
-        return static::_accessors[$class][$type][$property];
+        return _accessors[$class][$type][$property];
     }
 
     /**
