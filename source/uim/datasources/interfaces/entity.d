@@ -138,11 +138,11 @@ interface IEntity : ArrayAccess, JsonSerializable, Stringable {
     /**
      * Sets one or multiple fields to the specified value
      * Params:
-     * Json[string]|string fieldName the name of field to set or a list of
+     * IData[string]|string fieldName the name of field to set or a list of
      * fields with their respective values
      * @param Json aValue The value to set to the field or an array if the
      * first argument is also an array, in which case will be treated as $options
-     * @param Json[string] $options Options to be used for setting the field. Allowed option
+     * @param IData[string] $options Options to be used for setting the field. Allowed option
      * keys are `setter` and `guard`
      */
     auto set(string[] fieldName, Json aValue = null, IData[string] optionData = null);

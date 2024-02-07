@@ -34,14 +34,14 @@ interface ISchema {
      * - `comment` The comment for the column.
      * Params:
      * string columnName The name of the column
-     * @param Json[string]|string aattrs The attributes for the column or the type name.
+     * @param IData[string]|string aattrs The attributes for the column or the type name.
      */
    auto addColumn(string columnName, array | string aattrs);
 
    /**
      * Get column data in the table.
      */
-   Json[string] getColumn(string columnName) : ;
+   IData[string] getColumn(string columnName) : ;
 
    // Returns true if a column exists in the schema.
    bool hasColumn(string columnName) : bool;
@@ -92,7 +92,7 @@ interface ISchema {
    /**
      * Get a hash of columns and their default values.
      */
-   Json[string] defaultValues();
+   IData[string] defaultValues();
 
    /**
      * Sets the options for a table.
@@ -108,5 +108,5 @@ interface ISchema {
      * Table options allow you to set platform specific table level options.
      * For example the engine type in MySQL.
      */
-   Json[string] getOptions();
+   IData[string] getOptions();
 }

@@ -12,7 +12,7 @@ mixin EntityTemplate {
   /**
      * Holds all fields and their values for this entity.
      */
-  protected Json[string] _fields = [];
+  protected IData[string] _fields = [];
 
   // Holds all fields that have been changed and their original values for this entity.
   protected Json _original = [];
@@ -56,10 +56,10 @@ mixin EntityTemplate {
   /**
      * List of errors per field as stored in this object.
      */
-  protected Json[string] _errors = [];
+  protected IData[string] _errors = [];
 
   // List of invalid fields and their data for errors upon validation/patching.
-  protected Json[string] _invalid = [];
+  protected IData[string] _invalid = [];
 
   /**
      * Map of fields in this entity that can be safely mass assigned, each
@@ -186,7 +186,7 @@ mixin EntityTemplate {
      * print_r($entity.getOriginalFields()) // prints ["name", "id", "phone_number"]
      * ```
      * Params:
-     * Json[string]|string afield the name of field to set or a list of
+     * IData[string]|string afield the name of field to set or a list of
      * fields with their respective values
      * @param Json aValue The value to set to the field or an array if the
      * first argument is also an array, in which case will be treated as options
@@ -949,7 +949,7 @@ mixin EntityTemplate {
                                                             /**
      * Get a list of invalid fields and their data for errors upon validation/patching
      */
-                                                            Json[string] getInvalid() {
+                                                            IData[string] getInvalid() {
                                                               return _invalid;}
 
                                                               /**
@@ -969,7 +969,7 @@ mixin EntityTemplate {
      * This value could not be patched into the entity and is simply copied into the _invalid property for debugging
      * purposes or to be able to log it away.
      * Params:
-     * Json[string] fields The values to set.
+     * IData[string] fields The values to set.
      * @param bool overwrite Whether to overwrite pre-existing values for field.
      */
                                                               void setFieldsInvalid(array$fields, bool$overwrite = false) {
@@ -1091,7 +1091,7 @@ mixin EntityTemplate {
      * Returns an array that can be used to describe the internal state of this
      * object.
      */
-                                                                    Json[string] debugInfo() {
+                                                                    IData[string] debugInfo() {
                                                                       fields = _fields;
                                                                       foreach (_virtual as$field) {
                                                                         fields[$field] = this

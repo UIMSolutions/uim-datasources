@@ -19,7 +19,7 @@ class RuleInvoker {
     protected string _ruleName;
 
     // Rule options
-    protected Json[string] _options = null;
+    protected IData[string] _options = null;
 
     // Rule callable
     protected callable  _rule;
@@ -40,7 +40,7 @@ class RuleInvoker {
      * @param string name The name of the rule. Used in error messages.
      * @param IData[string] optionData The options for the rule. See above.
      */
-    this(callable rule, string ruleName, Json[string] ruleOptions = null) {
+    this(callable rule, string ruleName, IData[string] ruleOptions = null) {
         _rule = rule;
         _ruleName = ruleName;
         _options = ruleOptions;
@@ -53,7 +53,7 @@ class RuleInvoker {
      * Params:
      * IData[string] optionData The options to set.
      */
-    void updateOptions(Json[string] additionalOptions = null) {
+    void updateOptions(IData[string] additionalOptions = null) {
         _options = _options.update(additionalOptions);
     }
     

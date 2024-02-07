@@ -35,7 +35,7 @@ class NumericPaginator : IPaginator {
      *  Default `null`.
      *
      */
-    protected Json[string] _defaultConfigData = [
+    protected IData[string] _defaultConfigData = [
         "page": 1,
         "limit": 20,
         "maxLimit": 100,
@@ -222,7 +222,7 @@ class NumericPaginator : IPaginator {
      * Params:
      * \UIM\Datasource\IRepository object Repository instance.
      * @param \UIM\Datasource\IQuery|null aQuery Query Instance.
-     * @param Json[string] someData Pagination data.
+     * @param IData[string] someData Pagination data.
      */
     protected IQuery getQuery(IRepository object, ?IQuery aQuery, array data) {
         options = someData["options"];
@@ -272,7 +272,7 @@ class NumericPaginator : IPaginator {
      * params Request params
      * settings The settings/configuration used for pagination.
      */
-    protected array extractData(IRepository object, Json[string] requestParameters, Json[string] settingForPagination) {
+    protected array extractData(IRepository object, IData[string] requestParameters, IData[string] settingForPagination) {
         auto aliasObj = object.getAlias();
         auto defaults = this.getDefaults($aliasObj, settingForPagination);
 
@@ -298,10 +298,10 @@ class NumericPaginator : IPaginator {
     /**
      * Build pagination params.
      * Params:
-     * Json[string] someData Paginator data containing keys 'options",
+     * IData[string] someData Paginator data containing keys 'options",
      * 'defaults", "alias'.
      */
-    protected Json[string] buildParams(array data) {
+    protected IData[string] buildParams(array data) {
         this.pagingParams = [
             "perPage": someData["options"]["limit"],
             "requestedPage": someData["options"]["page"],
@@ -408,7 +408,7 @@ class NumericPaginator : IPaginator {
      * Params:
      * @param array settings The settings to merge with the request data.
      */
-    protected Json[string] mergeOptions(Json[string] requestParameters, array settings) {
+    protected IData[string] mergeOptions(IData[string] requestParameters, array settings) {
         if (!empty($settings["scope"])) {
             scope = settings["scope"];
             requestParameters = !empty(requestParameters[$scope]) ? (array)requestParameters[$scope] : [];
@@ -424,7 +424,7 @@ class NumericPaginator : IPaginator {
      * Params:
      * string aalias Model name to get settings for.
      */
-    protected Json[string] getDefaults(string aalias, Json[string] settings) {
+    protected IData[string] getDefaults(string aalias, IData[string] settings) {
         if (isSet($settings[$alias])) {
             settings = settings[$alias];
         }
@@ -466,7 +466,7 @@ class NumericPaginator : IPaginator {
      * \UIM\Datasource\IRepository object Repository object.
      * @param IData[string] optionData The pagination options being used for this request.
      */
-    protected Json[string] validateSort(IRepository repository, IData[string] optionData = null) {
+    protected IData[string] validateSort(IRepository repository, IData[string] optionData = null) {
         if (isSet($options["sort"])) {
             string direction;
             if (isSet($options["direction"])) {
@@ -517,10 +517,10 @@ class NumericPaginator : IPaginator {
     /**
      * Remove alias if needed.
      * Params:
-     * Json[string] fields Current fields
+     * IData[string] fields Current fields
      * @param string amodel Current model alias
      */
-    protected Json[string] _removeAliases(Json[string] fields, string amodel) {
+    protected IData[string] _removeAliases(IData[string] fields, string amodel) {
         auto result;
         foreach ($field: sort; fields) {
             if (isInt($field)) {
@@ -587,7 +587,7 @@ class NumericPaginator : IPaginator {
      * Params:
      * IData[string] optionData An array of options with a limit key to be checked.
      */
-    protected Json[string] checkLimit(IData[string] optionData = null) {
+    protected IData[string] checkLimit(IData[string] optionData = null) {
         options["limit"] = (int)$options["limit"];
         if ($options["limit"] < 1) {
             options["limit"] = 1;

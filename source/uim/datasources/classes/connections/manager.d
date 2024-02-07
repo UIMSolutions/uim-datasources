@@ -50,8 +50,8 @@ class ConnectionManager {
      *
      * The connection will not be constructed until it is first used.
      * Params:
-     * Json[string]|string aKey The name of the connection config, or an array of multiple configs.
-     * @param \UIM\Datasource\IConnection|\Closure|Json[string]|null configData An array of name: config data for adapter.
+     * IData[string]|string aKey The name of the connection config, or an array of multiple configs.
+     * @param \UIM\Datasource\IConnection|\Closure|IData[string]|null configData An array of name: config data for adapter.
      * @throws \UIM\Core\Exception\UimException When trying to modify an existing config.
      * @see \UIM\Core\StaticConfigTrait.config()
      */
@@ -200,7 +200,7 @@ class ConnectionManager {
      * Params:
      * string adsn The DSN string to convert to a configuration array
      */
-static Json[string] parseDsn(string adsn) {
+static IData[string] parseDsn(string adsn) {
     configData = _parseDsn($dsn);
 
     if (configuration.hasKey("path") && configData("database").isEmpty) {

@@ -19,7 +19,7 @@ interface IInvalidProperty {
      * This value could not be patched into the entity and is simply copied into the _invalid property for debugging
      * purposes or to be able to log it away.
      * Params:
-     * Json[string] $fields The values to set.
+     * IData[string] $fields The values to set.
      * @param bool $overwrite Whether to overwrite pre-existing values for $field.
      */
     auto setFieldsInvalid(array $fields, bool $overwrite = false);
