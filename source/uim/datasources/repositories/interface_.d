@@ -101,7 +101,7 @@ interface IRepository {
     * of any error.
     *
     * @param \Cake\Datasource\IEntity anEntity the entity to be saved
-    * @param \ArrayAccess|array myOptions The options to use when saving.
+    * @param \ArrayAccess|IData[string] options The options to use when saving.
     */
   IEntity save(IEntity anEntity, myOptions= null);
 

@@ -357,7 +357,7 @@ class Paginator : IPaginator {
      * @return array An array containing in the first position the finder name
      *   and in the second the options to be passed to it.
      * /
-    protected auto _extractFinder(array myOptions): array
+    protected auto _extractFinder(IData[string] options): array
     {
         myType = !empty(myOptions["finder"]) ? myOptions["finder"] : "all";
         unset(myOptions["finder"], myOptions["maxLimit"]);
@@ -501,7 +501,7 @@ class Paginator : IPaginator {
      * @return array<string, mixed> An array of options with sort + direction removed and
      *   replaced with order if possible.
      * /
-    function validateSort(IRepository $object, array myOptions): array
+    function validateSort(IRepository $object, IData[string] options): array
     {
         if (isset(myOptions["sort"])) {
             $direction = null;
@@ -634,7 +634,7 @@ class Paginator : IPaginator {
      * @param array<string, mixed> myOptions An array of options with a limit key to be checked.
      * @return array<string, mixed> An array of options for pagination.
      * /
-    function checkLimit(array myOptions): array
+    function checkLimit(IData[string] options): array
     {
         myOptions["limit"] = (int)myOptions["limit"];
         if (myOptions["limit"] < 1) {
