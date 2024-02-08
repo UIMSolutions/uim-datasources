@@ -224,13 +224,13 @@ class Paginator : IPaginator {
     protected array extractData(IRepository $object, array myParams, array $settings) {
         myAlias = $object.getAlias();
         $defaults = this.getDefaults(myAlias, $settings);
-        myOptions = this.mergeOptions(myParams, $defaults);
-        myOptions = this.validateSort($object, myOptions);
-        myOptions = this.checkLimit(myOptions);
+        options = this.mergeOptions(myParams, $defaults);
+        options = this.validateSort($object, options);
+        options = this.checkLimit(options);
 
-        myOptions += ["page":1, "scope":null];
-        myOptions["page"] = (int)myOptions["page"] < 1 ? 1 : (int)myOptions["page"];
-        [myFinder, myOptions] = _extractFinder(myOptions);
+        options += ["page":1, "scope":null];
+        options["page"] = (int)options["page"] < 1 ? 1 : (int)options["page"];
+        [myFinder, options] = _extractFinder(options);
 
         return compact("defaults", "options", "finder");
     }
@@ -361,20 +361,20 @@ class Paginator : IPaginator {
     /**
      * Extracts the finder name and options out of the provided pagination options.
      *
-     * @param array<string, mixed> myOptions the pagination options.
+     * @param array<string, mixed> options the pagination options.
      * @return array An array containing in the first position the finder name
      *   and in the second the options to be passed to it.
      */
     protected array _extractFinder(IData[string] options) {
-        myType = !empty(myOptions["finder"]) ? myOptions["finder"] : "all";
-        unset(myOptions["finder"], myOptions["maxLimit"]);
+        myType = !empty(options["finder"]) ? options["finder"] : "all";
+        unset(options["finder"], options["maxLimit"]);
 
         if (is_array(myType)) {
-            myOptions = (array)current(myType) + myOptions;
+            options = (array)current(myType) + options;
             myType = key(myType);
         }
 
-        return [myType, myOptions];
+        return [myType, options];
     }
 
     /**
@@ -499,64 +499,64 @@ class Paginator : IPaginator {
      * requested sorting field/direction.
      *
      * @param uim.cake.Datasource\IRepository $object Repository object.
-     * @param array<string, mixed> myOptions The pagination options being used for this request.
+     * @param array<string, mixed> options The pagination options being used for this request.
      * @return array<string, mixed> An array of options with sort + direction removed and
      *   replaced with order if possible.
      */
     array validateSort(IRepository $object, IData[string] options) {
-        if (isset(myOptions["sort"])) {
+        if (isset(options["sort"])) {
             $direction = null;
-            if (isset(myOptions["direction"])) {
-                $direction = strtolower(myOptions["direction"]);
+            if (isset(options["direction"])) {
+                $direction = strtolower(options["direction"]);
             }
             if (!hasAllValues($direction, ["asc", "desc"], true)) {
                 $direction = "asc";
             }
 
-            $order = isset(myOptions["order"]) && is_array(myOptions["order"]) ? myOptions["order"] : [];
-            if ($order && myOptions["sort"] && indexOf(myOptions["sort"], ".") == false) {
+            $order = isset(options["order"]) && is_array(options["order"]) ? options["order"] : [];
+            if ($order && options["sort"] && indexOf(options["sort"], ".") == false) {
                 $order = _removeAliases($order, $object.getAlias());
             }
 
-            myOptions["order"] = [myOptions["sort"]: $direction] + $order;
+            options["order"] = [options["sort"]: $direction] + $order;
         } else {
-            myOptions["sort"] = null;
+            options["sort"] = null;
         }
-        unset(myOptions["direction"]);
+        unset(options["direction"]);
 
-        if (empty(myOptions["order"])) {
-            myOptions["order"] = null;
+        if (empty(options["order"])) {
+            options["order"] = null;
         }
-        if (!is_array(myOptions["order"])) {
-            return myOptions;
+        if (!is_array(options["order"])) {
+            return options;
         }
 
         $sortAllowed = false;
-        $allowed = this.getSortableFields(myOptions);
+        $allowed = this.getSortableFields(options);
         if ($allowed  !is null) {
-            myOptions["sortableFields"] = myOptions["sortWhitelist"] = $allowed;
+            options["sortableFields"] = options["sortWhitelist"] = $allowed;
 
-            myField = key(myOptions["order"]);
+            myField = key(options["order"]);
             $sortAllowed = hasAllValues(myField, $allowed, true);
             if (!$sortAllowed) {
-                myOptions["order"] = null;
-                myOptions["sort"] = null;
+                options["order"] = null;
+                options["sort"] = null;
 
-                return myOptions;
+                return options;
             }
         }
 
         if (
-            myOptions["sort"] is null
-            && count(myOptions["order"]) == 1
-            && !is_numeric(key(myOptions["order"]))
+            options["sort"] is null
+            && count(options["order"]) == 1
+            && !is_numeric(key(options["order"]))
         ) {
-            myOptions["sort"] = key(myOptions["order"]);
+            options["sort"] = key(options["order"]);
         }
 
-        myOptions["order"] = _prefix($object, myOptions["order"], $sortAllowed);
+        options["order"] = _prefix($object, options["order"], $sortAllowed);
 
-        return myOptions;
+        return options;
     }
 
     /**
@@ -630,17 +630,17 @@ class Paginator : IPaginator {
     /**
      * Check the limit parameter and ensure it"s within the maxLimit bounds.
      *
-     * @param array<string, mixed> myOptions An array of options with a limit key to be checked.
+     * @param array<string, mixed> options An array of options with a limit key to be checked.
      * @return array<string, mixed> An array of options for pagination.
      */
     array checkLimit(IData[string] options) {
-        myOptions["limit"] = (int)myOptions["limit"];
-        if (myOptions["limit"] < 1) {
-            myOptions["limit"] = 1;
+        options["limit"] = (int)options["limit"];
+        if (options["limit"] < 1) {
+            options["limit"] = 1;
         }
-        myOptions["limit"] = max(min(myOptions["limit"], myOptions["maxLimit"]), 1);
+        options["limit"] = max(min(options["limit"], options["maxLimit"]), 1);
 
-        return myOptions;
+        return options;
     }
 }
 class_exists("Cake\Datasource\Paging\NumericPaginator");

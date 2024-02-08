@@ -30,7 +30,7 @@ interface IRepository {
 
   // Creates a new Query for this repository and applies some defaults based on the type of search that was selected.
   // myType the type of query to perform
-  // array<string, mixed> myOptions An array that will be passed to Query::applyOptions()
+  // array<string, mixed> options An array that will be passed to Query::applyOptions()
   IQuery find(string myType = "all", STRINGAA someOptions = null);
 
   /**
@@ -47,7 +47,7 @@ interface IRepository {
     * ```
     *
     * @param mixed $primaryKey primary key value to find
-    * @param array<string, mixed> myOptions options accepted by `Table::find()`
+    * @param array<string, mixed> options options accepted by `Table::find()`
     * @throws \Cake\Datasource\Exception\RecordNotFoundException if the record with such id
     * could not be found
     */
@@ -103,7 +103,7 @@ interface IRepository {
     * @param \Cake\Datasource\IEntity anEntity the entity to be saved
     * @param \ArrayAccess|IData[string] options The options to use when saving.
     */
-  IEntity save(IEntity anEntity, myOptions= null);
+  IEntity save(IEntity anEntity, options= null);
 
   /**
     * Delete a single entity.
@@ -141,7 +141,7 @@ interface IRepository {
     * is saved. Until the entity is saved, it will be a detached record.
     *
     * @param IValue[string] mergeData The data to build an entity with.
-    * @param array<string, mixed> myOptions A list of options for the object hydration.
+    * @param array<string, mixed> options A list of options for the object hydration.
     */
   IEntity newEntity(IValue[string] mergeData, STRINGAA someOptions = null);
 
@@ -158,7 +158,7 @@ interface IRepository {
     * The hydrated entities can then be iterated and saved.
     *
     * @param IValue[string] mergeData The data to build an entity with.
-    * @param array<string, mixed> myOptions A list of options for the objects hydration.
+    * @param array<string, mixed> options A list of options for the objects hydration.
     * returns An array of hydrated records.
     */
   IENtity[] newEntities(IValue[string] mergeData, STRINGAA someOptions = null);
@@ -177,7 +177,7 @@ interface IRepository {
     * @param \Cake\Datasource\IEntity anEntity the entity that will get the
     * data merged in
     * @param IValue[string] mergeData key value list of fields to be merged into the entity
-    * @param array<string, mixed> myOptions A list of options for the object hydration.
+    * @param array<string, mixed> options A list of options for the object hydration.
     * @return \Cake\Datasource\IEntity
     */
   IEntity patchEntity(IEntity anEntity, IValue[string] mergeData, STRINGAA someOptions = null);
@@ -197,7 +197,7 @@ interface IRepository {
     * @param \Traversable|array<\Cake\Datasource\IEntity> $entities the entities that will get the
     * data merged in
     * @param IValue[string] mergeData list of arrays to be merged into the entities
-    * @param array<string, mixed> myOptions A list of options for the objects hydration.
+    * @param array<string, mixed> options A list of options for the objects hydration.
     */
   IEntity[] patchEntities(IEntity someEntities, IValue[string] mergeData, STRINGAA someOptions = null);
 }
