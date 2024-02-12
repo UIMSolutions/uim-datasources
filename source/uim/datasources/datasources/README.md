@@ -67,14 +67,14 @@ before, or return the existing known connection:
 
 ```php
 use UIM\Datasource\ConnectionManager;
-$conn = ConnectionManager::get("master");
+conn = ConnectionManager::get("master");
 ```
 
 It is also possible to store connection objects by passing the instance directly to the manager:
 
 ```php
 use UIM\Datasource\ConnectionManager;
-$conn = ConnectionManager::config("other", aConnectionInstance);
+conn = ConnectionManager::config("other", aConnectionInstance);
 ```
 
 ## Documentation

@@ -17,6 +17,6 @@ class ResultSetDecorator : Collection, IResultSet {
         parentInfo = super.__debugInfo();
         aLimit = Configure.read("App.ResultSetDebugLimit", 10);
 
-        return chain($parentInfo, ["items": this.take(aLimit).toArray()]);
+        return chain(parentInfo, ["items": this.take(aLimit).toArray()]);
     }
 }

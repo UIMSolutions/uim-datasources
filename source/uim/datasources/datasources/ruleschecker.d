@@ -89,7 +89,7 @@ class RulesChecker {
      * second argument.
      */
     void add(callable rule, string[]|null name = null, IData[string] optionData = null) {
-       _rules ~= _addError($rule, name, options);
+       _rules ~= _addError(rule, name, options);
     }
     
     /**
@@ -110,7 +110,7 @@ class RulesChecker {
      * second argument.
      */
     void addCreate(callable rule, string[]|null name = null, IData[string] optionData = null) {
-       _createRules ~= _addError($rule, name, options);
+       _createRules ~= _addError(rule, name, options);
     }
 <<<<<<< HEAD
     
@@ -135,7 +135,7 @@ class RulesChecker {
      * second argument.
      */
     auto addUpdate(callable rule, string[]|null name = null, IData[string] optionData = null) {
-       _updateRules ~= _addError($rule, name, options);
+       _updateRules ~= _addError(rule, name, options);
 
         return this;
     }
@@ -162,7 +162,7 @@ class RulesChecker {
      * second argument.
      */
     auto addDelete(callable rule, string[]|null name = null, IData[string] optionData = null) {
-       _deleteRules ~= _addError($rule, name, options);
+       _deleteRules ~= _addError(rule, name, options);
 
         return this;
     }
@@ -178,14 +178,14 @@ class RulesChecker {
      * @throws \InvalidArgumentException if an invalid mode is passed.
      */
     bool check(IEntity entity, string amode, IData[string] optionData = null) {
-        if ($mode == self.CREATE) {
-            return this.checkCreate($entity, options);
+        if (mode == self.CREATE) {
+            return this.checkCreate(entity, options);
         }
-        if ($mode == self.UPDATE) {
-            return this.checkUpdate($entity, options);
+        if (mode == self.UPDATE) {
+            return this.checkUpdate(entity, options);
         }
-        if ($mode == self.DELETE) {
-            return this.checkDelete($entity, options);
+        if (mode == self.DELETE) {
+            return this.checkDelete(entity, options);
         }
         throw new InvalidArgumentException("Wrong checking mode: " ~ mode);
     }
@@ -202,7 +202,7 @@ class RulesChecker {
      * @param IData[string] optionData Extra options to pass to checker functions.
      */
    bool checkCreate(IEntity entity, IData[string] optionData = null) {
-        return _checkRules($entity, options, array_merge(_rules, _createRules));
+        return _checkRules(entity, options, array_merge(_rules, _createRules));
     }
 <<<<<<< HEAD
     
@@ -217,7 +217,7 @@ class RulesChecker {
      * @param IData[string] optionData Extra options to pass to checker functions.
      */
    bool checkUpdate(IEntity entity, IData[string] optionData = null) {
-        return _checkRules($entity, options, chain(_rules, _updateRules));
+        return _checkRules(entity, options, chain(_rules, _updateRules));
     }
 <<<<<<< HEAD
     
@@ -232,7 +232,7 @@ class RulesChecker {
      * @param IData[string] optionData Extra options to pass to checker functions.
      */
     bool checkDelete(IEntity entity, IData[string] optionData = null) {
-        return _checkRules($entity, options, _deleteRules);
+        return _checkRules(entity, options, _deleteRules);
     }
 <<<<<<< HEAD
     
@@ -251,7 +251,7 @@ class RulesChecker {
         success = true;
         options += _options;
         rules
-          .each!(rule => success = rule($entity, options) && success);
+          .each!(rule => success = rule(entity, options) && success);
         return success;
     }
 <<<<<<< HEAD
@@ -268,14 +268,14 @@ class RulesChecker {
      * @param IData[string] optionData The options containing the error message and field.
      */
     protected RuleInvoker _addError(callable rule, string[]|null name = null, IData[string] optionData = null) {
-        if (isArray($name)) {
+        if (isArray(name)) {
             options = name;
             name = null;
         }
-        if (!cast(RuleInvoker)$rule)) {
-            rule = new RuleInvoker($rule, name, options);
+        if (!cast(RuleInvoker)rule)) {
+            rule = new RuleInvoker(rule, name, options);
         } else {
-            rule.setOptions($options).name($name);
+            rule.setOptions(options).name(name);
         }
         return rule;
     }

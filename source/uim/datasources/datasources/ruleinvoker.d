@@ -78,23 +78,23 @@ class RuleInvoker {
      */
     bool __invoke(IEntity entity, array scope) {
         rule = _rule;
-        pass = rule($entity, this.options + scope);
-        if ($pass == true || empty(this.options["errorField"])) {
+        pass = rule(entity, this.options + scope);
+        if (pass == true || empty(this.options["errorField"])) {
             return pass == true;
         }
         message = this.options["message"] ?? "invalid";
-        if (isString($pass)) {
+        if (isString(pass)) {
             message = pass;
         }
         
-        message = _ruleName ? [_ruleName: message] : [$message];
+        message = _ruleName ? [_ruleName: message] : [message];
 
         errorField = this.options["errorField"];
-        entity.setErrors($errorField, message);
+        entity.setErrors(errorField, message);
 
-        if (cast(IInvalidProperty)$entity && isSet($entity.{$errorField})) {
-             anInvalidValue = entity.{$errorField};
-            entity.setInvalidField($errorField,  anInvalidValue);
+        if (cast(IInvalidProperty)entity && isSet(entity.{errorField})) {
+             anInvalidValue = entity.{errorField};
+            entity.setInvalidField(errorField,  anInvalidValue);
         }
         /** @phpstan-ignore-next-line */
         return pass == true;

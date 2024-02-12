@@ -23,11 +23,11 @@ class SimplePaginator : NumericPaginator
     /**
      * Simple pagination does not perform any count query, so this method returns `null`.
      *
-     * @param uim.cake.Datasource\IQuery $query Query instance.
-     * @param array $data Pagination data.
+     * @param uim.cake.Datasource\IQuery query Query instance.
+     * @param array data Pagination data.
      * @return int|null
      */
-    protected Nullable!int getCount(IQuery $query, array $data) {
+    protected Nullable!int getCount(IQuery query, array data) {
         return null;
     }
 }
