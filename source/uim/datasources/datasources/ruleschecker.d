@@ -234,11 +234,7 @@ class RulesChecker {
     bool checkDelete(IEntity entity, IData[string] optionData = null) {
         return _checkRules(entity, options, _deleteRules);
     }
-<<<<<<< HEAD
     
-=======
-
->>>>>>> 74a7b6400cdc9ef55c74d50ddcb3fb9c29d1e0bf
     /**
      * Used by top level functions checkDelete, checkCreate and checkUpdate, this function
      * iterates an array containing the rules to be checked and checks them all.
@@ -254,11 +250,7 @@ class RulesChecker {
           .each!(rule => success = rule(entity, options) && success);
         return success;
     }
-<<<<<<< HEAD
     
-=======
-
->>>>>>> 74a7b6400cdc9ef55c74d50ddcb3fb9c29d1e0bf
     /**
      * Utility method for decorating any callable so that if it returns false, the correct
      * property in the entity is marked as invalid.

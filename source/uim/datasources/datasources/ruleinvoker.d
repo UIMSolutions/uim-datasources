@@ -59,7 +59,6 @@ class RuleInvoker {
     
     /**
      * Set the rule name.
-     *
      * Only truthy names will be set.
      */
     void name(string ruleName) {

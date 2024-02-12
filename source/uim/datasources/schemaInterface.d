@@ -37,10 +37,10 @@ interface ISchema {
      * - `comment` The comment for the column.
      *
      * @param string aName The name of the column
-     * @param array<string, mixed>|string $attrs The attributes for the column or the type name.
+     * @param array<string, mixed>|string attrs The attributes for the column or the type name.
      * @return this
      */
-    function addColumn(string aName, $attrs);
+    function addColumn(string aName, attrs);
 
     /**
      * Get column data in the table.
@@ -85,20 +85,20 @@ interface ISchema {
      * Sets the type of a column.
      *
      * @param string aName The column to set the type of.
-     * @param string $type The type to set the column to.
+     * @param string type The type to set the column to.
      * @return this
      */
-    function setColumnType(string aName, string $type);
+    function setColumnType(string aName, string type);
 
     /**
      * Returns the base type name for the provided column.
      * This represent the database type a more complex class is
      * based upon.
      *
-     * @param string $column The column name to get the base type from
+     * @param string column The column name to get the base type from
      * @return string|null The base type name
      */
-    Nullable!string baseColumnType(string $column);
+    Nullable!string baseColumnType(string column);
 
     /**
      * Check whether a field is nullable
@@ -131,7 +131,7 @@ interface ISchema {
      * Table options allow you to set platform specific table level options.
      * For example the engine type in MySQL.
      *
-     * @param array<string, mixed> $options The options to set, or null to read options.
+     * @param array<string, mixed> options The options to set, or null to read options.
      * @return this
      */
     function setOptions(STRINGAA someOptions);

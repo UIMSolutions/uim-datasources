@@ -34,12 +34,12 @@ class FactoryLocator {
      * @throws \InvalidArgumentException If the specified repository type has no factory.
      */
     static ILocator get(string atype) {
-        if (isSet(_modelFactories[$type])) {
-            return _modelFactories[$type];
+        if (isSet(_modelFactories[type])) {
+            return _modelFactories[type];
         }
         throw new InvalidArgumentException(
             "Unknown repository type `%s`. Make sure you register a type before trying to use it."
-            .format($type
+            .format(type)
         ));
     }
 }
