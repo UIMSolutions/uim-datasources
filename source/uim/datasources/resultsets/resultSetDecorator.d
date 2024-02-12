@@ -25,9 +25,9 @@ class ResultSetDecorator : Collection : IResultSet
      * get the count of the underlying data.
      */
     size_t count() {
-        $iterator = this.getInnerIterator();
-        if ($iterator instanceof Countable) {
-            return $iterator.count();
+        iterator = this.getInnerIterator();
+        if (iterator instanceof Countable) {
+            return iterator.count();
         }
 
         return count(this.toArray());

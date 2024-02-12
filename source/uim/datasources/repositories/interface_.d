@@ -40,13 +40,13 @@ interface IRepository {
     * ### Example:
     *
     * ```
-    * $id = 10;
-    * $article = $articles.get($id);
+    * id = 10;
+    * article = articles.get(id);
     *
-    * $article = $articles.get($id, ["contain":["Comments]]);
+    * article = articles.get(id, ["contain":["Comments]]);
     * ```
     *
-    * @param mixed $primaryKey primary key value to find
+    * @param mixed primaryKey primary key value to find
     * @param array<string, mixed> options options accepted by `Table::find()`
     * @throws \Cake\Datasource\Exception\RecordNotFoundException if the record with such id
     * could not be found
@@ -59,16 +59,16 @@ interface IRepository {
   /**
     * Update all matching records.
     *
-    * Sets the fieldNames to the provided values based on $conditions.
+    * Sets the fieldNames to the provided values based on conditions.
     * This method will *not* trigger beforeSave/afterSave events. If you need those
     * first load a collection of records and update them.
     *
     * @param \Cake\Database\Expression\QueryExpression|\Closure|array|string fieldNames A hash of field: new value.
-    * @param mixed $conditions Conditions to be used, accepts anything Query::where()
+    * @param mixed conditions Conditions to be used, accepts anything Query::where()
     * can take.
     * @return int Count Returns the affected rows.
     */
-  int updateAll(fieldNames, $conditions);
+  int updateAll(fieldNames, conditions);
 
   /**
     * Deletes all records matching the provided conditions.
@@ -80,20 +80,20 @@ interface IRepository {
     * use database foreign keys + ON CASCADE rules if you need cascading deletes combined
     * with this method.
     *
-    * @param mixed $conditions Conditions to be used, accepts anything Query::where()
+    * @param mixed conditions Conditions to be used, accepts anything Query::where()
     * can take.
     * @return int Returns the number of affected rows.
     * @see \Cake\Datasource\IRepository::delete()
     */
-  int deleteAll($conditions);
+  int deleteAll(conditions);
 
   /**
     * Returns true if there is any record in this repository matching the specified
     * conditions.
     *
-    * @param array $conditions list of conditions to pass to the query
+    * @param array conditions list of conditions to pass to the query
     */
-  // bool exists($conditions);
+  // bool exists(conditions);
 
   /**
     * Persists an entity based on the fields that are marked as dirty and
@@ -133,7 +133,7 @@ interface IRepository {
     * For example, in your controller code:
     *
     * ```
-    * $article = this.Articles.newEntity(this.request.getData());
+    * article = this.Articles.newEntity(this.request.getData());
     * ```
     *
     * The hydrated entity will correctly do an insert/update based
@@ -152,7 +152,7 @@ interface IRepository {
     * For example, in your controller code:
     *
     * ```
-    * $articles = this.Articles.newEntities(this.request.getData());
+    * articles = this.Articles.newEntities(this.request.getData());
     * ```
     *
     * The hydrated entities can then be iterated and saved.
@@ -164,14 +164,14 @@ interface IRepository {
   IENtity[] newEntities(IValue[string] mergeData, STRINGAA someOptions = null);
 
   /**
-    * Merges the passed `myData` into `$entity` respecting the accessible
+    * Merges the passed `myData` into `entity` respecting the accessible
     * fields configured on the entity. Returns the same entity after being
     * altered.
     *
     * This is most useful when editing an existing entity using request data:
     *
     * ```
-    * $article = this.Articles.patchEntity($article, this.request.getData());
+    * article = this.Articles.patchEntity(article, this.request.getData());
     * ```
     *
     * @param \Cake\Datasource\IEntity anEntity the entity that will get the
@@ -184,17 +184,17 @@ interface IRepository {
 
   /**
     * Merges each of the elements passed in `myData` into the entities
-    * found in `$entities` respecting the accessible fields configured on the entities.
+    * found in `entities` respecting the accessible fields configured on the entities.
     * Merging is done by matching the primary key in each of the elements in `myData`
-    * and `$entities`.
+    * and `entities`.
     *
     * This is most useful when editing a list of existing entities using request data:
     *
     * ```
-    * $article = this.Articles.patchEntities($articles, this.request.getData());
+    * article = this.Articles.patchEntities(articles, this.request.getData());
     * ```
     *
-    * @param \Traversable|array<\Cake\Datasource\IEntity> $entities the entities that will get the
+    * @param \Traversable|array<\Cake\Datasource\IEntity> entities the entities that will get the
     * data merged in
     * @param IValue[string] mergeData list of arrays to be merged into the entities
     * @param array<string, mixed> options A list of options for the objects hydration.

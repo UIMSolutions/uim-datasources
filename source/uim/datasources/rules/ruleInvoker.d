@@ -27,14 +27,14 @@ class RuleInvoker
      *
      * @var array<string, mixed>
      */
-    protected $options = null;
+    protected options = null;
 
     /**
      * Rule callable
      *
      * @var callable
      */
-    protected $rule;
+    protected rule;
 
     /**
      * Constructor
@@ -46,16 +46,16 @@ class RuleInvoker
      *
      * Individual rules may have additional options that can be
      * set here. Any options will be passed into the rule as part of the
-     * rule $scope.
+     * rule scope.
      *
-     * @param callable $rule The rule to be invoked.
+     * @param callable rule The rule to be invoked.
      * @param Nullable!string aName The name of the rule. Used in error messages.
-     * @param array<string, mixed> $options The options for the rule. See above.
+     * @param array<string, mixed> options The options for the rule. See above.
      */
-    this(callable $rule, Nullable!string aName, STRINGAA someOptions = null) {
-        this.rule = $rule;
-        this.name = $name;
-        this.options = $options;
+    this(callable rule, Nullable!string aName, STRINGAA someOptions = null) {
+        this.rule = rule;
+        this.name = name;
+        this.options = options;
     }
 
     /**
@@ -63,11 +63,11 @@ class RuleInvoker
      *
      * Old options will be merged with the new ones.
      *
-     * @param array<string, mixed> $options The options to set.
+     * @param array<string, mixed> options The options to set.
      * @return this
      */
     function setOptions(STRINGAA someOptions) {
-        this.options = $options + this.options;
+        this.options = options + this.options;
 
         return this;
     }
@@ -77,12 +77,12 @@ class RuleInvoker
      *
      * Only truthy names will be set.
      *
-     * @param string|null $name The name to set.
+     * @param string|null name The name to set.
      * @return this
      */
     function setName(Nullable!string aName) {
-        if ($name) {
-            this.name = $name;
+        if (name) {
+            this.name = name;
         }
 
         return this;
@@ -91,36 +91,36 @@ class RuleInvoker
     /**
      * Invoke the rule.
      *
-     * @param uim.cake.Datasource\IEntity $entity The entity the rule
+     * @param uim.cake.Datasource\IEntity entity The entity the rule
      *   should apply to.
-     * @param array $scope The rule"s scope/options.
+     * @param array scope The rule"s scope/options.
      * @return bool Whether the rule passed.
      */
-    bool __invoke(IEntity $entity, array $scope) {
-        $rule = this.rule;
-        $pass = $rule($entity, this.options + $scope);
-        if ($pass == true || empty(this.options["errorField"])) {
-            return $pass == true;
+    bool __invoke(IEntity entity, array scope) {
+        rule = this.rule;
+        pass = rule(entity, this.options + scope);
+        if (pass == true || empty(this.options["errorField"])) {
+            return pass == true;
         }
 
-        $message = this.options["message"] ?? "invalid";
-        if (is_string($pass)) {
-            $message = $pass;
+        message = this.options["message"] ?? "invalid";
+        if (is_string(pass)) {
+            message = pass;
         }
         if (this.name) {
-            $message = [this.name: $message];
+            message = [this.name: message];
         } else {
-            $message = [$message];
+            message = [message];
         }
-        $errorField = this.options["errorField"];
-        $entity.setError($errorField, $message);
+        errorField = this.options["errorField"];
+        entity.setError(errorField, message);
 
-        if ($entity instanceof InvalidPropertyInterface && isset($entity.{$errorField})) {
-            $invalidValue = $entity.{$errorField};
-            $entity.setInvalidField($errorField, $invalidValue);
+        if (entity instanceof InvalidPropertyInterface && isset(entity.{errorField})) {
+            invalidValue = entity.{errorField};
+            entity.setInvalidField(errorField, invalidValue);
         }
 
         /** @phpstan-ignore-next-line */
-        return $pass == true;
+        return pass == true;
     }
 }

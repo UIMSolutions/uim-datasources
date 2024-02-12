@@ -46,7 +46,7 @@ class Paginator : IPaginator {
      *
      * ### Configuring pagination
      *
-     * When calling `paginate()` you can use the $settings parameter to pass in
+     * When calling `paginate()` you can use the settings parameter to pass in
      * pagination settings. These settings are used to build the queries made
      * and control other pagination settings.
      *
@@ -55,25 +55,25 @@ class Paginator : IPaginator {
      * be used.
      *
      * ```
-     *  $settings = [
+     *  settings = [
      *    "limit":20,
      *    "maxLimit":100
      *  ];
-     *  myResults = $paginator.paginate(myTable, $settings);
+     *  myResults = paginator.paginate(myTable, settings);
      * ```
      *
      * The above settings will be used to paginate any repository. You can configure
      * repository specific settings by keying the settings with the repository alias.
      *
      * ```
-     *  $settings = [
+     *  settings = [
      *    "Articles":[
      *      "limit":20,
      *      "maxLimit":100
      *    ],
      *    "Comments":[ ... ]
      *  ];
-     *  myResults = $paginator.paginate(myTable, $settings);
+     *  myResults = paginator.paginate(myTable, settings);
      * ```
      *
      * This would allow you to have different pagination settings for
@@ -85,10 +85,10 @@ class Paginator : IPaginator {
      * repository object being paginated. Often times you will want to allow
      * sorting on either associated columns or calculated fields. In these cases
      * you will need to define an allowed list of all the columns you wish to allow
-     * sorting on. You can define the allowed sort fields in the `$settings` parameter:
+     * sorting on. You can define the allowed sort fields in the `settings` parameter:
      *
      * ```
-     * $settings = [
+     * settings = [
      *   "Articles":[
      *     "finder":"custom",
      *     "sortableFields":["title", "author_id", "comment_count"],
@@ -104,12 +104,12 @@ class Paginator : IPaginator {
      * `finder` option.
      *
      * ```
-     *  $settings = [
+     *  settings = [
      *    "Articles":[
      *      "finder":"popular"
      *    ]
      *  ];
-     *  myResults = $paginator.paginate(myTable, $settings);
+     *  myResults = paginator.paginate(myTable, settings);
      * ```
      *
      * Would paginate using the `find("popular")` method.
@@ -117,14 +117,14 @@ class Paginator : IPaginator {
      * You can also pass an already created instance of a query to this method:
      *
      * ```
-     * myQuery = this.Articles.find("popular").matching("Tags", function ($q) {
+     * myQuery = this.Articles.find("popular").matching("Tags", function (q) {
 <<<<<<< HEAD
-     *   return $q.where(["name":"UIM"])
+     *   return q.where(["name":"UIM"])
 !=
-     *   return $q.where(["name": "UIM"])
+     *   return q.where(["name": "UIM"])
 >>>>>>> 7150a867e48cdb2613daa023accf8964a29f88b9
      * });
-     * myResults = $paginator.paginate(myQuery);
+     * myResults = paginator.paginate(myQuery);
      * ```
      *
      * ### Scoping Request parameters
@@ -133,8 +133,8 @@ class Paginator : IPaginator {
      * the same controller action:
      *
      * ```
-     * $articles = $paginator.paginate($articlesQuery, ["scope":"articles"]);
-     * $tags = $paginator.paginate($tagsQuery, ["scope":"tags"]);
+     * articles = paginator.paginate(articlesQuery, ["scope":"articles"]);
+     * tags = paginator.paginate(tagsQuery, ["scope":"tags"]);
      * ```
      *
      * Each of the above queries will use different query string parameter sets
@@ -144,38 +144,38 @@ class Paginator : IPaginator {
      * /dashboard?articles[page]=1&tags[page]=2
      * ```
      *
-     * @param uim.cake.Datasource\IRepository|uim.cake.Datasource\IQuery $object The repository or query
+     * @param uim.cake.Datasource\IRepository|uim.cake.Datasource\IQuery object The repository or query
      *   to paginate.
      * @param array myParams Request params
-     * @param array $settings The settings/configuration used for pagination.
+     * @param array settings The settings/configuration used for pagination.
      * @return uim.cake.Datasource\IResultSet Query results
      * @throws uim.cake.Datasource\exceptions.PageOutOfBoundsException
      */
-    function paginate(object $object, array myParams = null, array $settings = null): IResultSet
+    function paginate(object object, array myParams = null, array settings = null): IResultSet
     {
         myQuery = null;
-        if ($object instanceof IQuery) {
-            myQuery = $object;
-            $object = myQuery.getRepository();
-            if ($object is null) {
+        if (object instanceof IQuery) {
+            myQuery = object;
+            object = myQuery.getRepository();
+            if (object is null) {
                 throw new UIMException("No repository set for query.");
             }
         }
 
-        myData = this.extractData($object, myParams, $settings);
-        myQuery = this.getQuery($object, myQuery, myData);
+        myData = this.extractData(object, myParams, settings);
+        myQuery = this.getQuery(object, myQuery, myData);
 
-        $cleanQuery = clone myQuery;
+        cleanQuery = clone myQuery;
         myResults = myQuery.all();
         myData["numResults"] = count(myResults);
-        myData["count"] = this.getCount($cleanQuery, myData);
+        myData["count"] = this.getCount(cleanQuery, myData);
 
-        $pagingParams = this.buildParams(myData);
-        myAlias = $object.getAlias();
-        _pagingParams = [myAlias: $pagingParams];
-        if ($pagingParams["requestedPage"] > $pagingParams["page"]) {
+        pagingParams = this.buildParams(myData);
+        myAlias = object.getAlias();
+        _pagingParams = [myAlias: pagingParams];
+        if (pagingParams["requestedPage"] > pagingParams["page"]) {
             throw new PageOutOfBoundsException([
-                "requestedPage":$pagingParams["requestedPage"],
+                "requestedPage":pagingParams["requestedPage"],
                 "pagingParams":_pagingParams,
             ]);
         }
@@ -186,15 +186,15 @@ class Paginator : IPaginator {
     /**
      * Get query for fetching paginated results.
      *
-     * @param uim.cake.Datasource\IRepository $object Repository instance.
+     * @param uim.cake.Datasource\IRepository object Repository instance.
      * @param uim.cake.Datasource\IQuery|null myQuery Query Instance.
      * @param array<string, mixed> myData Pagination data.
      * @return uim.cake.Datasource\IQuery
      */
-    protected auto getQuery(IRepository $object, ?IQuery myQuery, array myData): IQuery
+    protected auto getQuery(IRepository object, ?IQuery myQuery, array myData): IQuery
     {
         if (myQuery is null) {
-            myQuery = $object.find(myData["finder"], myData["options"]);
+            myQuery = object.find(myData["finder"], myData["options"]);
         } else {
             myQuery.applyOptions(myData["options"]);
         }
@@ -216,16 +216,16 @@ class Paginator : IPaginator {
     /**
      * Extract pagination data needed
      *
-     * @param uim.cake.Datasource\IRepository $object The repository object.
+     * @param uim.cake.Datasource\IRepository object The repository object.
      * @param array<string, mixed> myParams Request params
-     * @param array<string, mixed> $settings The settings/configuration used for pagination.
+     * @param array<string, mixed> settings The settings/configuration used for pagination.
      * @return array Array with keys "defaults", "options" and "finder"
      */
-    protected array extractData(IRepository $object, array myParams, array $settings) {
-        myAlias = $object.getAlias();
-        $defaults = this.getDefaults(myAlias, $settings);
-        options = this.mergeOptions(myParams, $defaults);
-        options = this.validateSort($object, options);
+    protected array extractData(IRepository object, array myParams, array settings) {
+        myAlias = object.getAlias();
+        defaults = this.getDefaults(myAlias, settings);
+        options = this.mergeOptions(myParams, defaults);
+        options = this.validateSort(object, options);
         options = this.checkLimit(options);
 
         options += ["page":1, "scope":null];
@@ -243,28 +243,28 @@ class Paginator : IPaginator {
      * @return array<string, mixed> Paging params.
      */
     protected array buildParams(array myData) {
-        $limit = myData["options"]["limit"];
+        limit = myData["options"]["limit"];
 
-        $paging = [
+        paging = [
             "count":myData["count"],
             "current":myData["numResults"],
-            "perPage":$limit,
+            "perPage":limit,
             "page":myData["options"]["page"],
             "requestedPage":myData["options"]["page"],
         ];
 
-        $paging = this.addPageCountParams($paging, myData);
-        $paging = this.addStartEndParams($paging, myData);
-        $paging = this.addPrevNextParams($paging, myData);
-        $paging = this.addSortingParams($paging, myData);
+        paging = this.addPageCountParams(paging, myData);
+        paging = this.addStartEndParams(paging, myData);
+        paging = this.addPrevNextParams(paging, myData);
+        paging = this.addSortingParams(paging, myData);
 
-        $paging += [
-            "limit":myData["defaults"]["limit"] != $limit ? $limit : null,
+        paging += [
+            "limit":myData["defaults"]["limit"] != limit ? limit : null,
             "scope":myData["options"]["scope"],
             "finder":myData["finder"],
         ];
 
-        return $paging;
+        return paging;
     }
 
     /**
@@ -275,18 +275,18 @@ class Paginator : IPaginator {
      * @return array<string, mixed> Updated params.
      */
     protected array addPageCountParams(array myParams, array myData) {
-        $page = myParams["page"];
-        $pageCount = 0;
+        page = myParams["page"];
+        pageCount = 0;
 
         if (myParams["count"]  !is null) {
-            $pageCount = max((int)ceil(myParams["count"] / myParams["perPage"]), 1);
-            $page = min($page, $pageCount);
+            pageCount = max((int)ceil(myParams["count"] / myParams["perPage"]), 1);
+            page = min(page, pageCount);
         } elseif (myParams["current"] == 0 && myParams["requestedPage"] > 1) {
-            $page = 1;
+            page = 1;
         }
 
-        myParams["page"] = $page;
-        myParams["pageCount"] = $pageCount;
+        myParams["page"] = page;
+        myParams["pageCount"] = pageCount;
 
         return myParams;
     }
@@ -299,15 +299,15 @@ class Paginator : IPaginator {
      * @return array<string, mixed> Updated params.
      */
     protected array addStartEndParams(array myParams, array myData) {
-        $start = $end = 0;
+        start = end = 0;
 
         if (myParams["current"] > 0) {
-            $start = ((myParams["page"] - 1) * myParams["perPage"]) + 1;
-            $end = $start + myParams["current"] - 1;
+            start = ((myParams["page"] - 1) * myParams["perPage"]) + 1;
+            end = start + myParams["current"] - 1;
         }
 
-        myParams["start"] = $start;
-        myParams["end"] = $end;
+        myParams["start"] = start;
+        myParams["end"] = end;
 
         return myParams;
     }
@@ -338,21 +338,21 @@ class Paginator : IPaginator {
      * @return array<string, mixed> Updated params.
      */
     protected array addSortingParams(array myParams, array myData) {
-        $defaults = myData["defaults"];
-        $order = (array)myData["options"]["order"];
-        $sortDefault = $directionDefault = false;
+        defaults = myData["defaults"];
+        order = (array)myData["options"]["order"];
+        sortDefault = directionDefault = false;
 
-        if (!empty($defaults["order"]) && count($defaults["order"]) == 1) {
-            $sortDefault = key($defaults["order"]);
-            $directionDefault = current($defaults["order"]);
+        if (!empty(defaults["order"]) && count(defaults["order"]) == 1) {
+            sortDefault = key(defaults["order"]);
+            directionDefault = current(defaults["order"]);
         }
 
         myParams += [
             "sort":myData["options"]["sort"],
-            "direction":isset(myData["options"]["sort"]) && count($order) ? current($order) : null,
-            "sortDefault":$sortDefault,
-            "directionDefault":$directionDefault,
-            "completeSort":$order,
+            "direction":isset(myData["options"]["sort"]) && count(order) ? current(order) : null,
+            "sortDefault":sortDefault,
+            "directionDefault":directionDefault,
+            "completeSort":order,
         ];
 
         return myParams;
@@ -388,18 +388,18 @@ class Paginator : IPaginator {
      * Shim method for reading the deprecated whitelist or allowedParameters options
      */
     protected string[] getAllowedParameters() {
-        $allowed = this.getConfig("allowedParameters");
-        if (!$allowed) {
-            $allowed = null;
+        allowed = this.getConfig("allowedParameters");
+        if (!allowed) {
+            allowed = null;
         }
-        $whitelist = this.getConfig("whitelist");
-        if ($whitelist) {
+        whitelist = this.getConfig("whitelist");
+        if (whitelist) {
             deprecationWarning("The `whitelist` option is deprecated. Use the `allowedParameters` option instead.");
 
-            return array_merge($allowed, $whitelist);
+            return array_merge(allowed, whitelist);
         }
 
-        return $allowed;
+        return allowed;
     }
 
     /**
@@ -407,16 +407,16 @@ class Paginator : IPaginator {
      * @param array<string, mixed> myConfig The configuration data to coalesce and emit warnings on.
      */
     protected string[] getSortableFields(array myConfig) {
-        $allowed = myConfig["sortableFields"] ?? null;
-        if ($allowed  !is null) {
-            return $allowed;
+        allowed = myConfig["sortableFields"] ?? null;
+        if (allowed  !is null) {
+            return allowed;
         }
-        $deprecated = myConfig["sortWhitelist"] ?? null;
-        if ($deprecated  !is null) {
+        deprecated = myConfig["sortWhitelist"] ?? null;
+        if (deprecated  !is null) {
             deprecationWarning("The `sortWhitelist` option is deprecated. Use `sortableFields` instead.");
         }
 
-        return $deprecated;
+        return deprecated;
     }
 
     /**
@@ -432,19 +432,19 @@ class Paginator : IPaginator {
      * which options/values can be set using request parameters.
      *
      * @param array<string, mixed> myParams Request params.
-     * @param array $settings The settings to merge with the request data.
+     * @param array settings The settings to merge with the request data.
      * @return array<string, mixed> Array of merged options.
      */
-    array mergeOptions(array myParams, array $settings) {
-        if (!empty($settings["scope"])) {
-            $scope = $settings["scope"];
-            myParams = !empty(myParams[$scope]) ? (array)myParams[$scope] : [];
+    array mergeOptions(array myParams, array settings) {
+        if (!empty(settings["scope"])) {
+            scope = settings["scope"];
+            myParams = !empty(myParams[scope]) ? (array)myParams[scope] : [];
         }
 
-        $allowed = this.getAllowedParameters();
-        myParams = array_intersect_key(myParams, array_flip($allowed));
+        allowed = this.getAllowedParameters();
+        myParams = array_intersect_key(myParams, array_flip(allowed));
 
-        return array_merge($settings, myParams);
+        return array_merge(settings, myParams);
     }
 
     /**
@@ -452,33 +452,33 @@ class Paginator : IPaginator {
      * repository, the general settings will be used.
      *
      * @param string aliasName Model name to get settings for.
-     * @param array<string, mixed> $settings The settings which is used for combining.
+     * @param array<string, mixed> settings The settings which is used for combining.
      * @return array<string, mixed> An array of pagination settings for a model,
      *   or the general settings.
      */
-    array getDefaults(string aliasName, array $settings) {
-        if (isset($settings[myAlias])) {
-            $settings = $settings[myAlias];
+    array getDefaults(string aliasName, array settings) {
+        if (isset(settings[myAlias])) {
+            settings = settings[myAlias];
         }
 
-        $defaults = this.getConfig();
-        $defaults["whitelist"] = $defaults["allowedParameters"] = this.getAllowedParameters();
+        defaults = this.getConfig();
+        defaults["whitelist"] = defaults["allowedParameters"] = this.getAllowedParameters();
 
-        $maxLimit = $settings["maxLimit"] ?? $defaults["maxLimit"];
-        $limit = $settings["limit"] ?? $defaults["limit"];
+        maxLimit = settings["maxLimit"] ?? defaults["maxLimit"];
+        limit = settings["limit"] ?? defaults["limit"];
 
-        if ($limit > $maxLimit) {
-            $limit = $maxLimit;
+        if (limit > maxLimit) {
+            limit = maxLimit;
         }
 
-        $settings["maxLimit"] = $maxLimit;
-        $settings["limit"] = $limit;
+        settings["maxLimit"] = maxLimit;
+        settings["limit"] = limit;
 
-        return $settings + $defaults;
+        return settings + defaults;
     }
 
     /**
-     * Validate that the desired sorting can be performed on the $object.
+     * Validate that the desired sorting can be performed on the object.
      *
      * Only fields or virtualFields can be sorted on. The direction param will
      * also be sanitized. Lastly sort + direction keys will be converted into
@@ -498,27 +498,27 @@ class Paginator : IPaginator {
      * The default order options provided to paginate() will be merged with the user"s
      * requested sorting field/direction.
      *
-     * @param uim.cake.Datasource\IRepository $object Repository object.
+     * @param uim.cake.Datasource\IRepository object Repository object.
      * @param array<string, mixed> options The pagination options being used for this request.
      * @return array<string, mixed> An array of options with sort + direction removed and
      *   replaced with order if possible.
      */
-    array validateSort(IRepository $object, IData[string] options) {
+    array validateSort(IRepository object, IData[string] options) {
         if (isset(options["sort"])) {
-            $direction = null;
+            direction = null;
             if (isset(options["direction"])) {
-                $direction = strtolower(options["direction"]);
+                direction = strtolower(options["direction"]);
             }
-            if (!hasAllValues($direction, ["asc", "desc"], true)) {
-                $direction = "asc";
-            }
-
-            $order = isset(options["order"]) && is_array(options["order"]) ? options["order"] : [];
-            if ($order && options["sort"] && indexOf(options["sort"], ".") == false) {
-                $order = _removeAliases($order, $object.getAlias());
+            if (!hasAllValues(direction, ["asc", "desc"], true)) {
+                direction = "asc";
             }
 
-            options["order"] = [options["sort"]: $direction] + $order;
+            order = isset(options["order"]) && is_array(options["order"]) ? options["order"] : [];
+            if (order && options["sort"] && indexOf(options["sort"], ".") == false) {
+                order = _removeAliases(order, object.getAlias());
+            }
+
+            options["order"] = [options["sort"]: direction] + order;
         } else {
             options["sort"] = null;
         }
@@ -531,14 +531,14 @@ class Paginator : IPaginator {
             return options;
         }
 
-        $sortAllowed = false;
-        $allowed = this.getSortableFields(options);
-        if ($allowed  !is null) {
-            options["sortableFields"] = options["sortWhitelist"] = $allowed;
+        sortAllowed = false;
+        allowed = this.getSortableFields(options);
+        if (allowed  !is null) {
+            options["sortableFields"] = options["sortWhitelist"] = allowed;
 
             myField = key(options["order"]);
-            $sortAllowed = hasAllValues(myField, $allowed, true);
-            if (!$sortAllowed) {
+            sortAllowed = hasAllValues(myField, allowed, true);
+            if (!sortAllowed) {
                 options["order"] = null;
                 options["sort"] = null;
 
@@ -554,7 +554,7 @@ class Paginator : IPaginator {
             options["sort"] = key(options["order"]);
         }
 
-        options["order"] = _prefix($object, options["order"], $sortAllowed);
+        options["order"] = _prefix(object, options["order"], sortAllowed);
 
         return options;
     }
@@ -568,20 +568,20 @@ class Paginator : IPaginator {
      */
     protected array _removeAliases(array myFields, string myModel) {
         myResult = null;
-        foreach (myFields as myField: $sort) {
+        foreach (myFields as myField: sort) {
             if (indexOf(myField, ".") == false) {
-                myResult[myField] = $sort;
+                myResult[myField] = sort;
                 continue;
             }
 
-            [myAlias, $currentField] = explode(".", myField);
+            [myAlias, currentField] = explode(".", myField);
 
             if (myAlias == myModel) {
-                myResult[$currentField] = $sort;
+                myResult[currentField] = sort;
                 continue;
             }
 
-            myResult[myField] = $sort;
+            myResult[myField] = sort;
         }
 
         return myResult;
@@ -590,15 +590,15 @@ class Paginator : IPaginator {
     /**
      * Prefixes the field with the table alias if possible.
      *
-     * @param uim.cake.Datasource\IRepository $object Repository object.
-     * @param array $order Order array.
-     * @param bool $allowed Whether the field was allowed.
+     * @param uim.cake.Datasource\IRepository object Repository object.
+     * @param array order Order array.
+     * @param bool allowed Whether the field was allowed.
      * @return array Final order array.
      */
-    protected array _prefix(IRepository $object, array $order, bool $allowed = false) {
-        myTableAlias = $object.getAlias();
+    protected array _prefix(IRepository object, array order, bool allowed = false) {
+        myTableAlias = object.getAlias();
         myTableOrder = null;
-        foreach ($order as myKey: myValue) {
+        foreach (order as myKey: myValue) {
             if (is_numeric(myKey)) {
                 myTableOrder[] = myValue;
                 continue;
@@ -609,17 +609,17 @@ class Paginator : IPaginator {
             if (indexOf(myKey, ".") != false) {
                 [myAlias, myField] = explode(".", myKey);
             }
-            $correctAlias = (myTableAlias == myAlias);
+            correctAlias = (myTableAlias == myAlias);
 
-            if ($correctAlias && $allowed) {
+            if (correctAlias && allowed) {
                 // Disambiguate fields in schema. As id is quite common.
-                if ($object.hasField(myField)) {
+                if (object.hasField(myField)) {
                     myField = myAlias ~ "." ~ myField;
                 }
                 myTableOrder[myField] = myValue;
-            } elseif ($correctAlias && $object.hasField(myField)) {
+            } elseif (correctAlias && object.hasField(myField)) {
                 myTableOrder[myTableAlias ~ "." ~ myField] = myValue;
-            } elseif (!$correctAlias && $allowed) {
+            } elseif (!correctAlias && allowed) {
                 myTableOrder[myAlias ~ "." ~ myField] = myValue;
             }
         }

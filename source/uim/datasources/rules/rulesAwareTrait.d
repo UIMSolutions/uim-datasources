@@ -34,40 +34,40 @@ trait RulesAwareTrait
      * Returns whether the passed entity complies with all the rules stored in
      * the rules checker.
      *
-     * @param uim.cake.Datasource\IEntity $entity The entity to check for validity.
-     * @param string $operation The operation being run. Either "create", "update" or "delete".
-     * @param \ArrayObject|array|null $options The options To be passed to the rules.
+     * @param uim.cake.Datasource\IEntity entity The entity to check for validity.
+     * @param string operation The operation being run. Either "create", "update" or "delete".
+     * @param \ArrayObject|array|null options The options To be passed to the rules.
      */
-    bool checkRules(IEntity $entity, string $operation = RulesChecker::CREATE, $options = null) {
-        $rules = this.rulesChecker();
-        $options = $options ?: new ArrayObject();
-        $options = is_array($options) ? new ArrayObject($options) : $options;
-        $hasEvents = (this instanceof IEventDispatcher);
+    bool checkRules(IEntity entity, string operation = RulesChecker::CREATE, options = null) {
+        rules = this.rulesChecker();
+        options = options ?: new ArrayObject();
+        options = is_array(options) ? new ArrayObject(options) : options;
+        hasEvents = (this instanceof IEventDispatcher);
 
-        if ($hasEvents) {
-            $event = this.dispatchEvent(
+        if (hasEvents) {
+            event = this.dispatchEvent(
                 "Model.beforeRules",
                 compact("entity", "options", "operation")
             );
-            if ($event.isStopped()) {
-                return $event.getResult();
+            if (event.isStopped()) {
+                return event.getResult();
             }
         }
 
-        $result = $rules.check($entity, $operation, $options.getArrayCopy());
+        result = rules.check(entity, operation, options.getArrayCopy());
 
-        if ($hasEvents) {
-            $event = this.dispatchEvent(
+        if (hasEvents) {
+            event = this.dispatchEvent(
                 "Model.afterRules",
                 compact("entity", "options", "result", "operation")
             );
 
-            if ($event.isStopped()) {
-                return $event.getResult();
+            if (event.isStopped()) {
+                return event.getResult();
             }
         }
 
-        return $result;
+        return result;
     }
 
     /**
@@ -85,10 +85,10 @@ trait RulesAwareTrait
         if (_rulesChecker != null) {
             return _rulesChecker;
         }
-        /** @psalm-var class-string<uim.cake.Datasource\RulesChecker> $class */
-        $class = defined("RULES_CLASS") ? RULES_CLASS : RulesChecker::class;
+        /** @psalm-var class-string<uim.cake.Datasource\RulesChecker> class */
+        class = defined("RULES_CLASS") ? RULES_CLASS : RulesChecker::class;
         /** @psalm-suppress ArgumentTypeCoercion */
-        _rulesChecker = this.buildRules(new $class(["repository": this]));
+        _rulesChecker = this.buildRules(new class(["repository": this]));
         this.dispatchEvent("Model.buildRules", ["rules": _rulesChecker]);
 
         return _rulesChecker;
@@ -100,11 +100,11 @@ trait RulesAwareTrait
      * Subclasses should override this method in order to initialize the rules to be applied to
      * entities saved by this instance.
      *
-     * @param uim.cake.Datasource\RulesChecker $rules The rules object to be modified.
+     * @param uim.cake.Datasource\RulesChecker rules The rules object to be modified.
      * @return uim.cake.Datasource\RulesChecker
      */
-    function buildRules(RulesChecker $rules): RulesChecker
+    function buildRules(RulesChecker rules): RulesChecker
     {
-        return $rules;
+        return rules;
     }
 }

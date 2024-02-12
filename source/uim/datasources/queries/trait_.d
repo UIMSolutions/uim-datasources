@@ -77,11 +77,11 @@ trait QueryTrait
      * Set the default Table object that will be used by this query
      * and form the `FROM` clause.
      *
-     * @param uim.cake.Datasource\IRepository|uim.cake.orm.Table $repository The default table object to use
+     * @param uim.cake.Datasource\IRepository|uim.cake.orm.Table repository The default table object to use
      * @return this
      */
-    function repository(IRepository $repository) {
-        _repository = $repository;
+    function repository(IRepository repository) {
+        _repository = repository;
 
         return this;
     }
@@ -106,11 +106,11 @@ trait QueryTrait
      *
      * This method is most useful when combined with results stored in a persistent cache.
      *
-     * @param iterable $results The results this query should return.
+     * @param iterable results The results this query should return.
      * @return this
      */
-    function setResult(iterable $results) {
-        _results = $results;
+    function setResult(iterable results) {
+        _results = results;
 
         return this;
     }
@@ -134,7 +134,7 @@ trait QueryTrait
      *
      * If a query has caching enabled, it will do the following when executed:
      *
-     * - Check the cache for $key. If there are results no SQL will be executed.
+     * - Check the cache for key. If there are results no SQL will be executed.
      *   Instead the cached results will be returned.
      * - When the cached data is stale/missing the result set will be cached as the query
      *   is executed.
@@ -143,35 +143,35 @@ trait QueryTrait
      *
      * ```
      * // Simple string key + config
-     * $query.cache("my_key", "db_results");
+     * query.cache("my_key", "db_results");
      *
      * // Function to generate key.
-     * $query.cache(function ($q) {
-     *   $key = serialize($q.clause("select"));
-     *   $key ~= serialize($q.clause("where"));
-     *   return md5($key);
+     * query.cache(function (q) {
+     *   key = serialize(q.clause("select"));
+     *   key ~= serialize(q.clause("where"));
+     *   return md5(key);
      * });
      *
      * // Using a pre-built cache engine.
-     * $query.cache("my_key", $engine);
+     * query.cache("my_key", engine);
      *
      * // Disable caching
-     * $query.cache(false);
+     * query.cache(false);
      * ```
      *
-     * @param \Closure|string|false $key Either the cache key or a function to generate the cache key.
+     * @param \Closure|string|false key Either the cache key or a function to generate the cache key.
      *   When using a function, this query instance will be supplied as an argument.
      * @param \Psr\SimpleCache\ICache|string aConfig Either the name of the cache config to use, or
      *   a cache engine instance.
      * @return this
      */
-    function cache($key, aConfig = "default") {
-        if ($key == false) {
+    function cache(key, aConfig = "default") {
+        if (key == false) {
             _cache = null;
 
             return this;
         }
-        _cache = new QueryCacher($key, aConfig);
+        _cache = new QueryCacher(key, aConfig);
 
         return this;
     }
@@ -187,11 +187,11 @@ trait QueryTrait
      * Sets the query instance to be an eager loaded query. If no argument is
      * passed, the current configured query `_eagerLoaded` value is returned.
      *
-     * @param bool $value Whether to eager load.
+     * @param bool value Whether to eager load.
      * @return this
      */
-    function eagerLoaded(bool $value) {
-        _eagerLoaded = $value;
+    function eagerLoaded(bool value) {
+        _eagerLoaded = value;
 
         return this;
     }
@@ -202,43 +202,43 @@ trait QueryTrait
      * The key will contain the alias and the value the actual field name.
      *
      * If the field is already aliased, then it will not be changed.
-     * If no $alias is passed, the default table for this query will be used.
+     * If no alias is passed, the default table for this query will be used.
      *
-     * @param string $field The field to alias
-     * @param string|null $alias the alias used to prefix the field
+     * @param string field The field to alias
+     * @param string|null alias the alias used to prefix the field
      */
-    STRINGAA aliasField(string $field, Nullable!string $alias = null) {
-        if (strpos($field, ".") == false) {
-            $alias = $alias ?: this.getRepository().getAlias();
-            $aliasedField = $alias ~ "." ~ $field;
+    STRINGAA aliasField(string field, Nullable!string alias = null) {
+        if (strpos(field, ".") == false) {
+            alias = alias ?: this.getRepository().getAlias();
+            aliasedField = alias ~ "." ~ field;
         } else {
-            $aliasedField = $field;
-            [$alias, $field] = explode(".", $field);
+            aliasedField = field;
+            [alias, field] = explode(".", field);
         }
 
-        $key = sprintf("%s__%s", $alias, $field);
+        key = sprintf("%s__%s", alias, field);
 
-        return [$key: $aliasedField];
+        return [key: aliasedField];
     }
 
     /**
      * Runs `aliasField()` for each field in the provided list and returns
      * the result under a single array.
      *
-     * @param array $fields The fields to alias
-     * @param string|null $defaultAlias The default alias
+     * @param array fields The fields to alias
+     * @param string|null defaultAlias The default alias
      */
-    STRINGAA aliasFields(array $fields, Nullable!string $defaultAlias = null) {
-        $aliased = null;
-        foreach ($fields as $alias: $field) {
-            if (is_numeric($alias) && is_string($field)) {
-                $aliased += this.aliasField($field, $defaultAlias);
+    STRINGAA aliasFields(array fields, Nullable!string defaultAlias = null) {
+        aliased = null;
+        foreach (fields as alias: field) {
+            if (is_numeric(alias) && is_string(field)) {
+                aliased += this.aliasField(field, defaultAlias);
                 continue;
             }
-            $aliased[$alias] = $field;
+            aliased[alias] = field;
         }
 
-        return $aliased;
+        return aliased;
     }
 
     /**
@@ -258,17 +258,17 @@ trait QueryTrait
             return _results;
         }
 
-        $results = null;
+        results = null;
         if (_cache) {
-            $results = _cache.fetch(this);
+            results = _cache.fetch(this);
         }
-        if ($results == null) {
-            $results = _decorateResults(_execute());
+        if (results == null) {
+            results = _decorateResults(_execute());
             if (_cache) {
-                _cache.store(this, $results);
+                _cache.store(this, results);
             }
         }
-        _results = $results;
+        _results = results;
 
         return _results;
     }
@@ -290,19 +290,19 @@ trait QueryTrait
      * If the third argument is set to true, it will erase previous map reducers
      * and replace it with the arguments passed.
      *
-     * @param callable|null $mapper The mapper callable.
-     * @param callable|null $reducer The reducing function.
+     * @param callable|null mapper The mapper callable.
+     * @param callable|null reducer The reducing function.
      * @param bool canOverwrite Set to true to overwrite existing map + reduce functions.
      * @return this
      * @see uim.cake.collections.Iterator\MapReduce for details on how to use emit data to the map reducer.
      */
-    function mapReduce(?callable $mapper = null, ?callable $reducer = null, bool canOverwrite = false) {
+    function mapReduce(?callable mapper = null, ?callable reducer = null, bool canOverwrite = false) {
         if (canOverwrite) {
             _mapReduce = null;
         }
-        if ($mapper == null) {
+        if (mapper == null) {
             if (!canOverwrite) {
-                throw new InvalidArgumentException("$mapper can be null only when canOverwrite is true.");
+                throw new InvalidArgumentException("mapper can be null only when canOverwrite is true.");
             }
 
             return this;
@@ -346,19 +346,19 @@ trait QueryTrait
      * Return all results from the table indexed by id:
      *
      * ```
-     * $query.select(["id", "name"]).formatResults(function ($results) {
-     *     return $results.indexBy("id");
+     * query.select(["id", "name"]).formatResults(function (results) {
+     *     return results.indexBy("id");
      * });
      * ```
      *
      * Add a new column to the ResultSet:
      *
      * ```
-     * $query.select(["name", "birth_date"]).formatResults(function ($results) {
-     *     return $results.map(function ($row) {
-     *         $row["age"] = $row["birth_date"].diff(new DateTime).y;
+     * query.select(["name", "birth_date"]).formatResults(function (results) {
+     *     return results.map(function (row) {
+     *         row["age"] = row["birth_date"].diff(new DateTime).y;
      *
-     *         return $row;
+     *         return row;
      *     });
      * });
      * ```
@@ -366,19 +366,19 @@ trait QueryTrait
      * Add a new column to the results with respect to the query"s hydration configuration:
      *
      * ```
-     * $query.formatResults(function ($results, $query) {
-     *     return $results.map(function ($row) use ($query) {
-     *         $data = [
+     * query.formatResults(function (results, query) {
+     *     return results.map(function (row) use (query) {
+     *         data = [
      *             "bar": "baz",
      *         ];
      *
-     *         if ($query.isHydrationEnabled()) {
-     *             $row["foo"] = new Foo($data)
+     *         if (query.isHydrationEnabled()) {
+     *             row["foo"] = new Foo(data)
      *         } else {
-     *             $row["foo"] = $data;
+     *             row["foo"] = data;
      *         }
      *
-     *         return $row;
+     *         return row;
      *     });
      * });
      * ```
@@ -389,47 +389,47 @@ trait QueryTrait
      * ```
      * // Assuming a `Articles belongsTo Authors` association that uses the join strategy
      *
-     * $articlesQuery.contain("Authors", function ($authorsQuery) {
-     *     return $authorsQuery.formatResults(function ($results, $query) use ($authorsQuery) {
-     *         // Here `$authorsQuery` will always be the instance
+     * articlesQuery.contain("Authors", function (authorsQuery) {
+     *     return authorsQuery.formatResults(function (results, query) use (authorsQuery) {
+     *         // Here `authorsQuery` will always be the instance
      *         // where the callback was attached to.
      *
      *         // The instance passed to the callback in the second
-     *         // argument (`$query`), will be the one where the
+     *         // argument (`query`), will be the one where the
      *         // callback is actually being applied to, in this
-     *         // example that would be `$articlesQuery`.
+     *         // example that would be `articlesQuery`.
      *
      *         // ...
      *
-     *         return $results;
+     *         return results;
      *     });
      * });
      * ```
      *
-     * @param callable|null $formatter The formatting callable.
-     * @param int|bool $mode Whether to overwrite, append or prepend the formatter.
+     * @param callable|null formatter The formatting callable.
+     * @param int|bool mode Whether to overwrite, append or prepend the formatter.
      * @return this
      * @throws \InvalidArgumentException
      */
-    function formatResults(?callable $formatter = null, $mode = self::APPEND) {
-        if ($mode == self::OVERWRITE) {
+    function formatResults(?callable formatter = null, mode = self::APPEND) {
+        if (mode == self::OVERWRITE) {
             _formatters = null;
         }
-        if ($formatter == null) {
-            if ($mode != self::OVERWRITE) {
-                throw new InvalidArgumentException("$formatter can be null only when $mode is overwrite.");
+        if (formatter == null) {
+            if (mode != self::OVERWRITE) {
+                throw new InvalidArgumentException("formatter can be null only when mode is overwrite.");
             }
 
             return this;
         }
 
-        if ($mode == self::PREPEND) {
-            array_unshift(_formatters, $formatter);
+        if (mode == self::PREPEND) {
+            array_unshift(_formatters, formatter);
 
             return this;
         }
 
-        _formatters[] = $formatter;
+        _formatters[] = formatter;
 
         return this;
     }
@@ -450,7 +450,7 @@ trait QueryTrait
      * ### Example:
      *
      * ```
-     * $singleUser = $query.select(["id", "username"]).first();
+     * singleUser = query.select(["id", "username"]).first();
      * ```
      *
      * @return uim.cake.Datasource\IEntity|array|null The first result from the ResultSet.
@@ -470,16 +470,16 @@ trait QueryTrait
      * @return uim.cake.Datasource\IEntity|array The first result from the ResultSet.
      */
     function firstOrFail() {
-        $entity = this.first();
-        if (!$entity) {
-            $table = this.getRepository();
+        entity = this.first();
+        if (!entity) {
+            table = this.getRepository();
             throw new RecordNotFoundException(sprintf(
                 "Record not found in table '%s'",
-                $table.getTable()
+                table.getTable()
             ));
         }
 
-        return $entity;
+        return entity;
     }
 
     /**
@@ -489,8 +489,8 @@ trait QueryTrait
      * ### Example:
      *
      * ```
-     *  $query.applyOptions(["doABarrelRoll": true, "fields": ["id", "name"]);
-     *  $query.getOptions(); // Returns ["doABarrelRoll": true]
+     *  query.applyOptions(["doABarrelRoll": true, "fields": ["id", "name"]);
+     *  query.getOptions(); // Returns ["doABarrelRoll": true]
      * ```
      *
      * @see uim.datasources.IQuery::applyOptions() to read about the options that will
@@ -505,27 +505,27 @@ trait QueryTrait
     /**
      * Enables calling methods from the result set as if they were from this class
      *
-     * @param string $method the method to call
-     * @param array $arguments list of arguments for the method to call
+     * @param string method the method to call
+     * @param array arguments list of arguments for the method to call
      * @return mixed
      * @throws \BadMethodCallException if no such method exists in result set
      */
-    function __call(string $method, array $arguments) {
-        $resultSetClass = _decoratorClass();
-        if (hasAllValues($method, get_class_methods($resultSetClass), true)) {
+    function __call(string method, array arguments) {
+        resultSetClass = _decoratorClass();
+        if (hasAllValues(method, get_class_methods(resultSetClass), true)) {
             deprecationWarning(sprintf(
                 "Calling `%s` methods, such as `%s()`, on queries is deprecated~ " ~
                 "You must call `all()` first (for example, `all().%s()`).",
                 IResultSet::class,
-                $method,
-                $method,
+                method,
+                method,
             ), 2);
-            $results = this.all();
+            results = this.all();
 
-            return $results.$method(...$arguments);
+            return results.method(...arguments);
         }
         throw new BadMethodCallException(
-            sprintf("Unknown method '%s'", $method)
+            sprintf("Unknown method '%s'", method)
         );
     }
 
@@ -533,7 +533,7 @@ trait QueryTrait
      * Populates or adds parts to current query clauses using an array.
      * This is handy for passing all query clauses at once.
      *
-     * @param array<string, mixed> $options the options to be applied
+     * @param array<string, mixed> options the options to be applied
      * @return this
      */
     abstract function applyOptions(STRINGAA someOptions);
@@ -548,29 +548,29 @@ trait QueryTrait
     /**
      * Decorates the results iterator with MapReduce routines and formatters
      *
-     * @param \Traversable $result Original results
+     * @param \Traversable result Original results
      * @return uim.cake.Datasource\IResultSet
      */
-    protected function _decorateResults(Traversable $result): IResultSet
+    protected function _decorateResults(Traversable result): IResultSet
     {
-        $decorator = _decoratorClass();
-        foreach (_mapReduce as $functions) {
-            $result = new MapReduce($result, $functions["mapper"], $functions["reducer"]);
+        decorator = _decoratorClass();
+        foreach (_mapReduce as functions) {
+            result = new MapReduce(result, functions["mapper"], functions["reducer"]);
         }
 
         if (!empty(_mapReduce)) {
-            $result = new $decorator($result);
+            result = new decorator(result);
         }
 
-        foreach (_formatters as $formatter) {
-            $result = $formatter($result, this);
+        foreach (_formatters as formatter) {
+            result = formatter(result, this);
         }
 
-        if (!empty(_formatters) && !($result instanceof $decorator)) {
-            $result = new $decorator($result);
+        if (!empty(_formatters) && !(result instanceof decorator)) {
+            result = new decorator(result);
         }
 
-        return $result;
+        return result;
     }
 
     /**
