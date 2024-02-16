@@ -176,7 +176,7 @@ interface IEntity : ArrayAccess, JsonSerializable, Stringable {
      * string fieldName The name of the field.
      * @param bool allowFallback whether to allow falling back to the current field value if no original exists
     */
-    Json getOriginal(string fieldName, bool $allowFallback = true);
+    Json getOriginal(string fieldName, bool allowFallback = true);
 
     // Gets all original values of the entity.
     array getOriginalValues();

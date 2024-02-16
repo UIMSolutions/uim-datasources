@@ -137,7 +137,7 @@ class ConnectionManager {
      * Removes an alias from ConnectionManager. Fetching the aliased
      * connection may fail if there is no other connection with that name.
      *
-     * @param string $alias The connection alias to drop
+     * @param string alias The connection alias to drop
      */
     static void dropAlias(string$alias) {
         unset(_aliasMap[$alias]);

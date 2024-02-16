@@ -199,7 +199,7 @@ interface IRepository {
      * This is most useful when editing a list of existing entities using request data:
      *
      * ```
-     * $article = this.Articles.patchEntities($articles, this.request.getData());
+     * article = this.Articles.patchEntities($articles, this.request.getData());
      * ```
      * Params:
      * iterable<\UIM\Datasource\IEntity> $entities the entities that will get the

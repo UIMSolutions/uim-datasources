@@ -582,10 +582,10 @@ trait EntityTrait
      * Accessor methods (available or not) are cached in _accessors
      *
      * @param string $property the field name to derive getter name from
-     * @param string $type the accessor type ("get" or "set")
+     * @param string type the accessor type ("get" or "set")
      * @return string method name or empty string (no method available)
      */
-    protected static string _accessor(string $property, string $type) {
+    protected static string _accessor(string $property, string type) {
         $class = class;
 
         if (isset(_accessors[$class][$type][$property])) {
@@ -607,7 +607,7 @@ trait EntityTrait
             }
             $field = lcfirst(substr($method, 4));
             $snakeField = Inflector::underscore($field);
-            $titleField = ucfirst($field);
+            titleField = ucfirst($field);
             _accessors[$class][$prefix][$snakeField] = $method;
             _accessors[$class][$prefix][$field] = $method;
             _accessors[$class][$prefix][$titleField] = $method;
@@ -1119,7 +1119,7 @@ trait EntityTrait
     /**
      * Sets the source alias
      *
-     * @param string $alias the alias of the repository
+     * @param string alias the alias of the repository
      * @return this
      */
     function setSource(string alias) {

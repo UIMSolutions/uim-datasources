@@ -22,8 +22,8 @@ import uim.datasources;
  *    {@see uim.cake.databases.Connnection::newQuery()}
  * @method uim.cake.databases.StatementInterface prepare($sql) Prepares a SQL statement to be executed.
  *    {@see uim.cake.databases.Connnection::prepare()}
- * @method uim.cake.databases.StatementInterface execute($query, $params = null, array $types = null) Executes a query using
- *   `$params` for interpolating values and $types as a hint for each those params.
+ * @method uim.cake.databases.StatementInterface execute($query, $params = null, array types = null) Executes a query using
+ *   `$params` for interpolating values and types as a hint for each those params.
  *   {@see uim.cake.databases.Connnection::execute()}
  * @method uim.cake.databases.StatementInterface query(string $sql) Executes a SQL statement and returns the Statement
  *   object as result. {@see uim.cake.databases.Connnection::query()}

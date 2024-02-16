@@ -71,7 +71,7 @@ interface IEntity : ArrayAccess, JsonSerializable
     /**
      * Sets the source alias
      *
-     * @param string $alias the alias of the repository
+     * @param string alias the alias of the repository
      * @return this
      */
     function setSource(string $alias);

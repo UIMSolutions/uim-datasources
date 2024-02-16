@@ -21,10 +21,10 @@ class FactoryLocator {
     /**
      * Register a callable to generate repositories of a given type.
      *
-     * @param string $type The name of the repository type the factory bool is for.
+     * @param string type The name of the repository type the factory bool is for.
      * @param uim.cake.Datasource\Locator\ILocator|callable $factory The factory function used to create instances.
      */
-    static void add(string $type, $factory) {
+    static void add(string type, $factory) {
         if ($factory instanceof ILocator) {
             _modelFactories[$type] = $factory;
 
@@ -60,11 +60,11 @@ class FactoryLocator {
     /**
      * Get the factory for the specified repository type.
      *
-     * @param string $type The repository type to get the factory for.
+     * @param string type The repository type to get the factory for.
      * @throws \InvalidArgumentException If the specified repository type has no factory.
      * @return uim.cake.Datasource\Locator\ILocator|callable The factory for the repository type.
      */
-    static function get(string $type) {
+    static function get(string type) {
         if ("Table"  !in _modelFactories)) {
             _modelFactories["Table"] = new TableLocator();
         }
@@ -72,7 +72,7 @@ class FactoryLocator {
         if (!isset(_modelFactories[$type])) {
             throw new InvalidArgumentException(sprintf(
                 "Unknown repository type '%s'. Make sure you register a type before trying to use it.",
-                $type
+                type
             ));
         }
 
