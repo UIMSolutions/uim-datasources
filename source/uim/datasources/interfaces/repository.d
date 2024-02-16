@@ -48,7 +48,7 @@ interface IRepository {
      *
      * ```
      *  anId = 10;
-     * $article = $articles.get(anId);
+     * $article = articles.get(anId);
      *
      * $article = $articles.get(anId, ["contain": ["Comments]]);
      * ```

@@ -174,7 +174,7 @@ interface IEntity : ArrayAccess, JsonSerializable, Stringable {
      * Returns the original value of a field.
      * Params:
      * string fieldName The name of the field.
-     * @param bool $allowFallback whether to allow falling back to the current field value if no original exists
+     * @param bool allowFallback whether to allow falling back to the current field value if no original exists
     */
     Json getOriginal(string fieldName, bool $allowFallback = true);
 

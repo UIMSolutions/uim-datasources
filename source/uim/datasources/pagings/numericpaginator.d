@@ -12,7 +12,7 @@ import uim.datasources.IResultSet;
  */
 class NumericPaginator : PaginatorInterface
 {
-    use InstanceConfigTrait;
+    mixin InstanceConfigTemplate;
 
     /**
      * Default pagination settings.
@@ -511,7 +511,7 @@ class NumericPaginator : PaginatorInterface
         if (isset(options["sort"])) {
             auto direction = null;
             if (options.isSet("direction")) {
-                direction = strtolower(options["direction"]);
+                direction = options["direction"].toLower;
             }
             if (!hasAllValues(direction, ["asc", "desc"], true)) {
                 direction = "asc";

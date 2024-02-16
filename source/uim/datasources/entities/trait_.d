@@ -1122,7 +1122,7 @@ trait EntityTrait
      * @param string $alias the alias of the repository
      * @return this
      */
-    function setSource(string $alias) {
+    function setSource(string alias) {
         _registryAlias = $alias;
 
         return this;

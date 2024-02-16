@@ -28,7 +28,7 @@ abstract class AbstractLocator : ILocator {
      * @param string $alias The alias name you want to get.
      * @param array<string, mixed> $options The options you want to build the table with.
      */
-    IRepository get(string $alias, STRINGAA someOptions = null) {
+    IRepository get(string alias, STRINGAA someOptions = null) {
         auto storeOptions = $options;
         storeOptions.remove("allowFallbackClass");
 

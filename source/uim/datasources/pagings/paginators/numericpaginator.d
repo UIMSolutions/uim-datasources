@@ -12,7 +12,7 @@ import uim.datasources.IResultSet;
  */
 class NumericPaginator : PaginatorInterface
 {
-    use InstanceConfigTrait;
+    mixin InstanceConfigTemplate;
 
     /**
      * Default pagination settings.
