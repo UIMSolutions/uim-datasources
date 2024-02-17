@@ -494,7 +494,7 @@ class NumericPaginator : IPaginator {
         sortAllowed = false;
         if (isSet($options["sortableFields"])) {
             field = key($options["order"]);
-            sortAllowed = in_array($field, options["sortableFields"], true);
+            sortAllowed = in_array(field, options["sortableFields"], true);
             if (!$sortAllowed) {
                 options["order"] = [];
                 options["sort"] = null;
@@ -522,15 +522,15 @@ class NumericPaginator : IPaginator {
      */
     protected IData[string] _removeAliases(IData[string] fields, string amodel) {
         auto result;
-        foreach ($field: sort; fields) {
-            if (isInt($field)) {
+        foreach (field: sort; fields) {
+            if (isInt(field)) {
                 throw new UimException(
                     "The `order` config must be an associative array. Found invalid value with numeric key: `%s`".format(
                     sort
                 ));
             }
-            if (!$field.has(".")) {
-                result[$field] = sort;
+            if (!field.has(".")) {
+                result[field] = sort;
                 continue;
             }
             [$alias, currentField] = split(".", field);
@@ -539,7 +539,7 @@ class NumericPaginator : IPaginator {
                 result[$currentField] = sort;
                 continue;
             }
-            result[$field] = sort;
+            result[field] = sort;
         }
         return result;
     }
@@ -569,11 +569,11 @@ class NumericPaginator : IPaginator {
 
             if ($correctAlias && allowed) {
                 // Disambiguate fields in schema. As id is quite common.
-                if ($object.hasField($field)) {
+                if ($object.hasField(field)) {
                     field = alias ~ "." ~ field;
                 }
-                aTableOrder[$field] = aValue;
-            } else if ($correctAlias && object.hasField($field)) {
+                aTableOrder[field] = aValue;
+            } else if ($correctAlias && object.hasField(field)) {
                 aTableOrder[aTableAlias ~ "." ~ field] = aValue;
             } else if (!$correctAlias && allowed) {
                 aTableOrder[$alias ~ "." ~ field] = aValue;

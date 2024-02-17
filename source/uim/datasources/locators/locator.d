@@ -25,7 +25,7 @@ abstract class AbstractLocator : ILocator {
     /**
      * {@inheritDoc}
      *
-     * @param string $alias The alias name you want to get.
+     * @param string alias The alias name you want to get.
      * @param array<string, mixed> $options The options you want to build the table with.
      */
     IRepository get(string alias, STRINGAA someOptions = null) {
@@ -51,24 +51,24 @@ abstract class AbstractLocator : ILocator {
     /**
      * Create an instance of a given classname.
      *
-     * @param string $alias Repository alias.
+     * @param string alias Repository alias.
      * @param array<string, mixed> $options The options you want to build the instance with.
      * @return uim.cake.Datasource\
      */
-    abstract protected IRepository createInstance(string $alias, STRINGAA someOptions);
+    abstract protected IRepository createInstance(string alias, STRINGAA someOptions);
 
 
-    function set(string $alias, IRepository $repository) {
+    function set(string alias, IRepository $repository) {
         return this.instances[$alias] = $repository;
     }
 
 
-    bool exists(string $alias) {
+    bool exists(string alias) {
         return isset(this.instances[$alias]);
     }
 
 
-    void remove(string $alias) {
+    void remove(string alias) {
         unset(
             this.instances[$alias],
             this.options[$alias]

@@ -48,9 +48,9 @@ interface IRepository {
      *
      * ```
      *  anId = 10;
-     * $article = articles.get(anId);
+     * article = articles.get(anId);
      *
-     * $article = $articles.get(anId, ["contain": ["Comments]]);
+     * article = articles.get(anId, ["contain": ["Comments]]);
      * ```
      * Params:
      * Json $primaryKey primary key value to find
@@ -76,7 +76,7 @@ interface IRepository {
     /**
      * Update all matching records.
      *
-     * Sets the $fields to the provided values based on $conditions.
+     * Sets the fields to the provided values based on $conditions.
      * This method will *not* trigger beforeSave/afterSave events. If you need those
      * first load a collection of records and update them.
      * Params:
@@ -146,7 +146,7 @@ interface IRepository {
      * For example, in your controller code:
      *
      * ```
-     * $article = this.Articles.newEntity(this.request.getData());
+     * article = this.Articles.newEntity(this.request.getData());
      * ```
      *
      * The hydrated entity will correctly do an insert/update based
@@ -165,7 +165,7 @@ interface IRepository {
      * For example, in your controller code:
      *
      * ```
-     * $articles = this.Articles.newEntities(this.request.getData());
+     * articles = this.Articles.newEntities(this.request.getData());
      * ```
      *
      * The hydrated entities can then be iterated and saved.
@@ -180,7 +180,7 @@ interface IRepository {
      * This is most useful when editing an existing entity using request data:
      *
      * ```
-     * $article = this.Articles.patchEntity($article, this.request.getData());
+     * article = this.Articles.patchEntity($article, this.request.getData());
      * ```
      * Params:
      * \UIM\Datasource\IEntity $entity the entity that will get the

@@ -22,10 +22,10 @@ interface IQuery {
      * If `true` is passed in the second argument, any previous selections will
      * be overwritten with the list passed in the first argument.
      * Params:
-     * \Closure|string[]|float|int $fields Fields.
+     * \Closure|string[]|float|int fields Fields.
      * @param bool $overwrite whether to reset fields with passed list or not
      */
-    auto select(Closure|string[]|float|int $fields, bool $overwrite = false);
+    auto select(Closure|string[]|float|int fields, bool $overwrite = false);
 
     /**
      * Returns a key: value array representing a single aliased field
@@ -33,10 +33,10 @@ interface IQuery {
      * The key will contain the alias and the value the actual field name.
      *
      * If the field is already aliased, then it will not be changed.
-     * If no $alias is passed, the default table for this query will be used.
+     * If no alias is passed, the default table for this query will be used.
      * Params:
      * string afield The field to alias
-     * @param string|null $alias the alias used to prefix the field
+     * @param string|null alias the alias used to prefix the field
      */
     STRINGAA aliasField(string fieldName, string aliasName = null);
 
@@ -44,10 +44,10 @@ interface IQuery {
      * Runs `aliasField()` for each field in the provided list and returns
      * the result under a single array.
      * Params:
-     * array $fields The fields to alias
+     * array fields The fields to alias
      * @param string|null $defaultAlias The default alias
      */
-    STRINGAA aliasFields(array $fields, string adefaultAlias = null);
+    STRINGAA aliasFields(array fields, string adefaultAlias = null);
 
     /**
      * Fetch the results for this query.
@@ -334,7 +334,7 @@ interface IQuery {
      * .where(["title !=": 'Hello World"])
      * .where(function ($exp, aQuery) {
      *     $or = $exp.or(["id": 1]);
-     *     $and = $exp.and(["id >": 2, "id <": 10]);
+     *     and = $exp.and(["id >": 2, "id <": 10]);
      * return $or.add($and);
      * });
      * ```

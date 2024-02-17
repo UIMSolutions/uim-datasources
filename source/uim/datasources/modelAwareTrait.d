@@ -20,23 +20,9 @@ use UnexpectedValueException;
 trait ModelAwareTrait
 {
     /**
-     * This object"s primary model class name. Should be a plural form.
-     * Example: For an object named "Comments", the modelClass would be "Comments".
-     * Plugin classes should use `Plugin.Comments` style names to correctly load models from the correct plugin.
-     *
-     * Use empty string to not use auto-loading on this object. Null auto-detects based on
-     * controller name.
-     *
-     * @deprecated 4.3.0 Use `Cake\orm.Locator\LocatorAwareTrait::defaultTable` instead.
-     */
-    protected string _modelClassName;
-
-    /**
      * A list of overridden model factory functions.
-     *
-     * @var array<callable|uim.cake.Datasource\Locator\ILocator>
      */
-    protected _modelFactories = null;
+    protected ILocator[] _modelFactories = null;
 
     /**
      * The model type to use.

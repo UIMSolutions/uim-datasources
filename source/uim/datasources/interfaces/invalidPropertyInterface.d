@@ -23,26 +23,26 @@ interface InvalidPropertyInterface
      * This value could not be patched into the entity and is simply copied into the _invalid property for debugging
      * purposes or to be able to log it away.
      *
-     * @param array<string, mixed> $fields The values to set.
-     * @param bool canOverwrite Whether to overwrite pre-existing values for $field.
+     * @param array<string, mixed> fields The values to set.
+     * @param bool canOverwrite Whether to overwrite pre-existing values for field.
      * @return this
      */
-    function setInvalid(array $fields, bool canOverwrite = false);
+    function setInvalid(array fields, bool canOverwrite = false);
 
     /**
      * Get a single value of an invalid field. Returns null if not set.
      *
-     * @param string $field The name of the field.
+     * @param string field The name of the field.
      * @return mixed|null
      */
-    function getInvalidField(string $field);
+    function getInvalidField(string field);
 
     /**
      * Sets a field as invalid and not patchable into the entity.
      *
-     * @param string $field The value to set.
-     * @param mixed $value The invalid value to be set for $field.
+     * @param string field The value to set.
+     * @param mixed value The invalid value to be set for field.
      * @return this
      */
-    function setInvalidField(string $field, $value);
+    function setInvalidField(string field, value);
 }

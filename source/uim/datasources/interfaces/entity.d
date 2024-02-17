@@ -26,10 +26,10 @@ interface IEntity : ArrayAccess, JsonSerializable, Stringable {
     /**
      * Sets the virtual fields on this entity.
      * Params:
-     * string[] $fields An array of fields to treat as virtual.
+     * string[] fields An array of fields to treat as virtual.
      * @param bool $merge Merge the new fields with the existing. By default false.
      */
-    auto setVirtual(array $fields, bool $merge = false);
+    auto setVirtual(array fields, bool $merge = false);
 
     // Gets the virtual fields on this entity.
     string[] getVirtual();
@@ -57,7 +57,7 @@ interface IEntity : ArrayAccess, JsonSerializable, Stringable {
     /**
      * Checks if the entity is dirty or if a single field of it is dirty.
      * Params:
-     * string|null $field The field to check the status for. Null for the whole entity.
+     * string|null field The field to check the status for. Null for the whole entity.
      */
     bool isDirty(string fieldName = null);
 
@@ -91,8 +91,8 @@ interface IEntity : ArrayAccess, JsonSerializable, Stringable {
      * Sets errors for a single field
      * Params:
      * string fieldName The field to get errors for, or the array of errors to set.
-     * @param string[] aerrors The errors to be set for $field
-     * @param bool $overwrite Whether to overwrite pre-existing errors for $field
+     * @param string[] aerrors The errors to be set for field
+     * @param bool $overwrite Whether to overwrite pre-existing errors for field
      */
     IEntity setErrors(string fieldName, string[] aerrors, bool $overwrite = false);
 
@@ -123,17 +123,17 @@ interface IEntity : ArrayAccess, JsonSerializable, Stringable {
      * Returns an array with the requested original fields
      * stored in this entity, indexed by field name.
      * Params:
-     * string[] $fields List of fields to be returned
+     * string[] fields List of fields to be returned
      */
-    array extractOriginal(array $fields);
+    array extractOriginal(array fields);
 
     /**
      * Returns an array with only the original fields
      * stored in this entity, indexed by field name.
      * Params:
-     * string[] $fields List of fields to be returned
+     * string[] fields List of fields to be returned
      */
-    array extractOriginalChanged(array $fields);
+    array extractOriginalChanged(array fields);
 
     /**
      * Sets one or multiple fields to the specified value
@@ -182,7 +182,7 @@ interface IEntity : ArrayAccess, JsonSerializable, Stringable {
     array getOriginalValues();
 
     /**
-     * Returns whether this entity contains a field named $field.
+     * Returns whether this entity contains a field named field.
      *
      * The method will return `true` even when the field is set to `null`.
      * Params:
@@ -209,10 +209,10 @@ interface IEntity : ArrayAccess, JsonSerializable, Stringable {
      * Returns an array with the requested fields
      * stored in this entity, indexed by field name
      * Params:
-     * string[] $fields list of fields to be returned
+     * string[] fields list of fields to be returned
      * @param bool $onlyDirty Return the requested field only if it is dirty
      */
-    array extract(array $fields, bool $onlyDirty = false);
+    array extract(array fields, bool $onlyDirty = false);
 
     /**
      * Sets the entire entity as clean, which means that it will appear as

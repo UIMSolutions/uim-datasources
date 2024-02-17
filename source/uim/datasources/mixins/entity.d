@@ -96,7 +96,7 @@ mixin EntityTemplate {
      * string afield Name of the field to access
     */
   Json & __get(string afield) {
-    return this.get($field);
+    return this.get(field);
   }
 
   /**
@@ -106,7 +106,7 @@ mixin EntityTemplate {
      * @param Json aValue The value to set to the field
      */
   void __set(string afield, Json aValue) {
-    this.set($field, aValue);
+    this.set(field, aValue);
   }
 
   /**
@@ -116,7 +116,7 @@ mixin EntityTemplate {
      * string afield The field to check.
      */
   bool __isSet(string afield) {
-    return this.get($field) !isNull;
+    return this.get(field) !isNull;
   }
 
   /**
@@ -125,7 +125,7 @@ mixin EntityTemplate {
      * string afield The field to unset
      */
   void __unset(string afield) {
-    this.unset($field);
+    this.unset(field);
   }
 
   /**
@@ -196,22 +196,22 @@ mixin EntityTemplate {
      * @throws \InvalidArgumentException
      */
   void set(string[] afield, Json aValue = null, IData[string] optionData = null) {
-    if (isString($field) && !$field.isEmpty) {
+    if (isString(field) && !field.isEmpty) {
       guard = false;
-      field = [$field: aValue];
+      field = [field: aValue];
     } else {
       guard = true;
       options = (array) aValue;
     }
-    if (!isArray($field)) {
+    if (!isArray(field)) {
       throw new InvalidArgumentException("Cannot set an empty field");
     }
     options += ["setter": true, "guard": guard, "asOriginal": false];
 
     if ($options["asOriginal"] == true) {
-      this.setOriginalField(array_keys($field));
+      this.setOriginalField(array_keys(field));
     }
-    foreach ($field as$name : aValue) {
+    foreach (field as$name : aValue) {
       /** @psalm-suppress RedundantCastGivenDocblockType */
       name = (string)$name;
       if ($options["guard"] == true && !this.isAccessible($name)) {
@@ -265,7 +265,7 @@ mixin EntityTemplate {
 
       return result;
     }
-    if (!$fieldIsPresent && this.requireFieldPresence) {
+    if (!fieldIsPresent && this.requireFieldPresence) {
       throw new MissingPropertyException([
           "property": fieldName,
           "entity": this.classname,
@@ -291,7 +291,7 @@ mixin EntityTemplate {
      * string afield
      */
   bool hasOriginal(string afield) {
-    return array_key_exists($field, _original);
+    return array_key_exists(field, _original);
   }
 
   /**
@@ -301,17 +301,17 @@ mixin EntityTemplate {
      * @param bool allowFallback whether to allow falling back to the current field value if no original exists
      */
   Json getOriginal(string afield, bool$allowFallback = true) {
-    if ($field.isEmpty) {
+    if (field.isEmpty) {
       throw new InvalidArgumentException("Cannot get an empty field");
     }
-    if (array_key_exists($field, _original)) {
-      return _original[$field];
+    if (array_key_exists(field, _original)) {
+      return _original[field];
     }
     if (!$allowFallback) {
       throw new InvalidArgumentException(
-        "Cannot retrieve original value for field `%s`".format($field));
+        "Cannot retrieve original value for field `%s`".format(field));
     }
-    return this.get($field);
+    return this.get(field);
   }
 
   /**
@@ -358,7 +358,7 @@ mixin EntityTemplate {
      * string[]|string afield The field or fields to check.
      */
   bool has(string[] afield) {
-    foreach ((array)$field as$prop) {
+    foreach ((array)field as$prop) {
       if (!array_key_exists($prop, _fields) && !_accessor($prop, "get")) {
         return false;
       }
@@ -381,7 +381,7 @@ mixin EntityTemplate {
      * string afield The field to check.
      */
   bool isEmpty(string afield) {
-    aValue = this.get($field);
+    aValue = this.get(field);
     if (
       aValue.isNull ||
       (
@@ -411,7 +411,7 @@ mixin EntityTemplate {
      * string afield The field to check.
      */
   bool hasValue(string afield) {
-    return !this.isEmpty($field);
+    return !this.isEmpty(field);
   }
 
   /**
@@ -427,8 +427,8 @@ mixin EntityTemplate {
      * string[]|string afield The field to unset.
      */
   auto unset(string[] afield) {
-    field = (array)$field;
-    foreach ($field as$p) {
+    field = (array)field;
+    foreach (field as$p) {
       unset(_fields[$p], _dirty[$p]);
     }
     return this;
@@ -440,14 +440,14 @@ mixin EntityTemplate {
      * string[] fields An array of fields to hide from array exports.
      * @param bool merge Merge the new fields with the existing. By default false.
      */
-  void setHidden(string[]$fields, bool$merge = false) {
+  void setHidden(string[]fields, bool$merge = false) {
     if ($merge == false) {
       _hidden = fields;
 
       return;
     }
     fields = chain(_hidden, fields);
-    _hidden = array_unique($fields);
+    _hidden = array_unique(fields);
   }
 
   // Gets the hidden fields.
@@ -461,14 +461,14 @@ mixin EntityTemplate {
      * string[] fields An array of fields to treat as virtual.
      * @param bool merge Merge the new fields with the existing. By default false.
      */
-  void setVirtual(array$fields, bool$merge = false) {
+  void setVirtual(arrayfields, bool$merge = false) {
     if ($merge == false) {
       _virtual = fields;
 
       return;
     }
     fields = chain(_virtual, fields);
-    _virtual = array_unique($fields);
+    _virtual = array_unique(fields);
   }
 
   /**
@@ -486,9 +486,9 @@ mixin EntityTemplate {
      */
   string[] getVisible() {
     fields = array_keys(_fields);
-    fields = chain($fields, _virtual);
+    fields = chain(fields, _virtual);
 
-    return array_diff($fields, _hidden);
+    return array_diff(fields, _hidden);
   }
 
   /**
@@ -500,19 +500,19 @@ mixin EntityTemplate {
      */
   array toArray() {
     auto result;
-    foreach (this.getVisible() as$field) {
-      aValue = this.get($field);
+    foreach (this.getVisible() asfield) {
+      aValue = this.get(field);
       if (isArray(aValue)) {
-        result[$field] = [];
+        result[field] = [];
         aValue.byKeyValue
-          .each!(keyEntity => result[$field][keyEntity.key] = cast(IEntity) keyEntity.value
+          .each!(keyEntity => result[field][keyEntity.key] = cast(IEntity) keyEntity.value
               ? entity.toArray() : entity);
       }
 
       else if(cast(IEntity) aValue) {
-        result[$field] = aValue.toArray();
+        result[field] = aValue.toArray();
       } else {
-        result[$field] = aValue;
+        result[field] = aValue;
       }
     }
     return result;
@@ -575,11 +575,11 @@ mixin EntityTemplate {
         continue;
       }
 
-      string$field = lcfirst(substr(method, 4));
-      snakeField = Inflector :  : underscore($field);
-      titleField = ucfirst($field);
+      stringfield = lcfirst(substr(method, 4));
+      snakeField = Inflector :  : underscore(field);
+      titleField = ucfirst(field);
       _accessors[className][prefix][$snakeField] = method;
-      _accessors[className][prefix][$field] = method;
+      _accessors[className][prefix][field] = method;
       _accessors[className][prefix][$titleField] = method;
     });
     if (!isSet(_accessors[className][accessorType][aProperty])) {
@@ -612,11 +612,11 @@ mixin EntityTemplate {
      * Params:
      * string[] fields List of fields to be returned
      */
-  array extractOriginal(array$fields) {
+  array extractOriginal(arrayfields) {
     auto result;
     fields.each!((field) {
       if (this.hasOriginal(field)) {
-        result[$field] = this.getOriginal(field);
+        result[field] = this.getOriginal(field);
       }
       else if(this.isOriginalField(field)) {
         result[field] = this.get(field);
@@ -665,7 +665,7 @@ mixin EntityTemplate {
      * string[]|string afield the name of a field or a list of fields to set as original
      * @param bool merge
      */
-  protected void setOriginalField(string | array$field, bool$merge = true) {
+  protected void setOriginalField(string | arrayfield, bool$merge = true) {
   }
   protected void setOriginalField(string[] fields, bool$merge = true) {
     if (!$merge) {
@@ -675,7 +675,7 @@ mixin EntityTemplate {
     }
     fields
       .each!((field) {
-        field = (string)$field; if (!this.isOriginalField($field)) {
+        field = (string)field; if (!this.isOriginalField(field)) {
           _originalFields ~= field;}
         });
       }
@@ -689,14 +689,14 @@ mixin EntityTemplate {
      */
     auto setDirty(string afield, bool isDirty = true) {
       if (isDirty == false) {
-        this.setOriginalField($field);
+        this.setOriginalField(field);
 
-        unset(_dirty[$field], _original[$field]);
+        unset(_dirty[field], _original[field]);
 
         return this;
       }
-      _dirty[$field] = true;
-      unset(_errors[$field], _invalid[$field]);
+      _dirty[field] = true;
+      unset(_errors[field], _invalid[field]);
 
       return this;
     }
@@ -707,10 +707,10 @@ mixin EntityTemplate {
      * string field The field to check the status for. Null for the whole entity.
      */
     bool isDirty(string afield = null) {
-      if ($field.isNull) {
+      if (field.isNull) {
         return !_dirty.isEmpty;
       }
-      return isSet(_dirty[$field]);
+      return isSet(_dirty[field]);
     }
 
     // Gets the dirty fields.
@@ -775,8 +775,8 @@ mixin EntityTemplate {
       }
       _hasBeenVisited = true;
       try {
-        foreach (_fields as$field) {
-          if (_readHasErrors($field)) {
+        foreach (_fields asfield) {
+          if (_readHasErrors(field)) {
             return true;
           }
         }
@@ -809,7 +809,7 @@ mixin EntityTemplate {
      * string afield Field name to get the errors from
      */
                   array getError(string afield) {
-                    return _errors[$field] ?  ? _nestedErrors($field);}
+                    return _errors[field] ?  ? _nestedErrors(field);}
 
                     /**
      * Sets error messages to the entity
@@ -858,7 +858,7 @@ mixin EntityTemplate {
                               auto setErrors(string afield, string[] aerrors, bool$overwrite = false) {
                                 if (isString($errors)) {
                                   errors = [$errors];}
-                                  return this.setErrors([$field: errors], overwrite);
+                                  return this.setErrors([field: errors], overwrite);
                                 }
 
                                 /**
@@ -972,20 +972,20 @@ mixin EntityTemplate {
      * IData[string] fields The values to set.
      * @param bool overwrite Whether to overwrite pre-existing values for field.
      */
-                                                              void setFieldsInvalid(array$fields, bool$overwrite = false) {
-                                                                foreach ($fields as$field : aValue) {
+                                                              void setFieldsInvalid(arrayfields, bool$overwrite = false) {
+                                                                foreach (fields asfield : aValue) {
                                                                   if ($overwrite == true) {
-                                                                    _invalid[$field] = aValue;
+                                                                    _invalid[field] = aValue;
                                                                     continue;}
-                                                                    _invalid += [$field: aValue];
+                                                                    _invalid += [field: aValue];
                                                                   }
                                                                 }
 
-                                                                void setFieldInvalid($field, aValue, bool$overwrite = false) {
+                                                                void setFieldInvalid(field, aValue, bool$overwrite = false) {
                                                                   if ($overwrite == true) {
-                                                                    _invalid[$field] = aValue;
+                                                                    _invalid[field] = aValue;
                                                                     continue;}
-                                                                    _invalid += [$field: aValue];
+                                                                    _invalid += [field: aValue];
                                                                   }
 
                                                                   /**
@@ -995,7 +995,7 @@ mixin EntityTemplate {
      * @param Json aValue The invalid value to be set for field.
      */
                                                                   auto setInvalidField(string afield, Json aValue) {
-                                                                    _invalid[$field] = aValue;
+                                                                    _invalid[field] = aValue;
 
                                                                     return this;}
 
@@ -1023,14 +1023,14 @@ mixin EntityTemplate {
      * mark it as protected.
      */
                                                                     auto setAccess(string[] afield, bool$set) {
-                                                                      if ($field == "*") {
+                                                                      if (field == "*") {
                                                                         _accessible = array_map(fn($p) : set, _accessible);
                                                                         _accessible["*"] = set;
 
                                                                         return this;
                                                                       }
                                                                       foreach (
-                                                                        (array)$field as$prop) {
+                                                                        (array)field as$prop) {
                                                                         _accessible[$prop] = set;
                                                                       }
                                                                       return this;
@@ -1056,7 +1056,7 @@ mixin EntityTemplate {
      * string afield Field name to check
      */
                                                                     bool isAccessible(string afield) {
-                                                                      aValue = _accessible[$field] ?  ? null;
+                                                                      aValue = _accessible[field] ?  ? null;
 
                                                                       return (aValue.isNull && !empty(
                                                                       _accessible["*"])) || aValue;
@@ -1093,9 +1093,9 @@ mixin EntityTemplate {
      */
                                                                     IData[string] debugInfo() {
                                                                       fields = _fields;
-                                                                      foreach (_virtual as$field) {
-                                                                        fields[$field] = this
-                                                                        .$field;}
+                                                                      foreach (_virtual asfield) {
+                                                                        fields[field] = this
+                                                                        .field;}
                                                                         return fields ~ [
                                                                           "[new]": this.isNew(),
                                                                           "[accessible]": _accessible,

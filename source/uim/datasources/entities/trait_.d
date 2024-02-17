@@ -105,42 +105,42 @@ trait EntityTrait
     /**
      * Magic getter to access fields that have been set in this entity
      *
-     * @param string $field Name of the field to access
+     * @param string field Name of the field to access
      * @return mixed
      */
-    function &__get(string $field) {
-        return this.get($field);
+    function &__get(string field) {
+        return this.get(field);
     }
 
     /**
      * Magic setter to add or edit a field in this entity
      *
-     * @param string $field The name of the field to set
-     * @param mixed $value The value to set to the field
+     * @param string field The name of the field to set
+     * @param mixed value The value to set to the field
      */
-    void __set(string $field, $value) {
-        this.set($field, $value);
+    void __set(string field, value) {
+        this.set(field, value);
     }
 
     /**
-     * Returns whether this entity contains a field named $field
+     * Returns whether this entity contains a field named field
      * and is not set to null.
      *
-     * @param string $field The field to check.
+     * @param string field The field to check.
      * @return bool
      * @see uim.cake.orm.Entity::has()
      */
-    bool __isSet(string $field) {
-        return this.has($field);
+    bool __isSet(string field) {
+        return this.has(field);
     }
 
     /**
      * Removes a field from this entity
      *
-     * @param string $field The field to unset
+     * @param string field The field to unset
      */
-    void __unset(string $field) {
-        this.unset($field);
+    void __unset(string field) {
+        this.unset(field);
     }
 
     /**
@@ -188,30 +188,30 @@ trait EntityTrait
      * $entity.set("name", "Andrew");
      * ```
      *
-     * @param array<string, mixed>|string $field the name of field to set or a list of
+     * @param array<string, mixed>|string field the name of field to set or a list of
      * fields with their respective values
-     * @param mixed $value The value to set to the field or an array if the
+     * @param mixed value The value to set to the field or an array if the
      * first argument is also an array, in which case will be treated as $options
      * @param array<string, mixed> $options Options to be used for setting the field. Allowed option
      * keys are `setter` and `guard`
      * @return this
      * @throws \InvalidArgumentException
      */
-    function set($field, $value = null, STRINGAA someOptions = null) {
-        if (is_string($field) && $field != "") {
+    function set(field, value = null, STRINGAA someOptions = null) {
+        if (is_string(field) && field != "") {
             $guard = false;
-            $field = [$field: $value];
+            field = [field: value];
         } else {
             $guard = true;
-            $options = (array)$value;
+            $options = (array)value;
         }
 
-        if (!is_array($field)) {
+        if (!is_array(field)) {
             throw new InvalidArgumentException("Cannot set an empty field");
         }
         $options += ["setter": true, "guard": $guard];
 
-        foreach ($field as $name: $value) {
+        foreach (field as $name: value) {
             $name = (string)$name;
             if ($options["guard"] == true && !this.isAccessible($name)) {
                 continue;
@@ -222,21 +222,21 @@ trait EntityTrait
             if (
                 !array_key_exists($name, _original) &&
                 array_key_exists($name, _fields) &&
-                _fields[$name] != $value
+                _fields[$name] != value
             ) {
                 _original[$name] = _fields[$name];
             }
 
             if (!$options["setter"]) {
-                _fields[$name] = $value;
+                _fields[$name] = value;
                 continue;
             }
 
             $setter = _accessor($name, "set");
             if ($setter) {
-                $value = this.{$setter}($value);
+                value = this.{$setter}(value);
             }
-            _fields[$name] = $value;
+            _fields[$name] = value;
         }
 
         return this;
@@ -245,47 +245,47 @@ trait EntityTrait
     /**
      * Returns the value of a field by name
      *
-     * @param string $field the name of the field to retrieve
+     * @param string field the name of the field to retrieve
      * @return mixed
      * @throws \InvalidArgumentException if an empty field name is passed
      */
-    function &get(string $field) {
-        if ($field == "") {
+    function &get(string field) {
+        if (field == "") {
             throw new InvalidArgumentException("Cannot get an empty field");
         }
 
-        $value = null;
+        value = null;
 
-        if (_fields.isSet($field)) {
-            $value = &_fields[$field];
+        if (_fields.isSet(field)) {
+            value = &_fields[field];
         }
 
-        $method = _accessor($field, "get");
+        $method = _accessor(field, "get");
         if ($method) {
-            $result = this.{$method}($value);
+            $result = this.{$method}(value);
 
             return $result;
         }
 
-        return $value;
+        return value;
     }
 
     /**
      * Returns the value of an original field by name
      *
-     * @param string $field the name of the field for which original value is retrieved.
+     * @param string field the name of the field for which original value is retrieved.
      * @return mixed
      * @throws \InvalidArgumentException if an empty field name is passed.
      */
-    function getOriginal(string $field) {
-        if ($field == "") {
+    function getOriginal(string field) {
+        if (field == "") {
             throw new InvalidArgumentException("Cannot get an empty field");
         }
-        if (array_key_exists($field, _original)) {
-            return _original[$field];
+        if (array_key_exists(field, _original)) {
+            return _original[field];
         }
 
-        return this.get($field);
+        return this.get(field);
     }
 
     /**
@@ -294,9 +294,9 @@ trait EntityTrait
     array getOriginalValues() {
         $originals = _original;
         $originalKeys = array_keys($originals);
-        foreach (_fields as $key: $value) {
+        foreach (_fields as $key: value) {
             if (!hasAllValues($key, $originalKeys, true)) {
-                $originals[$key] = $value;
+                $originals[$key] = value;
             }
         }
 
@@ -304,7 +304,7 @@ trait EntityTrait
     }
 
     /**
-     * Returns whether this entity contains a field named $field
+     * Returns whether this entity contains a field named field
      * that contains a non-null value.
      *
      * ### Example:
@@ -327,10 +327,10 @@ trait EntityTrait
      * When checking multiple fields. All fields must not be null
      * in order for true to be returned.
      *
-     * @param array<string>|string $field The field or fields to check.
+     * @param array<string>|string field The field or fields to check.
      */
-    bool has($field) {
-        foreach ((array)$field as $prop) {
+    bool has(field) {
+        foreach ((array)field as $prop) {
             if (this.get($prop) == null) {
                 return false;
             }
@@ -351,18 +351,18 @@ trait EntityTrait
      *
      * and false in all other cases.
      *
-     * @param string $field The field to check.
+     * @param string field The field to check.
      */
-    bool isEmpty(string $field) {
-        $value = this.get($field);
+    bool isEmpty(string field) {
+        value = this.get(field);
         if (
-            $value == null ||
+            value == null ||
             (
-                is_array($value) &&
-                empty($value) ||
+                is_array(value) &&
+                empty(value) ||
                 (
-                    is_string($value) &&
-                    $value == ""
+                    is_string(value) &&
+                    value == ""
                 )
             )
         ) {
@@ -385,10 +385,10 @@ trait EntityTrait
      *
      * and false in all other cases.
      *
-     * @param string $field The field to check.
+     * @param string field The field to check.
      */
-    bool hasValue(string $field) {
-        return !this.isEmpty($field);
+    bool hasValue(string field) {
+        return !this.isEmpty(field);
     }
 
     /**
@@ -401,12 +401,12 @@ trait EntityTrait
      * $entity.unset(["name", "last_name"]);
      * ```
      *
-     * @param array<string>|string $field The field to unset.
+     * @param array<string>|string field The field to unset.
      * @return this
      */
-    function unset($field) {
-        $field = (array)$field;
-        foreach ($field as $p) {
+    function unset(field) {
+        field = (array)field;
+        foreach (field as $p) {
             unset(_fields[$p], _original[$p], _dirty[$p]);
         }
 
@@ -417,31 +417,31 @@ trait EntityTrait
      * Removes a field or list of fields from this entity
      *
      * @deprecated 4.0.0 Use {@link unset()} instead. Will be removed in 5.0.
-     * @param array<string>|string $field The field to unset.
+     * @param array<string>|string field The field to unset.
      * @return this
      */
-    function unsetProperty($field) {
+    function unsetProperty(field) {
         deprecationWarning("EntityTrait::unsetProperty() is deprecated. Use unset() instead.");
 
-        return this.unset($field);
+        return this.unset(field);
     }
 
     /**
      * Sets hidden fields.
      *
-     * @param array<string> $fields An array of fields to hide from array exports.
+     * @param array<string> fields An array of fields to hide from array exports.
      * @param bool $merge Merge the new fields with the existing. By default false.
      * @return this
      */
-    function setHidden(array $fields, bool $merge = false) {
+    function setHidden(array fields, bool $merge = false) {
         if ($merge == false) {
-            _hidden = $fields;
+            _hidden = fields;
 
             return this;
         }
 
-        $fields = array_merge(_hidden, $fields);
-        _hidden = array_unique($fields);
+        fields = array_merge(_hidden, fields);
+        _hidden = array_unique(fields);
 
         return this;
     }
@@ -458,19 +458,19 @@ trait EntityTrait
     /**
      * Sets the virtual fields on this entity.
      *
-     * @param array<string> $fields An array of fields to treat as virtual.
+     * @param array<string> fields An array of fields to treat as virtual.
      * @param bool $merge Merge the new fields with the existing. By default false.
      * @return this
      */
-    function setVirtual(array $fields, bool $merge = false) {
+    function setVirtual(array fields, bool $merge = false) {
         if ($merge == false) {
-            _virtual = $fields;
+            _virtual = fields;
 
             return this;
         }
 
-        $fields = array_merge(_virtual, $fields);
-        _virtual = array_unique($fields);
+        fields = array_merge(_virtual, fields);
+        _virtual = array_unique(fields);
 
         return this;
     }
@@ -494,10 +494,10 @@ trait EntityTrait
      *     representations.
      */
     array getVisible() {
-        $fields = array_keys(_fields);
-        $fields = array_merge($fields, _virtual);
+        fields = array_keys(_fields);
+        fields = array_merge(fields, _virtual);
 
-        return array_diff($fields, _hidden);
+        return array_diff(fields, _hidden);
     }
 
     /**
@@ -509,21 +509,21 @@ trait EntityTrait
      */
     array toArray() {
         $result = null;
-        foreach (this.getVisible() as $field) {
-            $value = this.get($field);
-            if (is_array($value)) {
-                $result[$field] = null;
-                foreach ($value as $k: $entity) {
+        foreach (this.getVisible() as field) {
+            value = this.get(field);
+            if (is_array(value)) {
+                $result[field] = null;
+                foreach (value as $k: $entity) {
                     if ($entity instanceof IEntity) {
-                        $result[$field][$k] = $entity.toArray();
+                        $result[field][$k] = $entity.toArray();
                     } else {
-                        $result[$field][$k] = $entity;
+                        $result[field][$k] = $entity;
                     }
                 }
-            } elseif ($value instanceof IEntity) {
-                $result[$field] = $value.toArray();
+            } elseif (value instanceof IEntity) {
+                $result[field] = value.toArray();
             } else {
-                $result[$field] = $value;
+                $result[field] = value;
             }
         }
 
@@ -559,13 +559,13 @@ trait EntityTrait
     }
 
     /**
-     * : $entity[$offset] = $value;
+     * : $entity[$offset] = value;
      *
      * @param string $offset The offset to set.
-     * @param mixed $value The value to set.
+     * @param mixed value The value to set.
      */
-    void offsetSet($offset, $value) {
-        this.set($offset, $value);
+    void offsetSet($offset, value) {
+        this.set($offset, value);
     }
 
     /**
@@ -605,11 +605,11 @@ trait EntityTrait
             if ($method[0] != "_" || ($prefix != "get" && $prefix != "set")) {
                 continue;
             }
-            $field = lcfirst(substr($method, 4));
-            $snakeField = Inflector::underscore($field);
-            titleField = ucfirst($field);
+            field = lcfirst(substr($method, 4));
+            $snakeField = Inflector::underscore(field);
+            titleField = ucfirst(field);
             _accessors[$class][$prefix][$snakeField] = $method;
-            _accessors[$class][$prefix][$field] = $method;
+            _accessors[$class][$prefix][field] = $method;
             _accessors[$class][$prefix][$titleField] = $method;
         }
 
@@ -624,14 +624,14 @@ trait EntityTrait
      * Returns an array with the requested fields
      * stored in this entity, indexed by field name
      *
-     * @param array<string> $fields list of fields to be returned
+     * @param array<string> fields list of fields to be returned
      * @param bool $onlyDirty Return the requested field only if it is dirty
      */
-    array extract(array $fields, bool $onlyDirty = false) {
+    array extract(array fields, bool $onlyDirty = false) {
         $result = null;
-        foreach ($fields as $field) {
-            if (!$onlyDirty || this.isDirty($field)) {
-                $result[$field] = this.get($field);
+        foreach (fields as field) {
+            if (!$onlyDirty || this.isDirty(field)) {
+                $result[field] = this.get(field);
             }
         }
 
@@ -645,12 +645,12 @@ trait EntityTrait
      * Fields that are unchanged from their original value will be included in the
      * return of this method.
      *
-     * @param array<string> $fields List of fields to be returned
+     * @param array<string> fields List of fields to be returned
      */
-    array extractOriginal(array $fields) {
+    array extractOriginal(array fields) {
         $result = null;
-        foreach ($fields as $field) {
-            $result[$field] = this.getOriginal($field);
+        foreach (fields as field) {
+            $result[field] = this.getOriginal(field);
         }
 
         return $result;
@@ -663,14 +663,14 @@ trait EntityTrait
      * This method will only return fields that have been modified since
      * the entity was built. Unchanged fields will be omitted.
      *
-     * @param array<string> $fields List of fields to be returned
+     * @param array<string> fields List of fields to be returned
      */
-    array extractOriginalChanged(array $fields) {
+    array extractOriginalChanged(array fields) {
         $result = null;
-        foreach ($fields as $field) {
-            $original = this.getOriginal($field);
-            if ($original != this.get($field)) {
-                $result[$field] = $original;
+        foreach (fields as field) {
+            $original = this.getOriginal(field);
+            if ($original != this.get(field)) {
+                $result[field] = $original;
             }
         }
 
@@ -680,20 +680,20 @@ trait EntityTrait
     /**
      * Sets the dirty status of a single field.
      *
-     * @param string $field the field to set or check status for
+     * @param string field the field to set or check status for
      * @param bool $isDirty true means the field was changed, false means
      * it was not changed. Defaults to true.
      * @return this
      */
-    function setDirty(string $field, bool $isDirty = true) {
+    function setDirty(string field, bool $isDirty = true) {
         if ($isDirty == false) {
-            unset(_dirty[$field]);
+            unset(_dirty[field]);
 
             return this;
         }
 
-        _dirty[$field] = true;
-        unset(_errors[$field], _invalid[$field]);
+        _dirty[field] = true;
+        unset(_errors[field], _invalid[field]);
 
         return this;
     }
@@ -701,15 +701,15 @@ trait EntityTrait
     /**
      * Checks if the entity is dirty or if a single field of it is dirty.
      *
-     * @param string|null $field The field to check the status for. Null for the whole entity.
+     * @param string|null field The field to check the status for. Null for the whole entity.
      * @return bool Whether the field was changed or not
      */
-    bool isDirty(Nullable!string $field = null) {
-        if ($field == null) {
+    bool isDirty(Nullable!string field = null) {
+        if (field == null) {
             return !empty(_dirty);
         }
 
-        return isset(_dirty[$field]);
+        return isset(_dirty[field]);
     }
 
     /**
@@ -783,8 +783,8 @@ trait EntityTrait
             return false;
         }
 
-        foreach (_fields as $field) {
-            if (_readHasErrors($field)) {
+        foreach (_fields as field) {
+            if (_readHasErrors(field)) {
                 return true;
             }
         }
@@ -799,11 +799,11 @@ trait EntityTrait
         $diff = array_diff_key(_fields, _errors);
 
         return _errors + (new Collection($diff))
-            .filter(function ($value) {
-                return is_array($value) || $value instanceof IEntity;
+            .filter(function (value) {
+                return is_array(value) || value instanceof IEntity;
             })
-            .map(function ($value) {
-                return _readError($value);
+            .map(function (value) {
+                return _readError(value);
             })
             .filter()
             .toArray();
@@ -812,15 +812,15 @@ trait EntityTrait
     /**
      * Returns validation errors of a field
      *
-     * @param string $field Field name to get the errors from
+     * @param string field Field name to get the errors from
      */
-    array getError(string $field) {
-        $errors = _errors[$field] ?? [];
+    array getError(string field) {
+        $errors = _errors[field] ?? [];
         if ($errors) {
             return $errors;
         }
 
-        return _nestedErrors($field);
+        return _nestedErrors(field);
     }
 
     /**
@@ -834,7 +834,7 @@ trait EntityTrait
      * ```
      *
      * @param array $errors The array of errors to set.
-     * @param bool canOverwrite Whether to overwrite pre-existing errors for $fields
+     * @param bool canOverwrite Whether to overwrite pre-existing errors for fields
      * @return this
      */
     function setErrors(array $errors, bool canOverwrite = false) {
@@ -874,36 +874,36 @@ trait EntityTrait
      * $entity.setError("salary", ["must be numeric", "must be a positive number"]);
      * ```
      *
-     * @param string $field The field to get errors for, or the array of errors to set.
-     * @param array|string $errors The errors to be set for $field
-     * @param bool canOverwrite Whether to overwrite pre-existing errors for $field
+     * @param string field The field to get errors for, or the array of errors to set.
+     * @param array|string $errors The errors to be set for field
+     * @param bool canOverwrite Whether to overwrite pre-existing errors for field
      * @return this
      */
-    function setError(string $field, $errors, bool canOverwrite = false) {
+    function setError(string field, $errors, bool canOverwrite = false) {
         if (is_string($errors)) {
             $errors = [$errors];
         }
 
-        return this.setErrors([$field: $errors], canOverwrite);
+        return this.setErrors([field: $errors], canOverwrite);
     }
 
     /**
      * Auxiliary method for getting errors in nested entities
      *
-     * @param string $field the field in this entity to check for errors
+     * @param string field the field in this entity to check for errors
      * @return array errors in nested entity if any
      */
-    protected function _nestedErrors(string $field) {
+    protected function _nestedErrors(string field) {
         // Only one path element, check for nested entity with error.
-        if (strpos($field, ".") == false) {
-            return _readError(this.get($field));
+        if (strpos(field, ".") == false) {
+            return _readError(this.get(field));
         }
         // Try reading the errors data with field as a simple path
-        $error = Hash::get(_errors, $field);
+        $error = Hash::get(_errors, field);
         if ($error != null) {
             return $error;
         }
-        $path = explode(".", $field);
+        $path = explode(".", field);
 
         // Traverse down the related entities/arrays for
         // the relevant entity.
@@ -948,8 +948,8 @@ trait EntityTrait
         }
 
         if (is_array($object)) {
-            foreach ($object as $value) {
-                if (_readHasErrors($value)) {
+            foreach ($object as value) {
+                if (_readHasErrors(value)) {
                     return true;
                 }
             }
@@ -972,7 +972,7 @@ trait EntityTrait
             return $object.getErrors();
         }
         if (is_iterable($object)) {
-            $array = array_map(function ($val) {
+            array = array_map(function ($val) {
                 if ($val instanceof IEntity) {
                     return $val.getErrors();
                 }
@@ -998,11 +998,11 @@ trait EntityTrait
     /**
      * Get a single value of an invalid field. Returns null if not set.
      *
-     * @param string $field The name of the field.
+     * @param string field The name of the field.
      * @return mixed|null
      */
-    function getInvalidField(string $field) {
-        return _invalid[$field] ?? null;
+    function getInvalidField(string field) {
+        return _invalid[field] ?? null;
     }
 
     /**
@@ -1012,17 +1012,17 @@ trait EntityTrait
      * This value could not be patched into the entity and is simply copied into the _invalid property for debugging
      * purposes or to be able to log it away.
      *
-     * @param array<string, mixed> $fields The values to set.
-     * @param bool canOverwrite Whether to overwrite pre-existing values for $field.
+     * @param array<string, mixed> fields The values to set.
+     * @param bool canOverwrite Whether to overwrite pre-existing values for field.
      * @return this
      */
-    function setInvalid(array $fields, bool canOverwrite = false) {
-        foreach ($fields as $field: $value) {
+    function setInvalid(array fields, bool canOverwrite = false) {
+        foreach (fields as field: value) {
             if (canOverwrite == true) {
-                _invalid[$field] = $value;
+                _invalid[field] = value;
                 continue;
             }
-            _invalid += [$field: $value];
+            _invalid += [field: value];
         }
 
         return this;
@@ -1031,12 +1031,12 @@ trait EntityTrait
     /**
      * Sets a field as invalid and not patchable into the entity.
      *
-     * @param string $field The value to set.
-     * @param mixed $value The invalid value to be set for $field.
+     * @param string field The value to set.
+     * @param mixed value The invalid value to be set for field.
      * @return this
      */
-    function setInvalidField(string $field, $value) {
-        _invalid[$field] = $value;
+    function setInvalidField(string field, value) {
+        _invalid[field] = value;
 
         return this;
     }
@@ -1060,13 +1060,13 @@ trait EntityTrait
      * $entity.setAccess("*", false); // Mark all fields as protected
      * ```
      *
-     * @param array<string>|string $field Single or list of fields to change its accessibility
+     * @param array<string>|string field Single or list of fields to change its accessibility
      * @param bool $set True marks the field as accessible, false will
      * mark it as protected.
      * @return this
      */
-    function setAccess($field, bool $set) {
-        if ($field == "*") {
+    function setAccess(field, bool $set) {
+        if (field == "*") {
             _accessible = array_map(function ($p) use ($set) {
                 return $set;
             }, _accessible);
@@ -1075,7 +1075,7 @@ trait EntityTrait
             return this;
         }
 
-        foreach ((array)$field as $prop) {
+        foreach ((array)field as $prop) {
             _accessible[$prop] = $set;
         }
 
@@ -1101,12 +1101,12 @@ trait EntityTrait
      * $entity.isAccessible("id"); // Returns whether it can be set or not
      * ```
      *
-     * @param string $field Field name to check
+     * @param string field Field name to check
      */
-    bool isAccessible(string $field) {
-        $value = _accessible[$field] ?? null;
+    bool isAccessible(string field) {
+        value = _accessible[field] ?? null;
 
-        return ($value == null && !empty(_accessible["*"])) || $value;
+        return (value == null && !empty(_accessible["*"])) || value;
     }
 
     /**
@@ -1123,7 +1123,7 @@ trait EntityTrait
      * @return this
      */
     function setSource(string alias) {
-        _registryAlias = $alias;
+        _registryAlias = alias;
 
         return this;
     }
@@ -1142,12 +1142,12 @@ trait EntityTrait
      * @return array<string, mixed>
      */
     array __debugInfo() {
-        $fields = _fields;
-        foreach (_virtual as $field) {
-            $fields[$field] = this.$field;
+        fields = _fields;
+        foreach (_virtual as field) {
+            fields[field] = this.field;
         }
 
-        return $fields + [
+        return fields + [
             "[new]": this.isNew(),
             "[accessible]": _accessible,
             "[dirty]": _dirty,

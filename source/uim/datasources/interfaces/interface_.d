@@ -10,7 +10,7 @@ interface IEntity : ArrayAccess, JsonSerializable
     /**
      * Sets the dirty status of a single field.
      *
-     * @param string $field the field to set or check status for
+     * @param string field the field to set or check status for
      * @param bool $isDirty true means the field was changed, false means it was not changed. Default true.
      * @return this
      */
@@ -36,7 +36,7 @@ interface IEntity : ArrayAccess, JsonSerializable
      * Sets error messages to the entity
      *
      * @param array $errors The array of errors to set.
-     * @param bool canOverwrite Whether to overwrite pre-existing errors for $fields
+     * @param bool canOverwrite Whether to overwrite pre-existing errors for fields
      * @return this
      */
     IEntity errors(array $errors, bool canOverwrite = false);
@@ -44,9 +44,9 @@ interface IEntity : ArrayAccess, JsonSerializable
     /**
      * Sets errors for a single field
      *
-     * @param string $field The field to get errors for, or the array of errors to set.
-     * @param array|string $errors The errors to be set for $field
-     * @param bool canOverwrite Whether to overwrite pre-existing errors for $field
+     * @param string field The field to get errors for, or the array of errors to set.
+     * @param array|string $errors The errors to be set for field
+     * @param bool canOverwrite Whether to overwrite pre-existing errors for field
      * @return this
      */
     IEntity errors(string fieldName, array $errors, bool canOverwrite = false);
@@ -54,7 +54,7 @@ interface IEntity : ArrayAccess, JsonSerializable
     /**
      * Stores whether a field value can be changed or set in this entity.
      *
-     * @param array<string>|string $field single or list of fields to change its accessibility
+     * @param array<string>|string field single or list of fields to change its accessibility
      * @param bool $set true marks the field as accessible, false will
      * mark it as protected.
      * @return this
@@ -64,7 +64,7 @@ interface IEntity : ArrayAccess, JsonSerializable
     /**
      * Checks if a field is accessible
      *
-     * @param string $field Field name to check
+     * @param string field Field name to check
      */
     bool isAccessible(string fieldName);
 
@@ -74,7 +74,7 @@ interface IEntity : ArrayAccess, JsonSerializable
      * @param string alias the alias of the repository
      * @return this
      */
-    function setSource(string $alias);
+    function setSource(string alias);
 
     // Returns the alias of the repository from which this entity came from.
     string getSource();
@@ -83,7 +83,7 @@ interface IEntity : ArrayAccess, JsonSerializable
      * Returns an array with the requested original fields
      * stored in this entity, indexed by field name.
      *
-     * @param array<string> $fields List of fields to be returned
+     * @param array<string> fields List of fields to be returned
      */
     array extractOriginal(string[] fieldNames);
 
@@ -91,27 +91,27 @@ interface IEntity : ArrayAccess, JsonSerializable
      * Returns an array with only the original fields
      * stored in this entity, indexed by field name.
      *
-     * @param array<string> $fields List of fields to be returned
+     * @param array<string> fields List of fields to be returned
      */
     array extractOriginalChanged(string[] fieldNames);
 
     /**
      * Sets one or multiple fields to the specified value
      *
-     * @param array<string, mixed>|string $field the name of field to set or a list of
+     * @param array<string, mixed>|string field the name of field to set or a list of
      * fields with their respective values
-     * @param mixed $value The value to set to the field or an array if the
+     * @param mixed value The value to set to the field or an array if the
      * first argument is also an array, in which case will be treated as $options
      * @param array<string, mixed> $options Options to be used for setting the field. Allowed option
      * keys are `setter` and `guard`
      * @return this
      */
-    function set(string fieldName, $value = null, STRINGAA someOptions = null);
+    function set(string fieldName, value = null, STRINGAA someOptions = null);
 
     /**
      * Returns the value of a field by name
      *
-     * @param string $field the name of the field to retrieve
+     * @param string field the name of the field to retrieve
      * @return mixed
      */
     IValue get(string fieldName);
@@ -119,7 +119,7 @@ interface IEntity : ArrayAccess, JsonSerializable
     /**
      * Returns the original value of a field.
      *
-     * @param string $field The name of the field.
+     * @param string field The name of the field.
      * @return mixed
      */
     IValue getOriginal(string fieldName);
@@ -128,10 +128,10 @@ interface IEntity : ArrayAccess, JsonSerializable
     IValue[] getOriginalValues();
 
     /**
-     * Returns whether this entity contains a field named $field
+     * Returns whether this entity contains a field named field
      * and is not set to null.
      *
-     * @param array<string>|string $field The field to check.
+     * @param array<string>|string field The field to check.
      */
     bool has(string[] fieldNames);
     bool has(string[] fieldNames...);
@@ -139,7 +139,7 @@ interface IEntity : ArrayAccess, JsonSerializable
     /**
      * Removes a field or list of fields from this entity
      *
-     * @param array<string>|string $field The field to unset.
+     * @param array<string>|string field The field to unset.
      * @return this
      */
     IEntity unset(string fieldName);
@@ -162,7 +162,7 @@ interface IEntity : ArrayAccess, JsonSerializable
      * Returns an array with the requested fields
      * stored in this entity, indexed by field name
      *
-     * @param array<string> $fields list of fields to be returned
+     * @param array<string> fields list of fields to be returned
      * @param bool $onlyDirty Return the requested field only if it is dirty
      */
     array extract(string[] fieldNAmes, bool $onlyDirty = false);

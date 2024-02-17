@@ -66,9 +66,9 @@ echo $article->title;
 
 You can also use the get() and set() methods.
 
-Cake\ORM\Entity::set($field, $value = null, array $options = null)
+Cake\ORM\Entity::set(field, value = null, array $options = null)
 
-Cake\ORM\Entity::get($field)
+Cake\ORM\Entity::get(field)
 
 For example:
 
@@ -198,7 +198,7 @@ echo $user->get('full_name');
 Do bear in mind that virtual fields cannot be used in finds. If you want them to be part of JSON or array representations of your entities, see Exposing Virtual Fields.
 Checking if an Entity Has Been Modified
 
-Cake\ORM\Entity::dirty($field = null, $dirty = null)
+Cake\ORM\Entity::dirty(field = null, $dirty = null)
 
 You may want to make code conditional based on whether or not fields have changed in an entity. For example, you may only want to validate fields when they change:
 
@@ -313,7 +313,7 @@ Bypassing Field Guarding
 
 There are some situations when you want to allow mass-assignment to guarded fields:
 
-$article->set($fields, ['guard' => false]);
+$article->set(fields, ['guard' => false]);
 
 By setting the guard option to false, you can ignore the accessible field list for a single call to set().
 Checking if an Entity was Persisted
