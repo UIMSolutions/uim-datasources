@@ -293,7 +293,7 @@ trait EntityTrait
      */
     array getOriginalValues() {
         $originals = _original;
-        $originalKeys = array_keys($originals);
+        $originalKeys = $originals.keys;
         foreach (_fields as $key: value) {
             if (!hasAllValues($key, $originalKeys, true)) {
                 $originals[$key] = value;

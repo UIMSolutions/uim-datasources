@@ -295,7 +295,7 @@ mixin EntityTemplate {
   // Gets all original values of the entity.
   array getOriginalValues() {
     originals = _original;
-    originalKeys = array_keys($originals);
+    originalKeys = $originals.keys;
     _fields.byKeyValue
       .each!((kv) {
       if (

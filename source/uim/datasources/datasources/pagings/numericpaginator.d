@@ -276,7 +276,7 @@ class NumericPaginator : IPaginator {
         auto aliasObj = object.getAlias();
         auto defaults = this.getDefaults($aliasObj, settingForPagination);
 
-        auto validSettings = array_keys(_defaultConfigData);
+        auto validSettings = _defaultConfigData.keys;
         validSettings ~= "order";
         auto extraSettings = array_diff_key($defaults, array_flip($validSettings));
         if ($extraSettings) {
