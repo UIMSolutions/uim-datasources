@@ -456,7 +456,7 @@ trait QueryTrait
      * @return uim.cake.Datasource\IEntity|array|null The first result from the ResultSet.
      */
     function first() {
-        if (_dirty) {
+        if (_isDirty) {
             this.limit(1);
         }
 

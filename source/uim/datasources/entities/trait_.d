@@ -54,7 +54,7 @@ trait EntityTrait
      *
      * @var array<bool>
      */
-    protected _dirty = null;
+    protected _isDirty = null;
 
     /**
      * Holds a cached list of getters/setters per class
@@ -407,7 +407,7 @@ trait EntityTrait
     function unset(field) {
         field = (array)field;
         foreach (field as $p) {
-            unset(_fields[$p], _original[$p], _dirty[$p]);
+            unset(_fields[$p], _original[$p], _isDirty[$p]);
         }
 
         return this;
@@ -482,7 +482,7 @@ trait EntityTrait
      *     representations.
      */
     array getVisible() {
-        fields = array_keys(_fields);
+        string[] fieldNames = _fields.keys;
         fields = array_merge(fields, _virtual);
 
         return array_diff(fields, _hidden);
@@ -675,12 +675,12 @@ trait EntityTrait
      */
     function setDirty(string field, bool $isDirty = true) {
         if ($isDirty == false) {
-            unset(_dirty[field]);
+            unset(_isDirty[field]);
 
             return this;
         }
 
-        _dirty[field] = true;
+        _isDirty[field] = true;
         unset(_errors[field], _invalid[field]);
 
         return this;
@@ -694,19 +694,15 @@ trait EntityTrait
      */
     bool isDirty(Nullable!string field = null) {
         if (field == null) {
-            return !empty(_dirty);
+            return !empty(_isDirty);
         }
 
-        return isset(_dirty[field]);
+        return isset(_isDirty[field]);
     }
 
-    /**
-     * Gets the dirty fields.
-     *
-     * @return array<string>
-     */
-    string[] getDirty() {
-        return array_keys(_dirty);
+    // Gets the dirty fields.
+    string[] dirtyFieldNames() {
+        return _isDirty.keys;
     }
 
     /**
@@ -715,7 +711,7 @@ trait EntityTrait
      * for an initial object hydration
      */
     void clean() {
-        _dirty = null;
+        _isDirty = null;
         _errors = null;
         _invalid = null;
         _original = null;
@@ -733,7 +729,7 @@ trait EntityTrait
     function setNew(bool $new) {
         if ($new) {
             foreach (_fields as $k: $p) {
-                _dirty[$k] = true;
+                _isDirty[$k] = true;
             }
         }
 
@@ -1138,7 +1134,7 @@ trait EntityTrait
         return fields + [
             "[new]": this.isNew(),
             "[accessible]": _accessible,
-            "[dirty]": _dirty,
+            "[dirty]": _isDirty,
             "[original]": _original,
             "[virtual]": _virtual,
             "[hasErrors]": this.hasErrors(),
