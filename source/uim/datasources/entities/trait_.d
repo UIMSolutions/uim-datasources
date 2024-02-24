@@ -528,41 +528,41 @@ trait EntityTrait
     /**
      * : isset($entity);
      *
-     * @param string $offset The offset to check.
+     * @param string offset The offset to check.
      * @return bool Success
      */
-    bool offsetExists($offset) {
-        return this.has($offset);
+    bool offsetExists(offset) {
+        return this.has(offset);
     }
 
     /**
-     * : $entity[$offset];
+     * : $entity[offset];
      *
-     * @param string $offset The offset to get.
+     * @param string offset The offset to get.
      * @return mixed
      */
     #[\ReturnTypeWillChange]
-    function &offsetGet($offset) {
-        return this.get($offset);
+    function &offsetGet(offset) {
+        return this.get(offset);
     }
 
     /**
-     * : $entity[$offset] = value;
+     * : $entity[offset] = value;
      *
-     * @param string $offset The offset to set.
+     * @param string offset The offset to set.
      * @param mixed value The value to set.
      */
-    void offsetSet($offset, value) {
-        this.set($offset, value);
+    void offsetSet(offset, value) {
+        this.set(offset, value);
     }
 
     /**
-     * : unset($result[$offset]);
+     * : unset($result[offset]);
      *
-     * @param string $offset The offset to remove.
+     * @param string offset The offset to remove.
      */
-    void offsetUnset($offset) {
-        this.unset($offset);
+    void offsetUnset(offset) {
+        this.unset(offset);
     }
 
     /**
