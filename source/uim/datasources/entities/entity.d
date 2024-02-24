@@ -55,10 +55,10 @@ class Entity : IEntity, InvalidPropertyInterface {
      * ```
      *
      * @param array<string, mixed> $properties hash of properties to set in this entity
-     * @param array<string, mixed> $options list of options to use when creating this entity
+     * @param array<string, mixed> options list of options to use when creating this entity
      */
     /* this(array $properties = null, STRINGAA someOptions = null) {
-        $options += [
+        options += [
             "useSetters": true,
             "markClean": false,
             "markNew": null,
@@ -66,15 +66,15 @@ class Entity : IEntity, InvalidPropertyInterface {
             "source": null,
         ];
 
-        if (!empty($options["source"])) {
-            this.setSource($options["source"]);
+        if (!empty(options["source"])) {
+            this.setSource(options["source"]);
         }
 
-        if ($options["markNew"] != null) {
-            this.setNew($options["markNew"]);
+        if (options["markNew"] != null) {
+            this.setNew(options["markNew"]);
         }
 
-        if (!empty($properties) && $options["markClean"] && !$options["useSetters"]) {
+        if (!empty($properties) && options["markClean"] && !options["useSetters"]) {
             _fields = $properties;
 
             return;
@@ -82,12 +82,12 @@ class Entity : IEntity, InvalidPropertyInterface {
 
         if (!empty($properties)) {
             this.set($properties, [
-                "setter": $options["useSetters"],
-                "guard": $options["guard"],
+                "setter": options["useSetters"],
+                "guard": options["guard"],
             ]);
         }
 
-        if ($options["markClean"]) {
+        if (options["markClean"]) {
             this.clean();
         }
     } */

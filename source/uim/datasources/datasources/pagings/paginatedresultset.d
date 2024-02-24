@@ -69,7 +69,7 @@ class PaginatedResultSet : IteratorIterator : JsonSerializable, IPaginated {
     }
  
     Json pagingParam(string aName) {
-        return this.params[$name] ?? null;
+        return this.params[name] ?? null;
     }
  
     array pagingParams() {

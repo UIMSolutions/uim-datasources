@@ -166,7 +166,7 @@ trait EntityTrait
      *
      * Some times it is handy to bypass setter functions in this entity when assigning
      * fields. You can achieve this by disabling the `setter` option using the
-     * `$options` parameter:
+     * `options` parameter:
      *
      * ```
      * $entity.set("name", "Andrew", ["setter": false]);
@@ -191,8 +191,8 @@ trait EntityTrait
      * @param array<string, mixed>|string field the name of field to set or a list of
      * fields with their respective values
      * @param mixed value The value to set to the field or an array if the
-     * first argument is also an array, in which case will be treated as $options
-     * @param array<string, mixed> $options Options to be used for setting the field. Allowed option
+     * first argument is also an array, in which case will be treated as options
+     * @param array<string, mixed> options Options to be used for setting the field. Allowed option
      * keys are `setter` and `guard`
      * @return this
      * @throws \InvalidArgumentException
@@ -203,40 +203,40 @@ trait EntityTrait
             field = [field: value];
         } else {
             $guard = true;
-            $options = (array)value;
+            options = (array)value;
         }
 
         if (!is_array(field)) {
             throw new InvalidArgumentException("Cannot set an empty field");
         }
-        $options += ["setter": true, "guard": $guard];
+        options += ["setter": true, "guard": $guard];
 
-        foreach (field as $name: value) {
-            $name = (string)$name;
-            if ($options["guard"] == true && !this.isAccessible($name)) {
+        foreach (field as name: value) {
+            name = (string)name;
+            if (options["guard"] == true && !this.isAccessible(name)) {
                 continue;
             }
 
-            this.setDirty($name, true);
+            this.setDirty(name, true);
 
             if (
-                !array_key_exists($name, _original) &&
-                array_key_exists($name, _fields) &&
-                _fields[$name] != value
+                !array_key_exists(name, _original) &&
+                array_key_exists(name, _fields) &&
+                _fields[name] != value
             ) {
-                _original[$name] = _fields[$name];
+                _original[name] = _fields[name];
             }
 
-            if (!$options["setter"]) {
-                _fields[$name] = value;
+            if (!options["setter"]) {
+                _fields[name] = value;
                 continue;
             }
 
-            $setter = _accessor($name, "set");
+            $setter = _accessor(name, "set");
             if ($setter) {
                 value = this.{$setter}(value);
             }
-            _fields[$name] = value;
+            _fields[name] = value;
         }
 
         return this;

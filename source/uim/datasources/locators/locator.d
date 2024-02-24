@@ -20,16 +20,16 @@ abstract class AbstractLocator : ILocator {
     protected IRepository[string] instances;
 
     // Contains a list of options that were passed to get() method.
-    protected array[string] $options = null;
+    protected array[string] options = null;
 
     /**
      * {@inheritDoc}
      *
      * @param string alias The alias name you want to get.
-     * @param array<string, mixed> $options The options you want to build the table with.
+     * @param array<string, mixed> options The options you want to build the table with.
      */
     IRepository get(string alias, STRINGAA someOptions = null) {
-        auto storeOptions = $options;
+        auto storeOptions = options;
         storeOptions.remove("allowFallbackClass");
 
         if (this.instances.isSet($alias)) {
@@ -45,14 +45,14 @@ abstract class AbstractLocator : ILocator {
 
         this.options[$alias] = storeOptions;
 
-        return this.instances[$alias] = this.createInstance($alias, $options);
+        return this.instances[$alias] = this.createInstance($alias, options);
     }
 
     /**
      * Create an instance of a given classname.
      *
      * @param string alias Repository alias.
-     * @param array<string, mixed> $options The options you want to build the instance with.
+     * @param array<string, mixed> options The options you want to build the instance with.
      * @return uim.cake.Datasource\
      */
     abstract protected IRepository createInstance(string alias, STRINGAA someOptions);

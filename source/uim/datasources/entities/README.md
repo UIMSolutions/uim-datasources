@@ -66,7 +66,7 @@ echo $article->title;
 
 You can also use the get() and set() methods.
 
-Cake\ORM\Entity::set(field, value = null, array $options = null)
+Cake\ORM\Entity::set(field, value = null, array options = null)
 
 Cake\ORM\Entity::get(field)
 

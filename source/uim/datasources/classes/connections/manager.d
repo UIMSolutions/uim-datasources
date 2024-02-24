@@ -158,11 +158,11 @@ class ConnectionManager {
      * data is missing.
      */
     static function get(string aName, bool$useAliases = true) {
-        if ($useAliases && isset(_aliasMap[$name])) {
-            $name = _aliasMap[$name];
+        if ($useAliases && isset(_aliasMap[name])) {
+            name = _aliasMap[name];
         }
-        if (empty(_config[$name])) {
-            throw new MissingDatasourceConfigException(["name": $name]);
+        if (empty(_config[name])) {
+            throw new MissingDatasourceConfigException(["name": name]);
         }
         /** @psalm-suppress RedundantPropertyInitializationCheck */
         if (!isset(_registry)) {
@@ -170,10 +170,10 @@ class ConnectionManager {
         }
 
         return _registry. {
-            $name
+            name
         }
         
-        ?  ? _registry.load($name, _config[$name]);
+        ?  ? _registry.load(name, _config[name]);
     }
 }
 /**

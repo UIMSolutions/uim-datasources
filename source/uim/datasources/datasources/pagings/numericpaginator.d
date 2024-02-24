@@ -233,7 +233,7 @@ class NumericPaginator : IPaginator {
 
         if (aQuery.isNull) {
             someArguments = [];
-            type = !empty($options["finder"]) ? options["finder"] : "all";
+            type = !empty(options["finder"]) ? options["finder"] : "all";
             if (isArray($type)) {
                 someArguments = (array)current($type);
                 type = key($type);
@@ -288,9 +288,9 @@ class NumericPaginator : IPaginator {
         }
         options = this.mergeOptions(requestParameters, defaults);
         options = this.validateSort($object, options);
-        options = this.checkLimit($options);
+        options = this.checkLimit(options);
 
-        options["page"] = max((int)$options["page"], 1);
+        options["page"] = max((int)options["page"], 1);
 
         return compact("defaults", "options", "alias");
     }
@@ -467,33 +467,33 @@ class NumericPaginator : IPaginator {
      * @param IData[string] optionData The pagination options being used for this request.
      */
     protected IData[string] validateSort(IRepository repository, IData[string] optionData = null) {
-        if (isSet($options["sort"])) {
+        if (isSet(options["sort"])) {
             string direction;
-            if (isSet($options["direction"])) {
+            if (isSet(options["direction"])) {
                 direction = options["direction"].toLower;
             }
             if (!in_array($direction, ["asc", "desc"], true)) {
                 direction = "asc";
             }
-            order = isSet($options["order"]) && isArray($options["order"]) ? options["order"] : [];
-            if ($order && options["sort"] && !$options["sort"].has(".")) {
+            order = isSet(options["order"]) && isArray(options["order"]) ? options["order"] : [];
+            if ($order && options["sort"] && !options["sort"].has(".")) {
                 order = _removeAliases($order, repository.getAlias());
             }
-            options["order"] = [$options["sort"]: direction] + order;
+            options["order"] = [options["sort"]: direction] + order;
         } else {
             options["sort"] = null;
         }
-        unset($options["direction"]);
+        unset(options["direction"]);
 
-        if (isEmpty($options["order"])) {
+        if (isEmpty(options["order"])) {
             options["order"] = [];
         }
-        if (!isArray($options["order"])) {
+        if (!isArray(options["order"])) {
             return options;
         }
         sortAllowed = false;
-        if (isSet($options["sortableFields"])) {
-            field = key($options["order"]);
+        if (isSet(options["sortableFields"])) {
+            field = key(options["order"]);
             sortAllowed = in_array(field, options["sortableFields"], true);
             if (!$sortAllowed) {
                 options["order"] = [];
@@ -504,10 +504,10 @@ class NumericPaginator : IPaginator {
         }
         if (
             options["sort"].isNull
-            && count($options["order"]) >= 1
-            && !isNumeric(key($options["order"]))
+            && count(options["order"]) >= 1
+            && !isNumeric(key(options["order"]))
         ) {
-            options["sort"] = key($options["order"]);
+            options["sort"] = key(options["order"]);
         }
         options["order"] = _prefix(repository, options["order"], sortAllowed);
 
@@ -588,11 +588,11 @@ class NumericPaginator : IPaginator {
      * IData[string] optionData An array of options with a limit key to be checked.
      */
     protected IData[string] checkLimit(IData[string] optionData = null) {
-        options["limit"] = (int)$options["limit"];
-        if ($options["limit"] < 1) {
+        options["limit"] = (int)options["limit"];
+        if (options["limit"] < 1) {
             options["limit"] = 1;
         }
-        options["limit"] = max(min($options["limit"], options["maxLimit"]), 1);
+        options["limit"] = max(min(options["limit"], options["maxLimit"]), 1);
 
         return options;
     }

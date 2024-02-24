@@ -138,7 +138,7 @@ mixin EntityTemplate {
      *
      * Some times it is handy to bypass setter functions in this entity when assigning
      * fields. You can achieve this by disabling the `setter` option using the
-     * `$options` parameter:
+     * `options` parameter:
      *
      * ```
      * entity.set("name", "Andrew", ["setter": false]);
@@ -195,18 +195,18 @@ mixin EntityTemplate {
     }
     options += ["setter": true, "guard": guard, "asOriginal": false];
 
-    if ($options["asOriginal"] == true) {
+    if (options["asOriginal"] == true) {
       this.setOriginalField(array_keys(field));
     }
     field.byKeyValue
       .each((kv) {
-      auto fieldName = (string)$name;
-      if ($options["guard"] == true && !this.isAccessible(fieldName)) {
+      auto fieldName = (string)name;
+      if (options["guard"] == true && !this.isAccessible(fieldName)) {
         continue;
       }
       isDirty(fieldName, true);
 
-      if ($options["setter"]) {
+      if (options["setter"]) {
         setter = _accessor(fieldName, "set");
         if ($setter) {
           aValue = this. {
