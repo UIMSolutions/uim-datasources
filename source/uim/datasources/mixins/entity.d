@@ -461,7 +461,7 @@ mixin EntityTemplate {
      * plus virtual fields minus hidden fields.
      */
   string[] getVisible() {
-    fields = array_keys(_fields);
+    fields = _fields.keys;
     fields = chain(fields, _virtual);
 
     return array_diff(fields, _hidden);
@@ -693,7 +693,7 @@ mixin EntityTemplate {
 
     // Gets the dirty fields.
     string[] dirtyFieldNames() {
-      return array_keys(_isDirty);
+      return _isDirty.keys;
     }
 
     /**
@@ -706,7 +706,7 @@ mixin EntityTemplate {
       _fieldErrors = [];
       _invalidFields = [];
       _original = [];
-      this.setOriginalField(array_keys(_fields), false);
+      this.setOriginalField(_fields.keys, false);
     }
 
     /**

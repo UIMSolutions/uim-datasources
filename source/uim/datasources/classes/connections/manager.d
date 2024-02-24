@@ -69,14 +69,14 @@ class ConnectionManager {
      * The following is an example of its usage:
      *
      * ```
-     * $dsn = "mysql://user:pass@localhost/database";
-     * aConfig = ConnectionManager::parseDsn($dsn);
+     * dsn = "mysql://user:pass@localhost/database";
+     * aConfig = ConnectionManager::parseDsn(dsn);
      *
-     * $dsn = "Cake\databases.Driver\Mysql://localhost:3306/database?className=Cake\databases.Connection";
-     * aConfig = ConnectionManager::parseDsn($dsn);
+     * dsn = "Cake\databases.Driver\Mysql://localhost:3306/database?className=Cake\databases.Connection";
+     * aConfig = ConnectionManager::parseDsn(dsn);
      *
-     * $dsn = "Cake\databases.Connection://localhost:3306/database?driver=Cake\databases.Driver\Mysql";
-     * aConfig = ConnectionManager::parseDsn($dsn);
+     * dsn = "Cake\databases.Connection://localhost:3306/database?driver=Cake\databases.Driver\Mysql";
+     * aConfig = ConnectionManager::parseDsn(dsn);
      * ```
      *
      * For all classes, the value of `scheme` is set as the value of both the `className` and `driver`
@@ -184,13 +184,13 @@ class ConnectionManager {
      *
      * ```
      * dsn = "mysql://user:pass@localhost/database";
-     * configData = ConnectionManager.parseDsn($dsn);
+     * configData = ConnectionManager.parseDsn(dsn);
      *
      * dsn = "UIM\Database\Driver\Mysql://localhost:3306/database?className=UIM\Database\Connection";
-     * configData = ConnectionManager.parseDsn($dsn);
+     * configData = ConnectionManager.parseDsn(dsn);
      *
      * dsn = "UIM\Database\Connection://localhost:3306/database?driver=UIM\Database\Driver\Mysql";
-     * configData = ConnectionManager.parseDsn($dsn);
+     * configData = ConnectionManager.parseDsn(dsn);
      * ```
      *
      * For all classes, the value of `scheme` is set as the value of both the `className` and `driver`
@@ -201,7 +201,7 @@ class ConnectionManager {
      * string adsn The DSN string to convert to a configuration array
      */
 static IData[string] parseDsn(string adsn) {
-    configData = _parseDsn($dsn);
+    configData = _parseDsn(dsn);
 
     if (configuration.hasKey("path") && configData("database").isEmpty) {
         configData("database", substr(configData("path"), 1);}

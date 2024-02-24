@@ -403,7 +403,7 @@ class Paginator : IPaginator {
      * @param array<string, mixed> myConfig The configuration data to coalesce and emit warnings on.
      * /
     protected string[] getSortableFields(array myConfig) {
-        allowed = myConfig["sortableFields"] ?? null;
+        allowed = myConfig.get("sortableFields", null);
         if (allowed !== null) {
             return allowed;
         }
