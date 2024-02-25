@@ -262,9 +262,9 @@ trait EntityTrait
 
         $method = _accessor(field, "get");
         if ($method) {
-            $result = this.{$method}(value);
+            result = this.{$method}(value);
 
-            return $result;
+            return result;
         }
 
         return value;
@@ -496,26 +496,26 @@ trait EntityTrait
      * into arrays as well.
      */
     array toArray() {
-        $result = null;
+        result = null;
         foreach (this.getVisible() as field) {
             value = this.get(field);
             if (is_array(value)) {
-                $result[field] = null;
+                result[field] = null;
                 foreach (value as $k: $entity) {
                     if ($entity instanceof IEntity) {
-                        $result[field][$k] = $entity.toArray();
+                        result[field][$k] = $entity.toArray();
                     } else {
-                        $result[field][$k] = $entity;
+                        result[field][$k] = $entity;
                     }
                 }
             } elseif (value instanceof IEntity) {
-                $result[field] = value.toArray();
+                result[field] = value.toArray();
             } else {
-                $result[field] = value;
+                result[field] = value;
             }
         }
 
-        return $result;
+        return result;
     }
 
     /**
@@ -557,7 +557,7 @@ trait EntityTrait
     }
 
     /**
-     * : unset($result[offset]);
+     * : unset(result[offset]);
      *
      * @param string offset The offset to remove.
      */
@@ -616,14 +616,14 @@ trait EntityTrait
      * @param bool $onlyDirty Return the requested field only if it is dirty
      */
     array extract(array fields, bool $onlyDirty = false) {
-        $result = null;
+        result = null;
         foreach (fields as field) {
             if (!$onlyDirty || this.isDirty(field)) {
-                $result[field] = this.get(field);
+                result[field] = this.get(field);
             }
         }
 
-        return $result;
+        return result;
     }
 
     /**
@@ -636,12 +636,12 @@ trait EntityTrait
      * @param array<string> fields List of fields to be returned
      */
     array extractOriginal(array fields) {
-        $result = null;
+        result = null;
         foreach (fields as field) {
-            $result[field] = this.getOriginal(field);
+            result[field] = this.getOriginal(field);
         }
 
-        return $result;
+        return result;
     }
 
     /**
@@ -654,15 +654,15 @@ trait EntityTrait
      * @param array<string> fields List of fields to be returned
      */
     array extractOriginalChanged(array fields) {
-        $result = null;
+        result = null;
         foreach (fields as field) {
             $original = this.getOriginal(field);
             if ($original != this.get(field)) {
-                $result[field] = $original;
+                result[field] = $original;
             }
         }
 
-        return $result;
+        return result;
     }
 
     /**

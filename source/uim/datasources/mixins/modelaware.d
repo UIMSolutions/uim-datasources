@@ -47,7 +47,7 @@ template ModelAwareTemplate {
     /**
      * Fetch or construct a model instance from a locator.
      *
-     * Uses a modelFactory based on `$modelType` to fetch and construct a `IRepository`
+     * Uses a modelFactory based on `modelType` to fetch and construct a `IRepository`
      * and return it. The default `modelType` can be defined with `setModelType()`.
      *
      * Unlike `loadModel()` this method will *not* set an object property.
@@ -61,34 +61,34 @@ template ModelAwareTemplate {
      */
     IRepository fetchModel(string amodelClass = null, string amodelType = null) {
         modelClass ??= this.modelClass;
-        if (isEmpty($modelClass)) {
+        if (isEmpty(modelClass)) {
             throw new UnexpectedValueException("Default modelClass is empty");
         }
         modelType ??= this.getModelType();
 
         auto options = [];
-        if (strpos($modelClass, "\\") == false) {
-            [, alias] = pluginSplit($modelClass, true);
+        if (strpos(modelClass, "\\") == false) {
+            [, alias] = pluginSplit(modelClass, true);
         } else {
             options["className"] = modelClass;
             /** @psalm-suppress PossiblyFalseOperand */
             alias = substr(
                 modelClass,
-                strrpos($modelClass, "\\") + 1,
-                -$modelType.length
+                strrpos(modelClass, "\\") + 1,
+                -modelType.length
             );
             modelClass = alias;
         }
-        factory = _modelFactories[$modelType] ?? FactoryLocator.get($modelType);
+        factory = _modelFactories[modelType] ?? FactoryLocator.get(modelType);
         if (cast(ILocator)$factory) {
-             anInstance = factory.get($modelClass, options);
+             anInstance = factory.get(modelClass, options);
         } else {
-             anInstance = factory($modelClass, options);
+             anInstance = factory(modelClass, options);
         }
         if (anInstance) {
             return anInstance;
         }
-        throw new MissingModelException([$modelClass, modelType]);
+        throw new MissingModelException([modelClass, modelType]);
     }
     
     /**

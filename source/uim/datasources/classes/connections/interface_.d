@@ -56,18 +56,18 @@ interface IDSOConnection : ILoggerAware {
      * ### Example:
      *
      * ```
-     * $connection.transactional(function ($connection) {
-     *   $connection.newQuery().delete("users").execute();
+     * connection.transactional(function (connection) {
+     *   connection.newQuery().delete("users").execute();
      * });
      * ```
      *
-     * @param callable $callback The callback to execute within a transaction.
+     * @param callable callback The callback to execute within a transaction.
      * @return mixed The return value of the callback.
-     * @throws \Exception Will re-throw any exception raised in $callback after
+     * @throws \Exception Will re-throw any exception raised in callback after
      *   rolling back the transaction.
      */
     // TODO
-    // function transactional(callable $callback);
+    // function transactional(callable callback);
 
     /**
      * Run an operation with constraints disabled.
@@ -77,18 +77,18 @@ interface IDSOConnection : ILoggerAware {
      * ### Example:
      *
      * ```
-     * $connection.disableConstraints(function ($connection) {
-     *   $connection.newQuery().delete("users").execute();
+     * connection.disableConstraints(function (connection) {
+     *   connection.newQuery().delete("users").execute();
      * });
      * ```
      *
-     * @param callable $callback The callback to execute within a transaction.
+     * @param callable callback The callback to execute within a transaction.
      * @return mixed The return value of the callback.
-     * @throws \Exception Will re-throw any exception raised in $callback after
+     * @throws \Exception Will re-throw any exception raised in callback after
      *   rolling back the transaction.
      */
     // TODO
-    // auto disableConstraints(callable $callback);
+    // auto disableConstraints(callable callback);
 
     // Enable/disable query logging
     IDSOConnection enableQueryLogging(bool shouldEnable = true);
