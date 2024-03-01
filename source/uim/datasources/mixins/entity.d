@@ -196,7 +196,7 @@ mixin EntityTemplate {
     options += ["setter": true, "guard": guard, "asOriginal": false];
 
     if (options["asOriginal"] == true) {
-      this.setOriginalField(array_keys(field));
+      this.setOriginalField(field.keys);
     }
     field.byKeyValue
       .each((kv) {
